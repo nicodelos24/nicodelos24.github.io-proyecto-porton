@@ -467,5 +467,22 @@
 
 
 
-</body>
+
+<script>
+window.addEventListener('load', function(){ setTimeout(function(){
+  var b=document.querySelector('[data-tema-boton]');
+  function snap(etapa){ return {etapa:etapa,
+    fondo:getComputedStyle(document.body).backgroundColor,
+    atributo:document.documentElement.dataset.tema||'(sistema)',
+    guardado:localStorage.getItem('tema')||'(nada)',
+    icono:b.dataset.estado, etiqueta:b.getAttribute('aria-label'),
+    meta:document.querySelector('meta[name=theme-color]').content,
+    formulario:getComputedStyle(document.querySelector('.form')).backgroundColor,
+    botonHero:getComputedStyle(document.querySelector('.btn--ghost')).backgroundColor}; }
+  var r=[snap('al cargar')];
+  b.click(); r.push(snap('tras 1er clic'));
+  b.click(); r.push(snap('tras 2do clic'));
+  document.title='T:'+JSON.stringify(r);
+},2600)});
+</script></body>
 </html>
