@@ -1,7 +1,7 @@
 /* ==========================================================================
    modules/smooth-scroll.js
    --------------------------------------------------------------------------
-   Smoothly scroll suave al interior.
+   Desplazamiento suave dentro de la página.
 
    que queremos conservar el offset
    del nav fijo. Esta versión:

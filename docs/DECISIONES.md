@@ -6,7 +6,7 @@ fundamento, no por inercia.
 
 ---
 
-## D1 · Sitio estático, sin framework ni paso de build
+## D1 · Sitio estático, sin framework ni paso de compilación
 
 **Qué:** HTML, CSS y JavaScript nativos. Sin React, sin Vite, sin
 `node_modules`.

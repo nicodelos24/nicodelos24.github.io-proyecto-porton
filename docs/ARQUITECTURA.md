@@ -8,8 +8,9 @@ suele estar acá.
 
 ## Panorama general
 
-El sitio es una sola página con seis secciones, sin Framework y sin paso de
-build. Todo lo que hay son archivos que el navegador carga directamente.
+El sitio es una sola página con cinco secciones (portada, sobre nosotros,
+carta, galería y contacto), sin framework y sin paso de compilación. Todo
+lo que hay son archivos que el navegador carga directamente.
 
 ```
 index.html

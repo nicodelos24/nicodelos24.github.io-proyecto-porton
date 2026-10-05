@@ -17,7 +17,7 @@ público.
 - [ ] **Dirección exacta y forma de llegar.** Solo dice "Colonia del
       Sacramento, Departamento de Colonia". Faltaría calle, número y
       referencia.
-- [ ] **Links de redes sociales.** Los tres botones del pie de página
+- [ ] **Enlaces de redes sociales.** Los tres botones del pie de página
       (Instagram, Facebook, WhatsApp) apuntan a `#`, o sea, no llevan a
       ningún lado.
 - [ ] **Email de contacto**, si se quiere agregar.
@@ -128,7 +128,7 @@ aparece y no hay ningún error en la consola.
 - [ ] **Animación al cambiar de filtro** en la carta, que ya está preparada
       pero vale la pena revisarla.
 - [ ] **Ver el comportamiento en un celular real**, no solo en el
-      emulador: el menú de móvil y los inputs de fecha y hora son los
+      emulador: el menú de móvil y los campos de fecha y hora son los
       puntos delicados.
 
 ---

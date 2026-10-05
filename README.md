@@ -4,8 +4,8 @@ Sitio web de la parrillada **El Otro Portón**, en Colonia del Sacramento
 (Departamento de Colonia, Uruguay).
 
 Es un sitio estático: HTML, CSS y JavaScript sin frameworks, sin paso de
-build y sin dependencias que instalar. Se publica directamente desde este
-repositorio con GitHub Pages.
+compilación y sin dependencias que instalar. Se publica directamente desde
+este repositorio con GitHub Pages.
 
 ---
 
