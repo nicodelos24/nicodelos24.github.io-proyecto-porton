@@ -1,167 +1,136 @@
 /* =============================================================
    layout/galeria.css
-   Capa 3 — Galería en mosaico
+   Capa 3 — Pasaje decorativo del local
    -------------------------------------------------------------
-   El número de columnas es explícito en cada tamaño, en lugar de
-   dejar que lo decida `auto-fit`.
+   Las fotos no ocupan una grilla: forman una cinta que se va corriendo
+   de lado mientras la página baja. Cada una se mueve además a un ritmo
+   distinto en vertical, según su profundidad (`--i`), que es lo que
+   las hace sentir como capas en lugar de una fila plana.
 
-   La razón: con `auto-fit` la cantidad de columnas depende del ancho
-   disponible y del mínimo declarado, así que la misma foto terminaba
-   con alturas muy distintas según la pantalla, y en tablet la sección
-   quedaba más alta que en escritorio (1180px contra 866px), al revés
-   de lo esperado. Con columnas fijas por tramo se puede elegir la
-   combinación que deja la galería más compacta en cada uno.
+   El avance lo calcula js/modules/galeria-pasaje.js y lo escribe en
+   `--avance` (del 0 al 1). Todo el movimiento sale de ahí.
+
+   La rueda del visitante no se toca: el scroll es el de siempre, lo
+   único que se mueve es la cinta.
+
+   EN EL CELULAR
+   Sin desplazamiento horizontal: dos filas de fotos, que es como se lee
+   bien en una pantalla chica.
    ============================================================= */
 
-.gallery {
-  display: grid;
-  gap: clamp(0.5rem, 1.2vw, 1rem);
-  grid-auto-flow: dense;
-}
+.pasaje {
+  /* Cuánto scrollea el visitante antes de que la cinta termine de pasar */
+  --pasaje-alto: 160vh;
 
-/* La foto grande ocupa dos filas: rompe la monotonía y llena el hueco
-   que dejan las chicas. */
-.gallery__item:nth-child(3n + 1) {
-  grid-row: span 2;
-}
+  /* Con solo tres fotos tienen que ser grandes: si no, la cinta apenas
+     se mueve y el pasaje no se siente como una cinta. */
+  --ancho-foto: 52vw;
+  --alto-foto: 34vw;
+  --alto-foto-alta: 46vw;
+  --hueco: clamp(1rem, 3vw, 3rem);
 
-/* ---------- Escritorio: 4 columnas, filas cortas ---------- */
-@media (width >= 64rem) {
-  .gallery {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 11rem;
-  }
-}
-
-/* ---------- Tablet: 3 columnas ---------- */
-@media (48rem <= width < 64rem) {
-  .gallery {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 9rem;
-  }
-}
-
-/* ---------- Móvil: 2 columnas ----------
-   Con una sola columna las 5 fotos se apilaban y la sección quedaba
-   más alta que en escritorio (1206px contra 866px) en una pantalla
-   bastante más chica. Con dos columnas baja a menos de la mitad. */
-@media (width < 48rem) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 8rem;
-    gap: 0.5rem;
-  }
-
-  /* Cada foto muestra su pie aunque no se pase el dedo por encima:
-     en el celular no existe el hover. */
-  .gallery__caption {
-    opacity: 1;
-    transform: none;
-    padding: 0.75rem;
-    font-size: var(--fs-sm);
-  }
-}
-
-.gallery__item {
   position: relative;
+  height: var(--pasaje-alto);
+}
+
+/* ---------- La cinta ---------- */
+.pasaje__tira {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--hueco);
+  height: 100vh;
+  width: max-content;
+  padding-inline: var(--contenedor-pad);
+
+  transform: translate3d(calc(-1 * var(--avance-px, 0px)), 0, 0);
+  will-change: transform;
+}
+
+/* ---------- Fotos ---------- */
+.pasaje__foto {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--ancho-foto);
+  height: var(--alto-foto);
+  margin: 0;
   overflow: hidden;
-  padding: 0;
-  border: none;
-  border-radius: var(--r-md);
+  border-radius: var(--r-sm);
   background: var(--c-superficie);
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: box-shadow var(--dur-base) var(--ease-out);
+
+  /* El desfase vertical: el avance es una proporción del 0 al 1, y se
+     multiplica por la profundidad de cada foto (`--i`). Las de `--i`
+     negativo suben, las positivas bajan. */
+  translate: 0 calc((var(--avance, 0) - 0.5) * var(--i, 0) * -80px);
 }
 
-.gallery__item:hover {
-  box-shadow: var(--sombra-md);
+/* La segunda y la cuarta son más altas: le dan ritmo a la cinta */
+.pasaje__foto--alta {
+  height: var(--alto-foto-alta);
 }
 
-.gallery__item img {
+.pasaje__foto img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
-  transition:
-    transform var(--dur-slow) var(--ease-out),
-    filter var(--dur-base) var(--ease-out);
 }
 
-.gallery__item:hover img {
-  transform: scale(1.07);
-  filter: brightness(0.75);
-}
-
-/* Texto que aparece sobre la foto al hacer hover */
-.gallery__caption {
+/* ---------- Pie de foto ---------- */
+.pasaje__foto figcaption {
   position: absolute;
   inset: auto 0 0 0;
-  padding: var(--sp-5);
-  background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
+  padding: var(--sp-6) var(--sp-5) var(--sp-4);
+  background: linear-gradient(to top, rgb(10 10 10 / 82%), transparent);
   font-family: var(--font-display);
   font-size: var(--fs-lg);
+  letter-spacing: 0.02em;
+  color: var(--c-hueso);
   opacity: 0;
-  transform: translateY(1rem);
+  transform: translateY(0.75rem);
   transition:
     opacity var(--dur-base) var(--ease-out),
     transform var(--dur-base) var(--ease-out);
 }
 
-.gallery__item:hover .gallery__caption {
+.pasaje__foto:hover figcaption,
+.pasaje__foto:focus-within figcaption {
   opacity: 1;
   transform: none;
 }
 
-/* Lupa: aparece al pasar por encima y avisa que la foto se puede abrir */
-.gallery__lupa {
-  position: absolute;
-  top: var(--sp-3);
-  right: var(--sp-3);
-  z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: var(--r-full);
-  background: rgb(10 10 10 / 55%);
-  backdrop-filter: blur(6px);
-  opacity: 0;
-  transform: scale(0.7);
-  transition:
-    opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out);
-}
-
-.gallery__lupa svg {
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: var(--c-hueso);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-}
-
-.gallery__item:hover .gallery__lupa,
-.gallery__item:focus-visible .gallery__lupa {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Sin hover no hay forma de saber que la foto se abre */
+/* ---------- Celular: dos filas, sin desplazamiento ---------- */
 @media (width < 48rem) {
-  .gallery__lupa {
-    opacity: 1;
-    transform: scale(1);
+  .pasaje {
+    height: auto;
+    padding-inline: var(--contenedor-pad);
   }
-}
 
-/* Texto de ayuda bajo la galería */
-.gallery__hint {
-  margin-top: var(--sp-5);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--c-texto-suave);
-  text-align: center;
+  .pasaje__tira {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    height: auto;
+    width: auto;
+    padding-inline: 0;
+    transform: none;
+  }
+
+  .pasaje__foto,
+  .pasaje__foto--alta {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    translate: none;
+  }
+
+  /* Sin hover no se descubrirían: los pies se ven siempre */
+  .pasaje__foto figcaption {
+    opacity: 1;
+    transform: none;
+    padding: 0.5rem 0.6rem;
+    font-size: var(--fs-xs);
+  }
 }
