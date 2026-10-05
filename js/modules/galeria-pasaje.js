@@ -1,78 +1,89 @@
 /* ==========================================================================
    modules/galeria-pasaje.js
    --------------------------------------------------------------------------
-   Mueve la cinta de la galería según cuánto se ha recorrido la sección.
+   Da vida al bloque de fotos fijas: decide cuánto se ve cada una y cuánto
+   se acerca, según por dónde va el scroll.
 
-   QUÉ ESCRIBE
-   Dos variables distintas, porque el CSS las necesita con unidades
-   distintas:
+   QUÉ ESCRIBE, EN CADA FOTO
+   · `--opacidad` → del 0 al 1. Se usa para el desvanecido entre fotos.
+   · `--escala`   → de 1 a 1.08. Es el acercamiento lento de la imagen.
 
-   · `--avance`     → un número del 0 al 1 (cuánto se recorrido).
-                       La usa cada foto para moverse en vertical según su
-                       profundidad. No lleva unidad: es una proporción.
-   · `--avance-px`  → cuántos píxeles tiene que viajar la cinta. La usa el
-                       `translate3d` de la tira, que sí necesita px.
+   CÓMO SE CALCULA
+   Cada foto ocupa una franja de pantalla dentro del bloque. La foto `i`
+   está "en su centro" cuando el bloque ha subido justo `i` pantallas.
+   Se mide cuánto se pasó de ese momento y se normaliza de 0 a 1:
 
-   POR QUÉ LA DISTANCIA EN PÍXELES
-   Pedirle al CSS que calcule el desplazamiento con porcentajes del ancho
-   de la tira no es fiable, porque ese ancho depende de cuántas fotos haya
-   y de cómo se acomoden en cada pantalla.
+     la foto recién entra por abajo  → 0
+     la foto llena la pantalla      → 0,5
+     la foto ya salió por arriba     → 1
 
-   CÓMO SE MIDE
-   La sección tiene una altura propia (más alta que la pantalla). Cuando
-   su borde superior llega arriba de la ventana empieza el recorrido, y
-   termina cuando su borde inferior pasa por abajo.
+   La opacidad es el seno de ese número: vale 1 en el medio y 0 en los dos
+   extremos. Así la foto aparece justo cuando entra, se ve entera en el
+   centro, y se va cuando sale.
+
+   El exponente suaviza los extremos, que es donde la foto aparecería o
+   desaparecería de golpe.
+
+   POR QUÉ NO SE USA `background-attachment: fixed`
+   Porque en los navegadores de celular nunca se implementó bien: en iOS
+   directamente no funciona. Con `position: sticky` se consigue lo mismo
+   en todas partes.
 
    ACCESIBILIDAD Y RENDIMIENTO
-   · Si el visitante pidió menos movimiento, la cinta se dibuja entera.
+   · Con "reducir movimiento" no se mueve nada: las fotos se ven fijas,
+     una debajo de otra.
+   · En pantalla chica tampoco hay efecto; lo resuelve el CSS con su
+     breakpoint.
    · El cálculo se pide con `requestAnimationFrame`: aunque el scroll
      dispare cien eventos por segundo, la cuenta se hace una vez por
      dibujo de pantalla.
    ========================================================================== */
 
 export function initGaleriaPasaje() {
-  const pasaje = document.querySelector("[data-pasaje]");
+  const bloque = document.querySelector("[data-fondo]");
 
-  if (!pasaje) return;
+  if (!bloque) return;
 
-  const tira = pasaje.querySelector(".pasaje__tira");
+  const fotos = [...bloque.querySelectorAll(".fondo__foto")];
 
-  if (!tira) return;
+  if (fotos.length === 0) return;
 
   const menosMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const movible = window.matchMedia("(min-width: 48rem)");
+  const conEfecto = window.matchMedia("(min-width: 48rem)");
 
   let pendiente = false;
 
-  /** Recalcula el avance y lo escribe en la tira. */
   function actualizar() {
     pendiente = false;
 
-    // Sin movimiento, o en pantalla chica donde la cinta no se mueve:
-    // se saca la variable y el CSS la deja donde está.
-    if (menosMovimiento.matches || !movible.matches) {
-      tira.style.removeProperty("--avance");
-      tira.style.removeProperty("--avance-px");
+    // Sin efecto: se limpian las variables y cada foto se ve normal.
+    if (menosMovimiento.matches || !conEfecto.matches) {
+      fotos.forEach((foto) => {
+        foto.style.removeProperty("--opacidad");
+        foto.style.removeProperty("--escala");
+      });
       return;
     }
 
-    const caja = pasaje.getBoundingClientRect();
-    const alto = caja.height;
-    const ventana = window.innerHeight;
+    const caja = bloque.getBoundingClientRect();
+    const altoPantalla = window.innerHeight;
 
-    // 0 cuando la sección entra por abajo, 1 cuando sale por arriba.
-    const recorrido = (alto - caja.top) / (alto + ventana);
-    const avance = Math.min(1, Math.max(0, recorrido));
+    // Cuánto ha subido el bloque, medido en pantallas completas.
+    const recorrido = -caja.top / altoPantalla;
 
-    // Cuánto tiene que viajar la cinta para que la última foto llegue al
-    // borde derecho de la ventana.
-    const distancia = Math.max(0, tira.scrollWidth - ventana);
+    fotos.forEach((foto, indice) => {
+      // Qué tan pasada está esta foto de su momento central: 0 cuando
+      // entra, 0,5 cuando llena la pantalla, 1 cuando sale.
+      const avance = Math.min(1, Math.max(0, recorrido - indice));
 
-    // Una es proporción (sin unidad) y la otra es distancia (con px).
-    // Si se mezclan, el cálculo del desfase vertical se multiplica por
-    // los píxeles y las fotos se van volando fuera de la pantalla.
-    tira.style.setProperty("--avance", avance.toFixed(4));
-    tira.style.setProperty("--avance-px", `${(avance * distancia).toFixed(1)}px`);
+      const opacidad = Math.pow(Math.sin(avance * Math.PI), 0.7);
+
+      // El acercamiento va de 1 a 1,08 a lo largo de toda la franja.
+      const escala = 1 + avance * 0.08;
+
+      foto.style.setProperty("--opacidad", opacidad.toFixed(3));
+      foto.style.setProperty("--escala", escala.toFixed(3));
+    });
   }
 
   function pedir() {
@@ -86,7 +97,7 @@ export function initGaleriaPasaje() {
   window.addEventListener("resize", pedir, { passive: true });
 
   menosMovimiento.addEventListener("change", pedir);
-  movible.addEventListener("change", pedir);
+  conEfecto.addEventListener("change", pedir);
 
   actualizar();
 }

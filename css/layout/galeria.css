@@ -1,136 +1,107 @@
 /* =============================================================
    layout/galeria.css
-   Capa 3 — Pasaje decorativo del local
+   Capa 3 — Fondo fijo con fotos del local
    -------------------------------------------------------------
-   Las fotos no ocupan una grilla: forman una cinta que se va corriendo
-   de lado mientras la página baja. Cada una se mueve además a un ritmo
-   distinto en vertical, según su profundidad (`--i`), que es lo que
-   las hace sentir como capas en lugar de una fila plana.
+   Cada foto ocupa toda la pantalla y se queda pegada mientras la página
+   sigue bajando por arriba. Es el efecto de `background-attachment:
+   fixed`, hecho con `position: sticky` para no depender de una propiedad
+   que los navegadores en el celular nunca llegaron a implementar bien.
 
-   El avance lo calcula js/modules/galeria-pasaje.js y lo escribe en
-   `--avance` (del 0 al 1). Todo el movimiento sale de ahí.
+   POR QUÉ FUNCIONA
+   Las tres fotos están apiladas dentro del mismo bloque, cada una de alto
+   completo. La primera se pega arriba; la segunda sube y la tapa; la
+   tercera hace lo mismo. El bloque entero mide tres pantallas, así que
+   hay recorrido de sobra para que se lea.
 
-   La rueda del visitante no se toca: el scroll es el de siempre, lo
-   único que se mueve es la cinta.
+   El desvanecido entre fotos y el lento acercamiento los calcula
+   js/modules/galeria-pasaje.js, que escribe `--opacidad` y `--escala`.
 
    EN EL CELULAR
-   Sin desplazamiento horizontal: dos filas de fotos, que es como se lee
-   bien en una pantalla chica.
+   Las fotos apiladas, una debajo de otra, sin efecto: en una pantalla
+   chica el recorrido se vuelve eterno y el efecto marea.
    ============================================================= */
 
-.pasaje {
-  /* Cuánto scrollea el visitante antes de que la cinta termine de pasar */
-  --pasaje-alto: 160vh;
-
-  /* Con solo tres fotos tienen que ser grandes: si no, la cinta apenas
-     se mueve y el pasaje no se siente como una cinta. */
-  --ancho-foto: 52vw;
-  --alto-foto: 34vw;
-  --alto-foto-alta: 46vw;
-  --hueco: clamp(1rem, 3vw, 3rem);
-
+.fondo {
   position: relative;
-  height: var(--pasaje-alto);
 }
 
-/* ---------- La cinta ---------- */
-.pasaje__tira {
+.fondo__foto {
   position: sticky;
   top: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--hueco);
-  height: 100vh;
-  width: max-content;
-  padding-inline: var(--contenedor-pad);
-
-  transform: translate3d(calc(-1 * var(--avance-px, 0px)), 0, 0);
-  will-change: transform;
-}
-
-/* ---------- Fotos ---------- */
-.pasaje__foto {
-  position: relative;
-  flex-shrink: 0;
-  width: var(--ancho-foto);
-  height: var(--alto-foto);
+  height: 100svh;
   margin: 0;
   overflow: hidden;
-  border-radius: var(--r-sm);
-  background: var(--c-superficie);
+  background: var(--c-negro);
 
-  /* El desfase vertical: el avance es una proporción del 0 al 1, y se
-     multiplica por la profundidad de cada foto (`--i`). Las de `--i`
-     negativo suben, las positivas bajan. */
-  translate: 0 calc((var(--avance, 0) - 0.5) * var(--i, 0) * -80px);
+  /* Los valores los escribe el módulo. Sin él la foto se ve igual,
+     solo que sin el desvanecido. */
+  opacity: var(--opacidad, 1);
 }
 
-/* La segunda y la cuarta son más altas: le dan ritmo a la cinta */
-.pasaje__foto--alta {
-  height: var(--alto-foto-alta);
-}
-
-.pasaje__foto img {
+.fondo__foto img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
+
+  /* Un acercamiento lentísimo mientras la foto está en pantalla: la
+     imagen respira y no se siente estática. */
+  transform: scale(var(--escala, 1));
+  will-change: transform, opacity;
 }
 
-/* ---------- Pie de foto ---------- */
-.pasaje__foto figcaption {
+/* ---------- Velo ----------
+   Oscurece la foto para que el texto de abajo se lea, con más fuerza
+   en la parte de abajo que en la de arriba. */
+.fondo__velo {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgb(10 10 10 / 85%) 0%, rgb(10 10 10 / 25%) 45%, transparent 75%),
+    linear-gradient(to right, rgb(10 10 10 / 45%) 0%, transparent 55%);
+}
+
+/* ---------- Pie: nombre y detalle ---------- */
+.fondo__pie {
   position: absolute;
   inset: auto 0 0 0;
-  padding: var(--sp-6) var(--sp-5) var(--sp-4);
-  background: linear-gradient(to top, rgb(10 10 10 / 82%), transparent);
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  letter-spacing: 0.02em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  width: 100%;
+  max-width: var(--contenedor-max);
+  margin-inline: auto;
+  padding: var(--sp-6) var(--contenedor-pad) clamp(2.5rem, 7vh, 5rem);
   color: var(--c-hueso);
-  opacity: 0;
-  transform: translateY(0.75rem);
-  transition:
-    opacity var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out);
 }
 
-.pasaje__foto:hover figcaption,
-.pasaje__foto:focus-within figcaption {
-  opacity: 1;
-  transform: none;
+.fondo__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  line-height: 1.05;
 }
 
-/* ---------- Celular: dos filas, sin desplazamiento ---------- */
+.fondo__detalle {
+  max-width: 42ch;
+  font-size: var(--fs-sm);
+  font-weight: 300;
+  color: rgb(244 239 230 / 78%);
+}
+
+/* ---------- Celular: apiladas, sin efecto ---------- */
 @media (width < 48rem) {
-  .pasaje {
-    height: auto;
-    padding-inline: var(--contenedor-pad);
-  }
-
-  .pasaje__tira {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    height: auto;
-    width: auto;
-    padding-inline: 0;
-    transform: none;
-  }
-
-  .pasaje__foto,
-  .pasaje__foto--alta {
-    width: auto;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    translate: none;
-  }
-
-  /* Sin hover no se descubrirían: los pies se ven siempre */
-  .pasaje__foto figcaption {
+  .fondo__foto {
+    position: relative;
+    top: auto;
+    height: 68svh;
     opacity: 1;
+  }
+
+  .fondo__foto img {
     transform: none;
-    padding: 0.5rem 0.6rem;
-    font-size: var(--fs-xs);
+  }
+
+  .fondo__nombre {
+    font-size: var(--fs-xl);
   }
 }

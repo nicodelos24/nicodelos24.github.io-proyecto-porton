@@ -254,43 +254,54 @@
       </div>
 
       <!--
-        Pasaje: mientras baja la página, las fotos del local van pasando de
-        lado y cada una se mueve a un ritmo distinto. Se lee como una cinta
-        que pasa, no como una grilla que hay que recorrer.
+        Fondo fijo: cada foto ocupa toda la pantalla y se queda pegada
+        mientras la página sigue bajando por arriba. Es el efecto de
+        `background-attachment: fixed`, hecho con `position: sticky`.
 
-        El avance lo escribe js/modules/galeria-pasaje.js en `--avance`, un
-        número del 0 al 1. Cada foto usa `--i` como profundidad: es lo que
-        las separa en planos y les da el efecto de capas.
+        Como las tres están apiladas en el mismo bloque, cada una va
+        tapando a la anterior: al bajar, la barra deja su lugar a la
+        terraza, y después al salón.
 
-        NOTA: estas cuatro fotos son provisionales. Vienen de un directorio
-        de opiniones, con marca de agua. Hay que reemplazarlas por fotos
+        El desvanecido entre fotos lo calcula js/modules/galeria-pasaje.js
+        escribiendo `--opacidad` y `--escala` en cada una.
+
+        NOTA: estas fotos son provisionales. Vienen de un directorio de
+        opiniones, con marca de agua. Hay que reemplazarlas por fotos
         propias del local (está anotado en docs/PENDIENTES.md).
       -->
-      <div class="pasaje" data-pasaje>
-        <div class="pasaje__tira">
+      <div class="fondo" data-fondo>
+        <figure class="fondo__foto">
+          <img src="assets/img/local-bar.webp"
+               alt="La barra del restaurante, con el azulejo turquesa, los banquitos de madera y la cocina abierta detrás"
+               loading="lazy" decoding="async">
+          <div class="fondo__velo" aria-hidden="true"></div>
+          <figcaption class="fondo__pie">
+            <span class="fondo__nombre">La barra</span>
+            <span class="fondo__detalle">Azulejo turquesa, banquitos de madera y la cocina abierta detrás</span>
+          </figcaption>
+        </figure>
 
-          <figure class="pasaje__foto" style="--i: -1" data-reveal>
-            <img src="assets/img/local-bar.webp"
-                 alt="La barra del restaurante, con el azulejo turquesa, los banquitos de madera y la cocina abierta detrás"
-                 loading="lazy" decoding="async">
-            <figcaption>La barra</figcaption>
-          </figure>
+        <figure class="fondo__foto">
+          <img src="assets/img/local-terraza.webp"
+               alt="La terraza del restaurante, con los toldos negros y las mesas afuera"
+               loading="lazy" decoding="async">
+          <div class="fondo__velo" aria-hidden="true"></div>
+          <figcaption class="fondo__pie">
+            <span class="fondo__nombre">La terraza</span>
+            <span class="fondo__detalle">Mesas afuera, bajo los toldos, entre los árboles de la plaza</span>
+          </figcaption>
+        </figure>
 
-          <figure class="pasaje__foto pasaje__foto--alta" style="--i: 1" data-reveal data-reveal-delay="1">
-            <img src="assets/img/local-terraza.webp"
-                 alt="La terraza del restaurante, con los toldos negros y las mesas afuera"
-                 loading="lazy" decoding="async">
-            <figcaption>La terraza</figcaption>
-          </figure>
-
-          <figure class="pasaje__foto" style="--i: -0.6" data-reveal data-reveal-delay="2">
-            <img src="assets/img/caption.jpg"
-                 alt="El salón del restaurante, con las mesas puestas y la barra al fondo"
-                 loading="lazy" decoding="async">
-            <figcaption>El salón</figcaption>
-          </figure>
-
-        </div>
+        <figure class="fondo__foto">
+          <img src="assets/img/caption.jpg"
+               alt="El salón del restaurante, con las mesas puestas y la barra al fondo"
+               loading="lazy" decoding="async">
+          <div class="fondo__velo" aria-hidden="true"></div>
+          <figcaption class="fondo__pie">
+            <span class="fondo__nombre">El salón</span>
+            <span class="fondo__detalle">Techo de madera, lámparas colgantes y la barra al fondo</span>
+          </figcaption>
+        </figure>
       </div>
 
     </section>
