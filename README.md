@@ -22,9 +22,14 @@ este repositorio con GitHub Pages.
   explicado en `docs/ARQUITECTURA.md`.
 - **Cada módulo de JavaScript se inicializa por separado y a prueba de
   errores.** Si uno falla, el resto del sitio sigue funcionando.
+- **El sitio tiene modo claro y oscuro.** Arranca con la preferencia del
+  sistema, y si se toca el botón de arriba a la derecha, esa elección queda
+  guardada. Las dos paletas están en `css/base/tokens.css`.
 - **Los datos de contacto y los precios son de ejemplo.** Hay que
   reemplazarlos por los reales antes de publicar. Está detallado en
   `docs/PENDIENTES.md`.
+- **[`IA_GUIDE.md`](IA_GUIDE.md)** lleva el registro de qué se pidió y qué
+  se hizo, además de lo que falta probar a mano.
 
 ---
 
@@ -65,7 +70,8 @@ por la IP de la computadora.
 │   ├── data/menu.js      Los platos de la carta
 │   └── modules/          Un archivo por funcionalidad
 ├── assets/img/           Fotos y logos
-├── docs/                 Documentación
+├── docs/                 Documentación técnica
+├── IA_GUIDE.md           Registro de peticiones y estado del proyecto
 └── prototipo-boceto/     Primera versión, guardada como referencia
 ```
 
@@ -75,6 +81,7 @@ por la IP de la computadora.
 
 | Documento | Qué contiene |
 |---|---|
+| [`IA_GUIDE.md`](IA_GUIDE.md) | Qué se pidió, qué se hizo y qué falta probar a mano |
 | [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) | Cómo está construido el sitio y por qué así |
 | [`docs/GUIA-DE-CONTRIBUCION.md`](docs/GUIA-DE-CONTRIBUCION.md) | Cómo cambiar la carta, los colores y agregar una sección |
 | [`docs/DECISIONES.md`](docs/DECISIONES.md) | Decisiones de diseño técnico y sus motivos |

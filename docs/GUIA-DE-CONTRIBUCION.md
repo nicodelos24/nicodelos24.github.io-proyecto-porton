@@ -210,3 +210,54 @@ las tarjetas.
 - [ ] ¿El sitio se ve bien en el celular? La navegación cambia bastante.
 - [ ] ¿Sigue funcionando si se desactiva JavaScript? El contenido tiene que
       quedar visible.
+---
+
+## Cambiar los colores de un tema
+
+**Único archivo a tocar: `css/base/tokens.css`.**
+
+La paleta del tema claro está escrita **dos veces** en ese archivo, y hay que
+tocarla las dos:
+
+| Bloque | Cuándo se aplica |
+|---|---|
+| `:root[data-tema="claro"]` | Cuando el visitante elige el tema a mano |
+| `:root:not([data-tema])` dentro de `prefers-color-scheme: light` | Cuando nadie eligió nada: manda el sistema |
+
+Se repiten a propósito para que el sitio funcione también sin JavaScript.
+Si tocás uno y no el otro, el tema va a verse bien en la mitad de las
+situaciones y mal en la otra, sin ningún error que lo indique.
+
+### Partes del sitio que no cambian con el tema
+
+La portada y el pie se quedan oscuros siempre, porque van sobre fotos
+oscuras. Definen sus propios colores dentro del bloque:
+
+```css
+.hero {
+  --c-texto: #f4efe6;
+  --c-acento: #d9b64a;
+  /* ... */
+}
+```
+
+Si agregás un elemento nuevo dentro de esas secciones y necesitás ajustar un
+color, definilo en ese mismo bloque, no en la paleta global.
+
+### Comprobar un cambio
+
+Con el botón de tema de la barra de navegación se ven los dos temas sin
+tocar código. Para probar cómo lo ve alguien que nunca eligió nada, en las
+herramientas de desarrollo se puede cambiar la preferencia del sistema:
+
+```js
+// En la consola del navegador
+window.__forzarTema = (t) => {
+  localStorage.setItem("tema", t);
+  location.reload();
+};
+__forzarTema("claro");
+```
+
+Recordá borrar la preferencia después de probar, con
+`localStorage.removeItem("tema")` y recargando.

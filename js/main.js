@@ -17,6 +17,7 @@ import { initParallax } from "./modules/parallax.js";
 import { initCarta } from "./modules/carta.js";
 import { initContacto } from "./modules/contacto.js";
 import { initSmoothScroll } from "./modules/smooth-scroll.js";
+import { initTema } from "./modules/tema.js";
 
 /**
  * Corre una función de inicialización a prueba de errores.
@@ -33,6 +34,7 @@ function safe(name, fn) {
 document.addEventListener("DOMContentLoaded", () => {
   safe("preloader", initPreloader);
   safe("nav", initNav);
+  safe("tema", initTema);
   safe("reveal", initReveal);
   safe("parallax", initParallax);
   safe("smooth-scroll", initSmoothScroll);
