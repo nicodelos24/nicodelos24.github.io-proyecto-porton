@@ -319,7 +319,34 @@ Rama usada hasta ahora: `feature/modo-claro-y-galeria`.
 
 ---
 
-## 13. Reparto de tareas
+## 13. Probar cambios y dar marcha atrás
+
+> *«Actualmente reverti los cambios de esa ultima branch»*
+
+**Estado: ✅**
+
+Se había creado `feature/retajes-visibles` para probar unos retoques
+visuales. Al no gustar el resultado, se descartaron y la rama se borró.
+`main` quedó como estaba, y el sitio publicado nunca llegó a ver esos
+cambios.
+
+**Qué conviene hacer y qué no, para la próxima:**
+
+- Descartar trabajo experimental en una rama propia **sí** es buena
+  práctica: es lo que las ramas existen para.
+- Lo que hay que evitar es descartar trabajo **sin commitear**. Git no
+  guarda esos cambios en ningún lado: no aparecen en el historial ni
+  quedan como restos recuperables. Si el trabajo tomó más de unos
+  minutos, conviene commitearlo en la rama (`git commit -m "WIP"`)
+  antes de decidir tirarlo. La rama se borra después, no antes.
+
+En este caso el trabajo se perdió de forma definitiva: la rama nunca
+llegó a tener un commit propio ni se había subido, así que no quedó
+registro de qué se había intentado.
+
+---
+
+## 14. Reparto de tareas
 
 > *«Por ahora la documentación la voy haciendo con otro agente así podés
 > centrarte más que nada en los cambios, las pruebas y que todo funcione

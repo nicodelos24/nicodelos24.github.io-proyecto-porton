@@ -308,3 +308,25 @@ escritorio (1206 px contra 866 px), al revés de lo esperado.
 **Por qué:** el menú del celular se abre como una pantalla completa. Si el
 botón de tema estuviera adentro, quedaría tapado y no se podría cambiar el
 tema sin cerrar el menú primero.
+
+---
+
+## D21 · El trabajo experimental se committea en la rama, aunque no esté listo
+
+**Qué:** los cambios que se están probando se commitean en la rama de trabajo
+antes de decidir si se aprueban o se descartan.
+
+**Por qué:** el historial de Git solo registra commits. Un cambio sin
+commitear no queda en ningún lado: no aparece en el historial, no queda
+como resto recuperable, y se pierde en cuanto se ejecuta `git checkout`
+sobre el archivo. En este proyecto ya pasó una vez: una tanda de retoques
+visuales se descartó sin commitear y no quedó forma de recuperarla ni de
+saber qué se había probado.
+
+**Lo que sí se descarta sin problema** es la rama entera una vez
+confirmado que no se quiere. Borrar una rama ya mergeada o abandonada no
+tiene riesgo.
+
+**En la práctica:** si un cambio toma más de unos minutos, primero
+`git commit -m "WIP"` en la rama, y después se sigue. Si al final se
+descarta, la rama se borra y el commit va con ella.
