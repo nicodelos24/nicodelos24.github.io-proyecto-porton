@@ -26,6 +26,33 @@ público.
 > contacto, línea con `tel:`), pero hay que cambiar **dos lugares**: ese
 > enlace y el texto que se ve al lado (`+598 00 000 000`).
 
+### Fotos del local para el pasaje
+
+Las tres fotos que usa el pasaje de la galería son **provisionales**: se
+bajaron de un directorio de opiniones ([Opina.com.uy](https://www.opina.com.uy/))
+y por lo tanto:
+
+- [ ] Tienen marca de agua de un tercero.
+- [ ] Son recortes panorámicos de las fotos originales, no las fotos
+      completas ni en buena resolución.
+- [ ] El local se ve, pero no se ve bien: no alcanzan para una galería de
+      verdad.
+
+Sacá entre 4 y 6 fotos con el celular y reemplazá las de
+`assets/img/local-*.webp`:
+
+| Archivo | Qué mostrar |
+|---|---|
+| `local-bar.webp` | La barra de frente, con la cocina abierta detrás |
+| `local-terraza.webp` | La terraza desde adentro, con los toldos |
+| — (falta) | El salón con las mesas puestas y buena luz |
+| — (falta) | La bodega o la carta de vino, un detalle de cerca |
+| — (falta) | Alguien comiendo, o el sello del local |
+| — (falta) | Un plato Servido en la mesa, no de cerca |
+
+Conviene sacarlas con luz natural, en horizontal, y sin gente de espaldas
+en el medio.
+
 ### Carta
 
 - [ ] **Precios reales.** Todos los de `js/data/menu.js` son inventados.
