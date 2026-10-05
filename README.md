@@ -14,6 +14,12 @@ este repositorio con GitHub Pages.
 - **El menú no está escrito en el HTML.** Las tarjetas de la carta se
   generan en el navegador a partir de `js/data/menu.js`. Para agregar,
   quitar o cambiar un plato se edita ese archivo y nada más.
+- **La carta entra resumida**: solo se ven los platos marcados como
+  destacados, y hay un botón que despliega el resto. También lo decide
+  `js/data/menu.js`.
+- **La galería tampoco tiene lista de fotos.** `js/modules/galeria.js` lee
+  los botones `[data-galeria]` del propio HTML, así que agregar una foto es
+  agregar un botón en `index.html`.
 - **Los colores, las fuentes y el espaciado no están escritos en los
   estilos de cada sección.** Salen todos de las variables de
   `css/base/tokens.css`. Cambiar la identidad visual del sitio es editar

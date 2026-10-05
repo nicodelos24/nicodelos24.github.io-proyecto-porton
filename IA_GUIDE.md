@@ -27,7 +27,7 @@ Cuando algo queda en 🧪 o ⚠️, abajo se explica qué mirar.
 
 # Peticiones registradas
 
-## 1. Diseño aesthetico del sitio
+## 1. Diseño estético del sitio
 
 > *«Me gustaría comenzar por diseñar la parte estética de la página, de una
 > forma en que el código sea escalable y modular en lo posible, todo
@@ -39,8 +39,8 @@ Se construyó el sitio completo desde cero: portada, sobre nosotros, carta con
 filtros, galería, contacto con formulario de reservas y pie de página.
 
 El código quedó separado en cuatro capas de estilos (base, utilidades,
-componentes, secciones) y ocho módulos de JavaScript independientes, cada uno
-protegido para que un error en uno no rompa la página.
+componentes, secciones) y nueve módulos de JavaScript independientes, cada
+uno protegido para que un error en uno no rompa la página.
 
 Documentación: `README.md` y la carpeta `docs/` (4 documentos, más de 700
 líneas).
@@ -103,7 +103,7 @@ Errores encontrados y corregidos:
 **Estado: ✅**
 
 Se corrigió el idioma en todo el repositorio (no solo en la documentación) y se
-cambiando el remoto de HTTPS a SSH, que es por donde está la clave
+cambió el remoto de HTTPS a SSH, que es por donde está la clave
 configurada. Los pushes posteriores funcionan sin hacer nada especial.
 
 ---
@@ -147,7 +147,7 @@ El problema era real y era más grave de lo que parecía. La galería ocupaba
 **más** alto en el celular que en la computadora, porque las cinco fotos se
 apilaban en una sola columna.
 
-El alto de la sección antes y después de el cambio:
+El alto de la sección antes y después del cambio:
 
 | Tamaño | Antes | Ahora |
 |---|---|---|
@@ -229,7 +229,7 @@ contacto. El menú de arriba y el del pie siguen el mismo orden.
 
 Los fondos se alternaron para que no queden dos secciones iguales
 seguidas: nosotros en el color de la página, galería en el alterno y la
-carta vuelven al color de la página.
+carta vuelve al color de la página.
 
 ---
 
@@ -266,9 +266,10 @@ Qué mirar vos: tocar una foto en el celular y deslizar entre fotos.
 Es buena idea, y quedó así:
 
 - Al entrar, solo se ven los 5 platos marcados como destacados.
-- Abajo hay un botón que dice cuántos más hay (por ejemplo, "Ver el menú
-  completo (6 platos más)").
-- Al tocarlo aparecen los 11 platos y, con ellos, los filtros por categoría.
+- Abajo hay un botón que dice cuántos más hay: "Ver el menú completo
+  (7 platos más)". El número sale solo de los datos, así que no hay que
+  actualizarlo a mano.
+- Al tocarlo aparecen los 12 platos y, con ellos, los filtros por categoría.
 - El botón cambia a "Ver menos" y se puede volver a plegar.
 
 **Cómo cambiar qué platos son los destacados:** en `js/data/menu.js`, los

@@ -18,9 +18,25 @@ navegador a partir de ese archivo.
   descripcion: "Texto corto",         // opcional
   precio: 890,                        // número, pesos uruguayos
   imagen: "asad.jpg",                 // archivo dentro de assets/img/
-  destacado: true,                    // opcional, muestra la etiqueta "Del chef"
+  destacado: true,                    // opcional. VEA ABAJO, hace DOS cosas
 }
 ```
+
+### Ojo: `destacado` hace dos cosas
+
+Marcar un plato como destacado tiene **dos efectos**, y conviene tener los dos
+presentes:
+
+1. Le pone la etiqueta "Del chef".
+2. Lo incluye en la **carta resumida** que se ve al abrir la página.
+
+La carta arranca mostrando solo los destacados, con un botón que despliega
+el resto. Así que `destacado: true` decide qué platos ve el visitante sin
+tener que tocar nada.
+
+Hoy hay 5 destacados sobre 12 platos. Si convendieran 6, o menos, se
+cambia acá y nada más: el botón que despliega el menú arma su texto con los
+datos, así que no hay ningún número escrito a mano para actualizar.
 
 ### Agregar un plato a una categoría existente
 
@@ -63,6 +79,70 @@ archivo. Conviene descriptive: `calabaza-asada-con-queso.jpg` y no
 
 Los precios son **de ejemplo**. Reemplazarlos por los reales antes de
 publicar.
+
+---
+
+## Agregar una foto a la galería
+
+**Único archivo a tocar: `index.html`.**
+
+`js/modules/galeria.js` no tiene ninguna lista de fotos: lee del propio HTML
+todos los botones que tengan `data-galeria`, y saca de cada uno la imagen y
+el pie de foto.
+
+```html
+<button class="gallery__item" type="button" data-galeria
+        data-pie="A la parrilla" data-alt="Carnes asadas con guarniciones"
+        data-reveal="scale" data-reveal-delay="2">
+  <img src="assets/img/asad.jpg" alt="Carnes asadas con guarniciones"
+       loading="lazy" decoding="async">
+  <span class="gallery__caption">A la parrilla</span>
+  <span class="gallery__lupa" aria-hidden="true"><svg …></svg></span>
+</button>
+```
+
+- `data-galeria` es lo que marca el botón como parte de la galería.
+- `data-pie` es el texto que aparece abajo cuando la foto se abre grande.
+- `data-alt` es el texto alternativo de la foto ya abierta.
+- `type="button"` es necesario: sin él, el botón toma el tipo `submit` y
+  puede mandar un formulario si queda dentro de uno.
+- El ícono de lupa (`gallery__lupa`) es decorativo: lleva `aria-hidden`.
+
+El mejor camino es **copiar un botón de foto que ya funcione** y cambiar la
+imagen y los textos. El orden en el HTML es el orden en el que se recorren
+las fotos con las flechas del teclado.
+
+No hay que tocar `galeria.js` para nada.
+
+---
+
+## Cambiar el tema (claro u oscuro)
+
+El sitio arranca siguiendo la preferencia del sistema. El botón de arriba a
+la derecha lo cambia a mano, y la elección se recuerda entre visitas.
+
+### Cambiar los colores de un tema
+
+Los dos temas están en `css/base/tokens.css`, en dos bloques separados:
+
+- El primero es el tema oscuro (el que se usa cuando no se eligió nada y el
+  sistema está en oscuro).
+- El segundo, debajo, es el tema claro.
+
+Cada uno repite los mismos nombres de variable con valores distintos. Para
+cambiar el color de un tema hay que buscar en el bloque correspondiente.
+
+**Importante:** `.hero` (la portada) y `.footer` se mantienen oscuros en los
+dos temas a propósito, porque van sobre fotos oscuras. Esos dos bloques
+tienen sus propios colores y no se tocan al cambiar la paleta.
+
+### Cambiar cómo arranca el sitio
+
+- Si arranca oscuro siempre, hay que quitar la regla
+  `prefers-color-scheme` del CSS y dejar solo el bloque oscuro.
+- Para que el botón tenga un modo "automático" explícito (para volver a
+  seguir al sistema después de haber elegido a mano), habría que tocar
+  `js/modules/tema.js`. Está anotado en `PENDIENTES.md`.
 
 ---
 

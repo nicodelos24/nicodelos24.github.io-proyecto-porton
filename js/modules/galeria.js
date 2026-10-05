@@ -13,7 +13,7 @@
    TECLADO
    · Escape cierra
    · Las flechas ← y → cambian de foto
-   · While esté abierto, el foco no sale del visor (es un `dialog` modal:
+   · Mientras esté abierto, el foco no sale del visor (es un `dialog` modal:
      si se saliera, el teclado podría mover cosas que hay detrás).
 
    CUERPO DE LA PÁGINA

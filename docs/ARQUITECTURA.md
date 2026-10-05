@@ -9,7 +9,7 @@ suele estar acá.
 ## Panorama general
 
 El sitio es una sola página con cinco secciones (portada, sobre nosotros,
-carta, galería y contacto), sin framework y sin paso de compilación. Todo
+galería, carta y contacto), sin framework y sin paso de compilación. Todo
 lo que hay son archivos que el navegador carga directamente.
 
 ```
@@ -19,17 +19,16 @@ index.html
    │
    ├── js/data/menu.js ──► carga el menú ANTES que main.js
    │
-   └── js/main.js ──► inicia los 8 módulos, cada uno protegido
+   └── js/main.js ──► inicia los 9 módulos, cada uno protegido
 ```
 
 No hay `package.json`, ni bundler, ni `node_modules`. Es una decisión
 deliberada: el sitio tiene que seguir siendo mantenible dentro de un año,
-por la misma persona y sin recordar por qué carajos se usó cierta
-herramienta.
+por la misma persona y sin recordar por qué se usó cierta herramienta.
 
 ---
 
-## Capa 1 · Estilos en cuatro capas
+## Los estilos, en cuatro capas
 
 `css/main.css` no escribe ni una regla: solo importa las capas en orden.
 El orden importa, porque cada capa puede depender de las anteriores.
@@ -45,8 +44,11 @@ El orden importa, porque cada capa puede depender de las anteriores.
                 Reusables desde cualquier sección.
 
 3. COMPONENTS preloader · nav · buttons · cards · animations
-                Piezas que se repiten: un botón, una tarjeta de plato,
-                la barra de navegación, el sistema de animaciones.
+                · theme-toggle · lightbox
+                Piezas que se repiten o que funcionan por sí mismas:
+                un botón, una tarjeta de plato, la barra de
+                navegación, el sistema de animaciones, el botón de
+                tema y el visor de fotos.
                 No saben en qué sección están.
 
 4. LAYOUT     hero · about · carta · galeria · contacto · footer
@@ -90,7 +92,7 @@ sin necesidad de consultas de medios.
 
 ---
 
-## Capa 2 · JavaScript modular
+## El JavaScript, modular
 
 Cada funcionalidad es un archivo en `js/modules/` que exporta una función
 de inicio. `js/main.js` las importa y las arranca.
@@ -99,12 +101,13 @@ de inicio. `js/main.js` las importa y las arranca.
 |---|---|
 | `preloader.js` | Pantalla de carga; se oculta sola |
 | `nav.js` | Menú de móvil, fondo al scrollear, enlace activo |
+| `tema.js` | Modo claro y oscuro, con memoria de la elección |
 | `reveal.js` | Animación de entrada de los elementos `[data-reveal]` |
 | `parallax.js` | Efecto de profundidad en el hero y botón "volver arriba" |
 | `smooth-scroll.js` | Desplazamiento suave entre secciones |
-| `carta.js` | Genera las tarjetas de platos y los filtros |
+| `galeria.js` | Visor de fotos grandes al tocarlas |
+| `carta.js` | Genera las tarjetas, los filtros y el desplegable del menú |
 | `contacto.js` | Validación y envío del formulario de reservas |
-| `tema.js` | Modo claro y oscuro, con memoria de la elección |
 
 ### Un módulo roto no rompe el sitio
 
@@ -142,6 +145,14 @@ Por eso el HTML tiene que cargar `js/data/menu.js` **antes** que
 los módulos son diferidos por defecto y un script clásico sin `defer` se
 ejecuta antes).
 
+La carta entra **resumida**: al abrir la página solo se ven los platos
+marcados con `destacado: true`, y abajo hay un botón que despliega el resto.
+La cantidad que muestra el botón se arma sola con los datos, así que
+agregar un plato no obliga a actualizar ningún texto.
+
+Los filtros por categoría también quedan ocultos hasta que se despliega
+el menú completo.
+
 Agregar un plato es agregar un objeto en `js/data/menu.js`.
 
 ### Contenido que se inserta después necesita volver a registrarse
@@ -166,7 +177,7 @@ llamá a `observeReveal` sobre el contenedor.**
 
 ---
 
-## Capa 3 · Accesibilidad y degradación
+## Accesibilidad y degradación
 
 ### El sitio funciona sin JavaScript
 
@@ -211,7 +222,56 @@ entrada sin animación en vez de dejar elementos invisibles.
 
 ---
 
-## Capa 4 · Imágenes
+## Modo claro y oscuro
+
+El sitio tiene dos paletas. Cuál se usa depende de tres cosas, en este orden:
+
+1. Si el visitante nunca eligió a mano, manda la preferencia del sistema
+   (`prefers-color-scheme`).
+2. Si eligió con el botón, manda su elección, que queda guardada en
+   `localStorage` bajo la clave `tema`.
+3. La elección se aplica con un script en línea dentro del `<head>`, no
+   desde `main.js`. Si se hiciera más tarde, el visitante vería un destello
+   del tema equivocado antes de que se corrija.
+
+El atributo `data-tema` va en `<html>`:
+
+| Estado | Atributo | Quién decide el color |
+|---|---|---|
+| Sin elección (lo normal) | ninguno | La consulta `prefers-color-scheme` del CSS |
+| Elección a mano | `claro` u `oscuro` | El atributo, que gana sobre la consulta |
+
+La paleta está escrita **dos veces** en `tokens.css`, una por tema. Se
+repite a propósito: es lo que permite que el sitio funcione bien sin
+JavaScript.
+
+`.hero` y `.footer` redefinen sus propios colores y se mantienen oscuros en
+los dos temas, porque van sobre una foto oscura con un velo encima.
+
+---
+
+## Galería con fotos grandes
+
+Cada foto de la galería es un `<button data-galeria>` en `index.html`. No hay
+ninguna lista de fotos en el JavaScript: `galeria.js` lee los botones del
+propio DOM y saca de cada uno la imagen y el pie de foto.
+
+Por eso **agregar una foto es agregar un botón más en `index.html`**, sin
+tocar `js/modules/galeria.js`.
+
+El visor es un `dialog` modal. Mientras está abierto:
+
+- El fondo no se desplaza.
+- El foco no puede salirse (si se saliera, el teclado podría mover cosas
+  que hay detrás).
+- `Escape` cierra.
+- Las flechas ← y → cambian de foto.
+
+Al cerrar, el foco vuelve a la foto desde la que se abrió.
+
+---
+
+## Imágenes
 
 - `assets/img/` es la carpeta que usa el sitio.
 - Las imágenes se cargan **bajo demanda** (`loading="lazy"`), salvo la

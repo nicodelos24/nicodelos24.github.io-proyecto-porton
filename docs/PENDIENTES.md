@@ -45,8 +45,8 @@ mensaje de confirmación, pero los datos se descartan.
       - Un enlace de WhatsApp con los datos ya cargados (lo más probable
         para un restaurante: `https://wa.me/598XXXXXXXX?text=...`).
       - Un backend propio, si más adelante hace falta.
-- [ ] **Implementar el envío** en `js/modules/contacto.js`, donde ya hay
-      commenting el `fetch` preparado.
+- [ ] **Implementar el envío** en `js/modules/contacto.js`, donde ya está
+      comentado el `fetch` preparado.
 
 ### Horarios
 
@@ -86,6 +86,38 @@ real**, solo en el emulador. Antes de dar por bueno el trabajo:
 - [ ] Un modo "automático" explícito en el botón, para volver al
       comportamiento de seguir al sistema después de haber elegido a mano.
       Hoy hay que borrar el dato del navegador a mano.
+
+---
+
+## Importante: galería y carta resumida
+
+Las dos funcionalidades se escribieron y no se probaron en un dispositivo
+real. Solo se verificaron en el emulador.
+
+### Galería con fotos grandes
+
+- [ ] **Tocar una foto en el celular** y deslizar de una a otra. El visor es
+      un `dialog` modal: mientras está abierto, el fondo no se desplaza y el
+      foco no puede salirse.
+- [ ] **Probar el teclado**: `Escape` cierra, las flechas ← y → cambian de
+      foto.
+- [ ] **Revisar que el foco vuelve a la foto** desde la que se abrió al
+      cerrar.
+- [ ] **Decidir si hacen falta más fotos.** Hoy hay 10. La galería se agranda
+      agregando botones en `index.html`, sin tocar `js/modules/galeria.js`.
+- [ ] **Revisar los pies de foto.** En pantallas táctiles no existe el
+      cursor sobre la foto, así que el pie se muestra siempre. Confirmar que
+      no tapa la imagen ni queda cortado.
+
+### Carta resumida
+
+- [ ] **Confirmar que los 5 destacados representan bien al restaurante.**
+      Si convendieran 6, o menos, se cambia en `js/data/menu.js` marcando
+      `destacado: true` en los platos correspondientes.
+- [ ] **Revisar que el botón de desplegar** diga bien la cantidad y que se
+      pueda volver a plegar.
+- [ ] **Ver que los filtros solo aparezcan al desplegar**, y que al plegar
+      vuelva a quedar un filtro activo coherente.
 
 ---
 
@@ -142,13 +174,28 @@ contra el documento. Como los estilos vienen de varias capas importadas, es
 un error fácil de cometer y difícil de detectar: la imagen simplemente no
 aparece y no hay ningún error en la consola.
 
+### La galería usa `gallery__`, el resto del sitio usa español
+
+Las clases de la galería van en inglés (`gallery__item`, `gallery__caption`,
+`gallery__lupa`), mientras que el resto del sitio usa nombres en español
+(`nav__link`, `dish-card`, `section-title`). Hasta el `id` de la sección es
+`galeria`, sin `y`.
+
+No rompe nada, pero es la clase de esos detalles que después cuesta
+acordarse: si el sitio quedara en manos de otra persona, buscar
+"galeria" no devolvería los estilos de la galería.
+
+- [ ] **Decidir si se unifica.** Renombrar las clases a `galeria__` obliga a
+      tocar `index.html`, `css/layout/galeria.css`, `css/components/lightbox.css`
+      y `js/modules/galeria.js`. Conviene hacerlo antes de que la galería
+      crezca más, mientras los selectores todavía son pocos.
 
 ---
 
 ## Mejoras de experiencia
 
-- [ ] **Confirmación de la reserva por email** al visitante, para que sepa
-      que su pedido quedó registrado.
+- [ ] **Confirmación de la reserva por correo** al visitante, para que sepa
+      que su reserva quedó registrada.
 - [ ] **Aviso de "cerrado"** en el sitio los días que el restaurante no
       atiende, para no generar reservas imposibles.
 - [ ] **Galería con más fotos** del local y de los platos.
