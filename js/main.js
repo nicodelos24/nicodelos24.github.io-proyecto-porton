@@ -18,6 +18,7 @@ import { initCarta } from "./modules/carta.js";
 import { initContacto } from "./modules/contacto.js";
 import { initSmoothScroll } from "./modules/smooth-scroll.js";
 import { initTema } from "./modules/tema.js";
+import { initGaleria } from "./modules/galeria.js";
 
 /**
  * Corre una función de inicialización a prueba de errores.
@@ -38,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   safe("reveal", initReveal);
   safe("parallax", initParallax);
   safe("smooth-scroll", initSmoothScroll);
+  safe("galeria", initGaleria);
   safe("carta", initCarta);
   safe("contacto", initContacto);
 });

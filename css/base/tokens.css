@@ -196,9 +196,10 @@
   --sombra-nav: rgb(250 247 242 / 82%);
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-tema]) {
-    color-scheme: light;
+/* Bloque 1 · el visitante elige el tema a mano.
+   El atributo gana sobre la consulta de medios. */
+:root[data-tema="claro"] {
+  color-scheme: light;
 
   --c-bg: #faf7f2;
   --c-bg-alt: #f2ede4;
@@ -215,17 +216,47 @@
   --c-panel: rgb(255 255 255 / 88%);
   --c-panel-input: rgb(31 26 23 / 4%);
   --c-panel-input-foco: rgb(31 26 23 / 7%);
-
   --c-aviso-fondo: rgb(138 106 18 / 12%);
   --c-aviso-borde: rgb(138 106 18 / 45%);
   --c-aviso-texto: #4a3606;
-
   --c-velo: rgb(31 26 23 / 8%);
 
   /* Sobre fondo claro, `screen` borraría el logo */
   --mezcla-logo: normal;
   --filtro-logo: sepia(45%) saturate(2400%) hue-rotate(320deg) brightness(65%);
-
   --sombra-nav: rgb(250 247 242 / 82%);
+}
+
+/* Bloque 2 · nadie eligió nada: manda la preferencia del sistema.
+   El `:not([data-tema])` deja pasar a quien sí eligió, porque en ese caso
+   el atributo está puesto. También sirve sin JavaScript. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-tema]) {
+    color-scheme: light;
+
+    --c-bg: #faf7f2;
+    --c-bg-alt: #f2ede4;
+    --c-superficie: #ffffff;
+    --c-texto: #1f1a17;
+    --c-texto-suave: #6b6058;
+    --c-borde: rgb(31 26 23 / 12%);
+    --c-marca: #6b1830;
+    --c-acento: #8a6a12;
+    --sombra-sm: 0 1px 3px rgb(31 26 23 / 10%);
+    --sombra-md: 0 6px 20px rgb(31 26 23 / 10%);
+    --sombra-lg: 0 18px 45px rgb(31 26 23 / 14%);
+    --glow-oro: 0 0 60px rgb(201 162 39 / 10%);
+    --c-panel: rgb(255 255 255 / 88%);
+    --c-panel-input: rgb(31 26 23 / 4%);
+    --c-panel-input-foco: rgb(31 26 23 / 7%);
+    --c-aviso-fondo: rgb(138 106 18 / 12%);
+    --c-aviso-borde: rgb(138 106 18 / 45%);
+    --c-aviso-texto: #4a3606;
+    --c-velo: rgb(31 26 23 / 8%);
+
+    /* Sobre fondo claro, `screen` borraría el logo */
+    --mezcla-logo: normal;
+    --filtro-logo: sepia(45%) saturate(2400%) hue-rotate(320deg) brightness(65%);
+    --sombra-nav: rgb(250 247 242 / 82%);
   }
-}}
+}

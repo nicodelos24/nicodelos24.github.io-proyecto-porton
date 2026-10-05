@@ -65,9 +65,19 @@
 .gallery__item {
   position: relative;
   overflow: hidden;
+  padding: 0;
+  border: none;
   border-radius: var(--r-md);
   background: var(--c-superficie);
+  color: inherit;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
+  transition: box-shadow var(--dur-base) var(--ease-out);
+}
+
+.gallery__item:hover {
+  box-shadow: var(--sombra-md);
 }
 
 .gallery__item img {
@@ -102,4 +112,56 @@
 .gallery__item:hover .gallery__caption {
   opacity: 1;
   transform: none;
+}
+
+/* Lupa: aparece al pasar por encima y avisa que la foto se puede abrir */
+.gallery__lupa {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-full);
+  background: rgb(10 10 10 / 55%);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.gallery__lupa svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--c-hueso);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.gallery__item:hover .gallery__lupa,
+.gallery__item:focus-visible .gallery__lupa {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Sin hover no hay forma de saber que la foto se abre */
+@media (width < 48rem) {
+  .gallery__lupa {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Texto de ayuda bajo la galería */
+.gallery__hint {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--c-texto-suave);
+  text-align: center;
 }

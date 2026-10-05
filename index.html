@@ -75,8 +75,8 @@
       <nav class="nav__links" aria-label="Navegación principal">
         <a class="nav__link" href="#inicio">Inicio</a>
         <a class="nav__link" href="#sobre-nosotros">Nosotros</a>
-        <a class="nav__link" href="#carta">Carta</a>
         <a class="nav__link" href="#galeria">Galería</a>
+        <a class="nav__link" href="#carta">Carta</a>
         <a class="nav__link" href="#contacto">Contacto</a>
         <a class="btn btn--primary btn--sm nav__cta" href="#reservas">
           Reservar <span class="btn-arrow" aria-hidden="true">→</span>
@@ -236,9 +236,120 @@
     </section>
 
     <!-- ========================================================================
+         GALERÍA
+         ======================================================================== -->
+    <section class="section section--alt" id="galeria">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow" data-reveal>Galería</span>
+          <h2 class="section-title" data-reveal>El local y <span class="hl">lo que sale de la parrilla</span></h2>
+        </div>
+
+        <div class="gallery">
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="El salón" data-alt="Salón del restaurante El Otro Portón"
+                  data-reveal="scale" data-reveal-delay="1">
+            <img src="assets/img/caption.jpg" alt="Salón del restaurante El Otro Portón" loading="lazy" decoding="async">
+            <span class="gallery__caption">El salón</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Carnes de la parrilla" data-alt="Carnes asadas con guarniciones"
+                  data-reveal="scale" data-reveal-delay="2">
+            <img src="assets/img/caption_11.jpg" alt="Carnes asadas con guarniciones" loading="lazy" decoding="async">
+            <span class="gallery__caption">Carnes de la parrilla</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="A la parrilla" data-alt="Carnes sellándose a la parrilla"
+                  data-reveal="scale" data-reveal-delay="3">
+            <img src="assets/img/asad.jpg" alt="Carnes sellándose a la parrilla" loading="lazy" decoding="async">
+            <span class="gallery__caption">A la parrilla</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Plato de la casa" data-alt="Cordero con puré y vegetales"
+                  data-reveal="scale" data-reveal-delay="4">
+            <img src="assets/img/port.jpg" alt="Cordero con puré y vegetales" loading="lazy" decoding="async">
+            <span class="gallery__caption">Plato de la casa</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Entradas" data-alt="Chorizo y morcilla con queso"
+                  data-reveal="scale" data-reveal-delay="5">
+            <img src="assets/img/chorizo-morcilla-queso.jpg" alt="Chorizo y morcilla con queso" loading="lazy" decoding="async">
+            <span class="gallery__caption">Entradas</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Pescado del día" data-alt="Pescado con queso rallado"
+                  data-reveal="scale" data-reveal-delay="6">
+            <img src="assets/img/caption_4.jpg" alt="Pescado con queso rallado" loading="lazy" decoding="async">
+            <span class="gallery__caption">Pescado del día</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Milanesa con puré" data-alt="Milanesa con puré y guarnición"
+                  data-reveal="scale" data-reveal-delay="1">
+            <img src="assets/img/caption_12.jpg" alt="Milanesa con puré y guarnición" loading="lazy" decoding="async">
+            <span class="gallery__caption">Milanesa con puré</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Platos de la casa" data-alt="Plato de la casa con salsa"
+                  data-reveal="scale" data-reveal-delay="2">
+            <img src="assets/img/caption_13.jpg" alt="Plato de la casa con salsa" loading="lazy" decoding="async">
+            <span class="gallery__caption">Platos de la casa</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Dulce de la casa" data-alt="Dulce de leche con pico de gallo"
+                  data-reveal="scale" data-reveal-delay="3">
+            <img src="assets/img/caption_10.jpg" alt="Dulce de leche con pico de gallo" loading="lazy" decoding="async">
+            <span class="gallery__caption">Dulce de la casa</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+          <button class="gallery__item" type="button" data-galeria
+                  data-pie="Postres" data-alt="Calabaza asada con queso"
+                  data-reveal="scale" data-reveal-delay="4">
+            <img src="assets/img/calabaza-asada-con-queso.jpg" alt="Calabaza asada con queso" loading="lazy" decoding="async">
+            <span class="gallery__caption">Postres</span>
+            <span class="gallery__lupa" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+            </span>
+          </button>
+        </div>
+
+        <p class="gallery__hint" data-reveal>
+          Tocá cualquier foto para verla más grande.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
          CARTA — se renderiza desde js/data/menu.js (js/modules/carta.js)
          ======================================================================== -->
-    <section class="section section--alt" id="carta">
+    <section class="section" id="carta">
       <div class="container">
 
         <div class="section-head section-head--center">
@@ -252,51 +363,20 @@
 
         <div class="carta__toolbar">
           <div class="carta__filters" role="group" aria-label="Filtrar por categoría"></div>
-          <a class="btn btn--link" href="#reservas">Pedir reserva →</a>
         </div>
 
         <div class="carta__grid"></div>
 
+        <div class="carta__mas">
+          <button class="btn btn--primary" type="button" data-carta-todos aria-expanded="false">
+            <span data-texto>Ver el menú completo</span>
+            <span class="btn-arrow" data-cantidad aria-hidden="true">0</span>
+          </button>
+        </div>
+
         <p class="carta__note" data-reveal>
           Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
         </p>
-
-      </div>
-    </section>
-
-    <!-- ========================================================================
-         GALERÍA
-         ======================================================================== -->
-    <section class="section" id="galeria">
-      <div class="container">
-
-        <div class="section-head">
-          <span class="eyebrow" data-reveal>Galería</span>
-          <h2 class="section-title" data-reveal>El local y <span class="hl">lo que sale de la parrilla</span></h2>
-        </div>
-
-        <div class="gallery">
-          <figure class="gallery__item" data-reveal="scale">
-            <img src="assets/img/caption.jpg" alt="Salón del restaurante" loading="lazy">
-            <figcaption class="gallery__caption">El salón</figcaption>
-          </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="1">
-            <img src="assets/img/asad.jpg" alt="Carnes a la parrilla" loading="lazy">
-            <figcaption class="gallery__caption">A la parrilla</figcaption>
-          </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="2">
-            <img src="assets/img/port.jpg" alt="Plato de la casa" loading="lazy">
-            <figcaption class="gallery__caption">Plato de la casa</figcaption>
-          </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="3">
-            <img src="assets/img/calabaza-asada-con-queso.jpg" alt="Calabaza asada con queso" loading="lazy">
-            <figcaption class="gallery__caption">Postre de la casa</figcaption>
-          </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="4">
-            <img src="assets/img/chorizo-morcilla-queso.jpg" alt="Chorizo y morcilla con queso" loading="lazy">
-            <figcaption class="gallery__caption">Entradas</figcaption>
-          </figure>
-        </div>
 
       </div>
     </section>
@@ -425,8 +505,8 @@
           <ul class="footer__list" style="margin-top: 1rem;">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#sobre-nosotros">Nosotros</a></li>
-            <li><a href="#carta">Carta</a></li>
             <li><a href="#galeria">Galería</a></li>
+            <li><a href="#carta">Carta</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>
         </div>
@@ -466,6 +546,45 @@
   </script>
 
 
+
+
+  <!-- ==========================================================================
+       VISOR DE FOTOS (js/modules/galeria.js)
+       Se crea oculto y se llena solo con las fotos de la galería de arriba.
+       `inert` evita que se pueda tabular hasta que se abra.
+       ========================================================================== -->
+  <div class="lightbox" data-lightbox hidden>
+    <div class="lightbox__fondo" data-lightbox-cerrar></div>
+
+    <div class="lightbox__dialog" role="dialog" aria-modal="true"
+         aria-label="Visor de fotos del restaurante">
+
+      <p class="lightbox__contador" aria-live="polite" data-lightbox-contador></p>
+
+      <figure class="lightbox__figura">
+        <img class="lightbox__imagen" src="" alt="" data-lightbox-imagen>
+        <figcaption class="lightbox__pie" data-lightbox-pie></figcaption>
+      </figure>
+
+      <button class="lightbox__boton lightbox__boton--anterior" type="button"
+              data-lightbox-anterior aria-label="Foto anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+
+      <button class="lightbox__boton lightbox__boton--siguiente" type="button"
+              data-lightbox-siguiente aria-label="Foto siguiente">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <button class="lightbox__cerrar" type="button" data-lightbox-cerrar
+              aria-label="Cerrar el visor de fotos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+
+      <div class="lightbox__puntos" data-lightbox-puntos aria-hidden="true"></div>
+
+    </div>
+  </div>
 
 </body>
 </html>

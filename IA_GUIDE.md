@@ -218,11 +218,150 @@ alguien mirando la pantalla.
 
 ---
 
-# Lo que falta por pedido
+## 8. Reordenar: la galería antes de los platos
 
-Nada pendiente de lo pedido hasta ahora.
+> *«Esa sección de galería se muestre antes de la de los platos»*
 
-En la próxima tanda: **seguridad y mantenimiento**.
+**Estado: ✅**
+
+El orden de la página pasó a ser: portada, nosotros, galería, carta,
+contacto. El menú de arriba y el del pie siguen el mismo orden.
+
+Los fondos se alternaron para que no queden dos secciones iguales
+seguidas: nosotros en el color de la página, galería en el alterno y la
+carta vuelven al color de la página.
+
+---
+
+## 9. Ver las fotos grandes al tocarlas
+
+> *«Y que al tocar una foto esta se expanda y se puedan ver una a una»*
+
+**Estado: 🧪**
+
+La galería pasó de 5 a 10 fotos, y cada una abre un visor grande con:
+
+- Contador de posición (por ejemplo `3 / 10`).
+- Flechas para pasar de una a otra, y botones abajo para saltar a una.
+- Pie con el nombre de la foto.
+- Cierre con la X, con clic en el fondo, o con la tecla Escape.
+- Las flechas del teclado ‹ y › cambian de foto.
+
+Al abrirlo, el foco se va al botón de cerrar; al cerrarlo, vuelve a la foto
+desde la que se abrió. Mientras está abierto, el fondo no se puede scrollear
+y el foco no puede salirse del visor.
+
+Qué mirar vos: tocar una foto en el celular y deslizar entre fotos.
+
+---
+
+## 10. Carta resumida con el menú completo a un clic
+
+> *«Que la carta en la página muestre solo algunos platos (los que sean más
+> llamativos visualmente) y luego el menú completo se vea al seleccionarlo,
+> así no hay que hacer tanto scroll, no se si esa es buena idea»*
+
+**Estado: 🧪**
+
+Es buena idea, y quedó así:
+
+- Al entrar, solo se ven los 5 platos marcados como destacados.
+- Abajo hay un botón que dice cuántos más hay (por ejemplo, "Ver el menú
+  completo (6 platos más)").
+- Al tocarlo aparecen los 11 platos y, con ellos, los filtros por categoría.
+- El botón cambia a "Ver menos" y se puede volver a plegar.
+
+**Cómo cambiar qué platos son los destacados:** en `js/data/menu.js`, los
+que tienen `destacado: true`. La cantidad del botón se arma sola, así que si
+agregás un plato nuevo no hay que actualizar ningún texto.
+
+Qué mirar vos: si los 5 destacados representarían bien al restaurante, o si
+convendría que sean 6 o menos.
+
+---
+
+## 11. Arreglar el modo claro
+
+> *«En el modo claro no se lee bien el botón reservar mesa y la parte del
+> formulario no se ve afectada por el modo claro»*
+
+**Estado: 🧪**
+
+Eran tres problemas, todos causados por colores oscuros escritos a mano en
+lugar de tokens:
+
+1. El botón con contorno de la portada quedaba blanco sobre blanco.
+2. El formulario tenía el panel, los campos y el aviso con colores fijos.
+3. La columna de contacto quedaba con texto oscuro sobre la foto oscura.
+
+También apareció un problema más de fondo: cambiar una variable de color
+dentro de un bloque no cambiaba el texto de sus hijos, porque el color se
+hereda ya resuelto desde el body. Ahora esos bloques declaran también el
+color.
+
+Qué mirar vos: el formulario completo en modo claro, y el botón
+"Reservar mesa" de la portada.
+
+---
+
+## 12. Trabajar sobre una branch
+
+> *«Me gustaría que podamos generar esto en una branch así pruebo los
+> cambios antes de mergear»*
+
+**Estado: ✅**
+
+Los cambios se hacen en una branch y se mergean a `main` solo cuando están
+aprobados. `main` es la rama que publica GitHub Pages.
+
+Rama usada hasta ahora: `feature/modo-claro-y-galeria`.
+
+---
+
+## 13. Reparto de tareas
+
+> *«Por ahora la documentación la voy haciendo con otro agente así podés
+> centrarte más que nada en los cambios, las pruebas y que todo funcione
+> bien y sea estético, moderno y modular»*
+
+**Estado: ✅**
+
+Reparto acordado: la documentación de texto la lleva otro agente. Acá van
+las tareas de código, pruebas y verificación visual.
+
+---
+
+# Tareas pendientes
+
+## Pendientes por pedido
+
+Nada de lo pedido quedó a medias.
+
+## La próxima tanda
+
+- [ ] **Seguridad y mantenimiento.** Es lo que sigue, y es la parte más
+      importante que falta. Nunca se revisó.
+      - [ ] Revisar dependencias y versiones de las librerías externas
+            que se cargan (tipografías y el resto).
+      - [ ] Decidir si se deja `innerHTML` o se pasa a construir el DOM
+            sin interpolar datos.
+      - [ ] Headers de seguridad que se pueden agregar en GitHub Pages.
+      - [ ] Qué se hace con los datos del formulario de reservas, que
+            hoy no se envían a ningún lado y se descartan en el navegador.
+
+## Pendientes de esta tanda (para probar a mano)
+
+- [ ] Tocar una foto de la galería en el celular y deslizar entre fotos.
+- [ ] Mirar la portada, la carta y el formulario en modo claro.
+- [ ] Ver si los 5 platos destacados representan bien al restaurante.
+- [ ] Recorrer la galería y la carta con el teclado.
+
+## Pendientes de antes (siguen abiertos)
+
+- [ ] Poner los datos reales: teléfono, dirección, horarios, precios.
+- [ ] Implementar el envío del formulario de reservas.
+- [ ] Revisar el contraste real de los textos.
+- [ ] Probar el sitio en un celular de verdad.
 
 ---
 
@@ -230,7 +369,6 @@ En la próxima tanda: **seguridad y mantenimiento**.
 
 Ninguna es necesaria para publicar. Quedan anotadas por si aparece tiempo.
 
-- Galería ampliada al tocar una foto.
 - Menú del día que se actualice sin tocar código.
 - Datos estructurados de Google (para que el restaurante salga con horarios
   y ubicación en los resultados de búsqueda).

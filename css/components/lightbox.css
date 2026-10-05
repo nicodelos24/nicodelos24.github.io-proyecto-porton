@@ -1,0 +1,232 @@
+/* =============================================================
+   components/lightbox.css
+   Capa 2 — Visor de fotos
+   -------------------------------------------------------------
+   Capa sobre todo el sitio: tapada, oscura y con los controles
+   siempre al alcance.
+   ============================================================= */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-preloader) + 1);
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+/* Fondo oscurecido: entra con un fundido corto */
+.lightbox__fondo {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 92%);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.lightbox.is-abierto .lightbox__fondo {
+  opacity: 1;
+}
+
+/* ---------- Caja de la foto ----------
+
+   Va posicionada de forma absoluta en vez de ser una celda del grid.
+
+   Motivo: una celda de grid con fila `auto` toma su altura del contenido.
+   Entonces la fila `1fr` del medio se estiraba hasta donde llegara la foto
+   y empujaba la paginación fuera de la pantalla (se medía 1447px de alto
+   en una ventana de 713px). Con `inset` la altura queda fijada por la
+   pantalla, y recién ahí `1fr` puede repartir el espacio sobrante. */
+.lightbox__dialog {
+  position: absolute;
+  inset: clamp(1rem, 4vw, 3rem);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  justify-items: center;
+  gap: var(--sp-4);
+  width: auto;
+  max-width: min(1100px, 100%);
+  margin-inline: auto;
+}
+
+/* ---------- Contador ---------- */
+.lightbox__contador {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  color: rgb(244 239 230 / 65%);
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.lightbox.is-abierto .lightbox__contador {
+  opacity: 1;
+  transition-delay: 150ms;
+}
+
+/* ---------- Foto ----------
+   La foto toma la fila sobrante y el pie se queda con lo que necesita.
+   `minmax(0, 1fr)` en vez de `1fr` es lo que permite que la imagen se
+   encoja dentro de la fila en lugar de desbordarla. */
+.lightbox__figura {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
+  gap: var(--sp-4);
+  min-height: 0;
+  height: 100%;
+}
+
+.lightbox__imagen {
+  max-width: 100%;
+  max-height: 100%;
+  align-self: center;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--r-md);
+  box-shadow: var(--sombra-lg);
+
+  /* Entra con un leve crecimiento: da la sensación de que se amplió */
+  opacity: 0;
+  transform: scale(0.94);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.lightbox.is-abierto .lightbox__imagen {
+  opacity: 1;
+  transform: scale(1);
+  transition-delay: 80ms;
+}
+
+.lightbox__pie {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-hueso);
+  text-align: center;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.lightbox.is-abierto .lightbox__pie {
+  opacity: 1;
+  transition-delay: 200ms;
+}
+
+/* ---------- Botones ---------- */
+.lightbox__boton,
+.lightbox__cerrar {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 22%);
+  border-radius: var(--r-full);
+  background: rgb(255 255 255 / 8%);
+  backdrop-filter: blur(8px);
+  color: var(--c-hueso);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.lightbox__boton {
+  position: fixed;
+  top: 50%;
+  translate: 0 -50%;
+  width: 52px;
+  height: 52px;
+}
+
+.lightbox__boton--anterior { left: clamp(0.25rem, 2vw, 1.5rem); }
+.lightbox__boton--siguiente { right: clamp(0.25rem, 2vw, 1.5rem); }
+
+.lightbox__cerrar {
+  position: fixed;
+  top: clamp(0.25rem, 2vw, 1.5rem);
+  right: clamp(0.25rem, 2vw, 1.5rem);
+  width: 44px;
+  height: 44px;
+}
+
+.lightbox__boton:hover,
+.lightbox__cerrar:hover {
+  background: rgb(255 255 255 / 18%);
+  border-color: rgb(255 255 255 / 45%);
+}
+
+.lightbox__boton:active,
+.lightbox__cerrar:active {
+  transform: scale(0.94);
+}
+
+.lightbox__boton svg,
+.lightbox__cerrar svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Paginación ---------- */
+.lightbox__puntos {
+  display: flex;
+  gap: var(--sp-2);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.lightbox.is-abierto .lightbox__puntos {
+  opacity: 1;
+  transition-delay: 250ms;
+}
+
+.lightbox__punto {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: var(--r-full);
+  background: rgb(255 255 255 / 30%);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    width var(--dur-base) var(--ease-out);
+}
+
+.lightbox__punto.is-activo {
+  width: 26px;
+  background: var(--c-oro-400);
+}
+
+.lightbox__punto:hover {
+  background: rgb(255 255 255 / 60%);
+}
+
+/* ---------- En el celular ----------
+   Las flechas laterales estorban y son difíciles de acertar con el dedo:
+   el celular se recorre deslizando. */
+@media (width < 48rem) {
+  .lightbox__boton {
+    top: auto;
+    bottom: clamp(0.5rem, 3vh, 1.5rem);
+    translate: 0 0;
+    width: 48px;
+    height: 48px;
+  }
+
+  .lightbox__dialog {
+    /* En el celular se le deja aire abajo para las flechas */
+    padding-bottom: 3.5rem;
+  }
+}
