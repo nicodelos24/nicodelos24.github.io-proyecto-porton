@@ -227,7 +227,12 @@ llamarla dos veces no rompe nada.
 `observeReveal` sobre el contenedor.
 ---
 
-## D16 · El tema arranca con la preferencia del sistema
+<!--
+  D16 a D20 describen funcionalidades que se implementaron y después se
+  revirtieron: no están en el código. Se conservan como registro.
+-->
+
+## D16 · (revertido) El tema arranca con la preferencia del sistema
 
 **Qué:** el sitio se ve claro o oscuro según lo que tenga configurado el
 sistema del visitante. Recién después de que se toque el botón queda fija la
@@ -253,7 +258,7 @@ visitante vería un destello del tema equivocado antes de que se corrija.
 
 ---
 
-## D17 · El modo claro tiene su propia paleta, no es invertir el oscuro
+## D17 · (revertido) El modo claro tiene su propia paleta, no es invertir el oscuro
 
 **Qué:** `tokens.css` define valores propios para el tema claro.
 
@@ -268,7 +273,7 @@ se ve como una mancha sucia en vez de dar profundidad.
 
 ---
 
-## D18 · La portada y el pie se mantienen oscuros en los dos temas
+## D18 · (revertido) La portada y el pie se mantienen oscuros en los dos temas
 
 **Qué:** `.hero` y `.footer` redefinen por su cuenta los colores de texto,
 borde, marca y acento dentro de su propio bloque.
@@ -283,7 +288,7 @@ duplicar las reglas de estilo.
 
 ---
 
-## D19 · La galería no usa `auto-fit`
+## D19 · (revertido) La galería no usa `auto-fit`
 
 **Qué:** el número de columnas está escrito en cada tramo de pantalla
 (2 en móvil, 3 en tablet, 4 en escritorio) en vez de dejar que lo calcule
@@ -300,7 +305,7 @@ escritorio (1206 px contra 866 px), al revés de lo esperado.
 
 ---
 
-## D20 · El botón de tema va fuera del panel de navegación
+## D20 · (revertido) El botón de tema va fuera del panel de navegación
 
 **Qué:** el botón no está dentro de `<nav>`, sino en un contenedor hermano
 (`.nav__acciones`) al lado del botón de menú.
@@ -330,3 +335,79 @@ tiene riesgo.
 **En la práctica:** si un cambio toma más de unos minutos, primero
 `git commit -m "WIP"` en la rama, y después se sigue. Si al final se
 descarta, la rama se borra y el commit va con ella.
+
+---
+
+# Lecciones de funcionalidades revertidas
+
+Lo que sigue quedó escrito **aunque el código se haya revierte**. Son
+errores y decisiones técnicas que costaron tiempo y que sirven para
+cualquier versión que se intente después.
+
+## L1 · `background-attachment: fixed` no sirve en el celular
+
+**El error:** para hacer que una imagen de fondo quede fija mientras la
+página baja por encima, la primera idea obvia es
+`background-attachment: fixed`.
+
+**Por qué no funciona:** la propiedad nunca se comportó bien en el
+teléfono. En iOS directamente no se aplica, así que la imagen queda
+pegada al elemento y se va con el scroll: el efecto no aparece y no hay
+ningún aviso.
+
+**Qué usar en su lugar:** `position: sticky` sobre un bloque de altura de
+una pantalla. Es lo que hace el mismo trabajo y sí se comporta en todos
+los navegadores.
+
+---
+
+## L2 · Un efecto de fotos a pantalla completa no va en pantallas chicas
+
+**El error:** el efecto quedó bien en la computadora, así que se dejó
+activado también en el teléfono.
+
+**Por qué es mala idea:** en una pantalla chica, tres fotos a pantalla
+completa son tres pantallas de scroll followed. En un teléfono eso se
+siente eterno y marea, sobre todo en una página que ya tiene otras
+secciones largas.
+
+**Qué hacer:** el efecto se activa a partir de cierto ancho de pantalla
+y por debajo se cae a fotos apiladas, sin nada pegado. La misma regla
+aplica a cualquier efecto que dependa de que la persona vaya scrolleando
+mucho: en el celular compensa menos.
+
+---
+
+## L3 · Ojo con las unidades: píxeles contra proporciones
+
+**El error:** el avance del efecto se escribía una sola vez, en píxeles,
+y las fotos lo usaban como si fuera una proporción del 0 al 1. El
+resultado era un desfase de casi cien mil píxeles.
+
+**Por qué duele:** el bug no tiraba error, no rompía nada visible, y
+como la foto se movía "un poco", pasaba desapercibido en la computadora.
+Solo se nota cuando el número es absurdo.
+
+**Qué hacer:** cuando un mismo valor se lee en dos lugares, decidir de
+una vez qué unidad es y no mezclarlas. Si un cálculo necesita ir del 0
+al 1, que el cálculo lo produzca ya normalizado desde el principio.
+
+---
+
+## L4 · Una opacidad que se desvanece tiene su pico en el centro
+
+**El error:** en la versión de fotos fijas, la opacidad estaba
+calculada al revés. Cada foto brillaba cuando estaba a medio camino y se
+apagaba justo cuando llenaba la pantalla. Justo al revés de lo que se
+quería.
+
+**Por qué es fácil que pase:** el número estaba bien y el cálculo también.
+Lo que estaba mal era decidir que el "centro" de la foto era el punto en
+el que empieza a verse, cuando en realidad es el punto en el que se ve
+completa.
+
+**Regla:** cuando algo tiene un máximo a mitad de camino, probar los dos
+extremos primero y recién después el medio. Si el valor máximo coincide
+con el momento en que se ve peor, el cálculo está invertido.
+
+---

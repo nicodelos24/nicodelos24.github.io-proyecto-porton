@@ -116,6 +116,10 @@ No hay que tocar `galeria.js` para nada.
 
 ---
 
+> **↩️ REVERTIDO.** Todo lo que sigue describe un trabajo que se hizo y
+> después se descartó: el código no está en el sitio. Queda escrito para
+> no repetirlo.
+
 ## Cambiar el tema (claro u oscuro)
 
 El sitio arranca siguiendo la preferencia del sistema. El botón de arriba a

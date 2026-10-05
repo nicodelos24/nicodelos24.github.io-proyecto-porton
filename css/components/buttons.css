@@ -64,15 +64,12 @@
   color: var(--c-negro);
 }
 
-/* --- Variante contorno: transparente ---
-   El fondo es un velo translúcido y no el color de la página: este botón
-   se usa sobre la foto oscura del hero y también sobre el marfil del modo
-   claro. Con `--c-bg` quedaba blanco sobre blanco en la portada clara. */
+/* --- Variante contorno: transparente --- */
 .btn--ghost {
   border-color: var(--c-borde);
   color: var(--c-texto);
   backdrop-filter: blur(8px);
-  background: var(--c-velo);
+  background: rgb(10 10 10 / 25%);
 }
 
 .btn--ghost::before {

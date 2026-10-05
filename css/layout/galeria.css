@@ -1,107 +1,69 @@
 /* =============================================================
    layout/galeria.css
-   Capa 3 — Fondo fijo con fotos del local
-   -------------------------------------------------------------
-   Cada foto ocupa toda la pantalla y se queda pegada mientras la página
-   sigue bajando por arriba. Es el efecto de `background-attachment:
-   fixed`, hecho con `position: sticky` para no depender de una propiedad
-   que los navegadores en el celular nunca llegaron a implementar bien.
-
-   POR QUÉ FUNCIONA
-   Las tres fotos están apiladas dentro del mismo bloque, cada una de alto
-   completo. La primera se pega arriba; la segunda sube y la tapa; la
-   tercera hace lo mismo. El bloque entero mide tres pantallas, así que
-   hay recorrido de sobra para que se lea.
-
-   El desvanecido entre fotos y el lento acercamiento los calcula
-   js/modules/galeria-pasaje.js, que escribe `--opacidad` y `--escala`.
-
-   EN EL CELULAR
-   Las fotos apiladas, una debajo de otra, sin efecto: en una pantalla
-   chica el recorrido se vuelve eterno y el efecto marea.
+   Capa 3 — Galería masonry del local y los platos
    ============================================================= */
 
-.fondo {
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  grid-auto-rows: 14rem;
+  grid-auto-flow: dense;
+}
+
+.gallery__item {
   position: relative;
-}
-
-.fondo__foto {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  margin: 0;
   overflow: hidden;
-  background: var(--c-negro);
-
-  /* Los valores los escribe el módulo. Sin él la foto se ve igual,
-     solo que sin el desvanecido. */
-  opacity: var(--opacidad, 1);
+  border-radius: var(--r-md);
+  background: var(--c-superficie);
+  cursor: pointer;
 }
 
-.fondo__foto img {
+/* Los ítems impares ocupan dos filas para romper la monotonía */
+.gallery__item:nth-child(3n + 1) {
+  grid-row: span 2;
+}
+
+.gallery__item img {
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
-
-  /* Un acercamiento lentísimo mientras la foto está en pantalla: la
-     imagen respira y no se siente estática. */
-  transform: scale(var(--escala, 1));
-  will-change: transform, opacity;
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-base) var(--ease-out);
 }
 
-/* ---------- Velo ----------
-   Oscurece la foto para que el texto de abajo se lea, con más fuerza
-   en la parte de abajo que en la de arriba. */
-.fondo__velo {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to top, rgb(10 10 10 / 85%) 0%, rgb(10 10 10 / 25%) 45%, transparent 75%),
-    linear-gradient(to right, rgb(10 10 10 / 45%) 0%, transparent 55%);
+.gallery__item:hover img {
+  transform: scale(1.07);
+  filter: brightness(0.75);
 }
 
-/* ---------- Pie: nombre y detalle ---------- */
-.fondo__pie {
+/* Texto que aparece sobre la foto al hacer hover */
+.gallery__caption {
   position: absolute;
   inset: auto 0 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  width: 100%;
-  max-width: var(--contenedor-max);
-  margin-inline: auto;
-  padding: var(--sp-6) var(--contenedor-pad) clamp(2.5rem, 7vh, 5rem);
-  color: var(--c-hueso);
-}
-
-.fondo__nombre {
+  padding: var(--sp-5);
+  background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
   font-family: var(--font-display);
-  font-size: var(--fs-2xl);
-  line-height: 1.05;
+  font-size: var(--fs-lg);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
 }
 
-.fondo__detalle {
-  max-width: 42ch;
-  font-size: var(--fs-sm);
-  font-weight: 300;
-  color: rgb(244 239 230 / 78%);
+.gallery__item:hover .gallery__caption {
+  opacity: 1;
+  transform: none;
 }
 
-/* ---------- Celular: apiladas, sin efecto ---------- */
 @media (width < 48rem) {
-  .fondo__foto {
-    position: relative;
-    top: auto;
-    height: 68svh;
-    opacity: 1;
+  .gallery {
+    grid-auto-rows: 11rem;
   }
 
-  .fondo__foto img {
-    transform: none;
-  }
-
-  .fondo__nombre {
-    font-size: var(--fs-xl);
+  .gallery__item:nth-child(3n + 1) {
+    grid-row: span 1;
   }
 }

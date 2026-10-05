@@ -11,15 +11,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: var(--sp-5);
   margin-bottom: clamp(2rem, 4vw, 3.5rem);
-}
-
-/* Los filtros solo aparecen con el menú completo desplegado
-   (lo alterna carta.js). Sin transition: aparecerían corridos. */
-.carta__toolbar.is-oculto,
-.carta__filters.is-oculto {
-  display: none;
 }
 
 /* ---------- Filtros ---------- */
@@ -84,25 +78,4 @@
   font-size: var(--fs-xs);
   color: var(--c-texto-suave);
   text-align: center;
-}
-
-/* ---------- Botón del menú completo ----------
-   Queda centrado debajo de la grilla, en un lugar distinto de los
-   filtros, para que se entienda que abre algo más y no que filtra. */
-.carta__mas {
-  display: flex;
-  justify-content: center;
-  margin-top: clamp(2rem, 4vw, 3.5rem);
-}
-
-.carta__mas .btn-arrow {
-  display: inline-grid;
-  place-items: center;
-  min-width: 1.6em;
-  height: 1.6em;
-  padding-inline: 0.35em;
-  border-radius: var(--r-full);
-  background: rgb(255 255 255 / 18%);
-  font-size: 0.85em;
-  font-variant-numeric: tabular-nums;
 }

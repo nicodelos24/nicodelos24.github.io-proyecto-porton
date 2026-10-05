@@ -90,6 +90,11 @@ mensaje de confirmación, pero los datos se descartan.
 ---
 
 ## Importante: modo claro
+> **↩️ REVERTIDO.** Esta sección describe un trabajo que se hizo y
+> después se descartó. El código ya no está en el sitio, pero queda
+> escrito para no repetirlo. Ver el historial con `git log` y la entrada
+> correspondiente en [`IA_GUIDE.md`](../IA_GUIDE.md).
+
 
 El tema claro está implementado pero **nunca se probó en un dispositivo
 real**, solo en el emulador. Antes de dar por bueno el trabajo:

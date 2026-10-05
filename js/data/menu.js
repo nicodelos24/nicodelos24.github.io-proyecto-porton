@@ -40,7 +40,6 @@ window.MENU = {
         descripcion: "Chorizo artesanal con morcilla y queso gratinado.",
         precio: 380,
         imagen: "chorizo-morcilla-queso.jpg",
-        destacado: true,
       },
       {
         nombre: "Ensalada de estación",
@@ -76,7 +75,6 @@ window.MENU = {
         descripcion: "A punto de fuego, con guarnición a elección.",
         precio: 890,
         imagen: "6.jpg",
-        destacado: true,
       },
       {
         nombre: "Bife de chorizo madurado",
@@ -98,7 +96,6 @@ window.MENU = {
         descripcion: "Postre de la casa: calabaza asada, queso crema y frutos.",
         precio: 420,
         imagen: "calabaza-asada-con-queso.jpg",
-        destacado: true,
       },
       {
         nombre: "El Negro",

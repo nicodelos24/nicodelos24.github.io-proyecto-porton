@@ -28,6 +28,10 @@ este repositorio con GitHub Pages.
   explicado en `docs/ARQUITECTURA.md`.
 - **Cada módulo de JavaScript se inicializa por separado y a prueba de
   errores.** Si uno falla, el resto del sitio sigue funcionando.
+<!--
+  ↩️ REVERTIDO: lo de abajo describe un trabajo que se hizo y después se
+  descartó. El código no está en el sitio; queda escrito para no repetirlo.
+-->
 - **El sitio tiene modo claro y oscuro.** Arranca con la preferencia del
   sistema, y si se toca el botón de arriba a la derecha, esa elección queda
   guardada. Las dos paletas están en `css/base/tokens.css`.

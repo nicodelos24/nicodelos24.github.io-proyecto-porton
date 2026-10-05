@@ -24,7 +24,7 @@
 
 /* Fondo traslúcido una vez que se scrollea del hero */
 .nav--solid {
-  background-color: var(--sombra-nav);
+  background-color: rgb(10 10 10 / 78%);
   backdrop-filter: blur(14px) saturate(140%);
   border-bottom-color: var(--c-borde);
 }
@@ -38,17 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sp-4);
-}
-
-/* Agrupa el botón de tema con el de menú, a la derecha.
-   El tema queda fuera del panel de móvil a propósito: si estuviera
-   adentro, abrir el menú lo taparía. */
-.nav__acciones {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  flex-shrink: 0;
+  gap: var(--sp-5);
 }
 
 /* ---------- Marca ---------- */
@@ -62,10 +52,9 @@
 .nav__logo {
   height: 42px;
   width: auto;
-  /* El logo viene en negro sobre blanco: el filtro lo tiñe de vino y
-     la mezcla lo funde con el fondo. Los dos cambian en modo claro. */
-  filter: var(--filtro-logo);
-  mix-blend-mode: var(--mezcla-logo);
+  /* El logo viene en blanco: se tiñe con el vino de marca */
+  filter: invert(11%) sepia(38%) saturate(3400%) hue-rotate(340deg) brightness(85%);
+  mix-blend-mode: screen;
   opacity: 0.92;
   transition: transform var(--dur-base) var(--ease-out);
 }
@@ -177,7 +166,7 @@
     flex-direction: column;
     justify-content: center;
     gap: var(--sp-5);
-    background: var(--c-bg);
+    background: rgb(10 10 10 / 97%);
     backdrop-filter: blur(20px);
     clip-path: circle(0% at calc(100% - 2.5rem) 2.5rem);
     transition: clip-path var(--dur-slow) var(--ease-in-out);

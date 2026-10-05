@@ -108,7 +108,7 @@ configurada. Los pushes posteriores funcionan sin hacer nada especial.
 
 ---
 
-## 5. Modo claro
+## 5. Modo claro — revertido
 
 > *«Primero podríamos comenzar con la opción de un modo claro»*
 
@@ -218,7 +218,7 @@ alguien mirando la pantalla.
 
 ---
 
-## 8. Reordenar: la galería antes de los platos
+## 8. Reordenar: la galería antes de los platos — revertido
 
 > *«Esa sección de galería se muestre antes de la de los platos»*
 
@@ -233,7 +233,7 @@ carta vuelve al color de la página.
 
 ---
 
-## 9. Ver las fotos grandes al tocarlas
+## 9. Ver las fotos grandes al tocarlas — revertido
 
 > *«Y que al tocar una foto esta se expanda y se puedan ver una a una»*
 
@@ -255,7 +255,7 @@ Qué mirar vos: tocar una foto en el celular y deslizar entre fotos.
 
 ---
 
-## 10. Carta resumida con el menú completo a un clic
+## 10. Carta resumida con el menú completo a un clic — revertido
 
 > *«Que la carta en la página muestre solo algunos platos (los que sean más
 > llamativos visualmente) y luego el menú completo se vea al seleccionarlo,
@@ -281,7 +281,7 @@ convendría que sean 6 o menos.
 
 ---
 
-## 11. Arreglar el modo claro
+## 11. Arreglar el modo claro — revertido
 
 > *«En el modo claro no se lee bien el botón reservar mesa y la parte del
 > formulario no se ve afectada por el modo claro»*
@@ -356,6 +356,56 @@ registro de qué se había intentado.
 
 Reparto acordado: la documentación de texto la lleva otro agente. Acá van
 las tareas de código, pruebas y verificación visual.
+
+---
+
+## 16. Marcha atrás de todo el trabajo del tema y la galería
+
+> *«No me gustaron estos cambios, mejor vuelve a dejar todo como estaba en
+> un principio, quiero que volvamos al punto donde todavía no habiamos
+> puesto el modo oscuro, pero deja estos cambios registrados en los commits
+> y documentación»*
+
+**Estado: ↩️ revertido**
+
+El sitio volvió al commit `d41cf2d`, que es el estado anterior a todo el
+trabajo del tema claro y de la galería.
+
+Lo importante: **nada se reescribió**. Los commits siguen todos en el
+historial, así que se puede ver qué se intentó, cuándo y con qué resultado.
+El código se deshizo con un commit nuevo.
+
+### Qué se descartó
+
+| Lo que se había hecho | Commit |
+|---|---|
+| Modo claro, botón de tema y su paleta propia | `656b931`, `ddad2c0`, `6dac6eb` |
+| Galería con mosaico compacto en celular y tablet | `656b931`, `ddad2c0` |
+| Cambio del orden de las secciones | `e95ade9` |
+| Visor de fotos ampliado al tocar | `e95ade9` |
+| Carta resumida con el menú completo desplegable | `e95ade9` |
+| Galería como pasaje de fotos del local | `bb4277f`, `1062091` |
+
+### Qué se conservó a propósito
+
+- **Todo el historial**, sin reescribir. Ver los commits con `git log`.
+- **La documentación técnica**, marcada como revertida, porque sirve para
+  cualquier versión que se intente después.
+- **Los datos reales del restaurante**, que se averiguaron en el camino y
+  no tienen relación con los cambios visuales:
+  - Dirección: **18 de Julio 351, esquina Intendente Suárez**
+  - Teléfono y WhatsApp: **099 514 133**
+  - Horarios: **lunes a viernes 12:00–15:30 y 20:00–23:30. Sábado y domingo
+    cerrado.**
+
+El sitio quedó **idéntico** a como estaba en `d41cf2d`, verificado
+archivo por archivo.
+
+### Lo que quedó sin ver
+
+La última tanda (el fondo fijo con `position: sticky`) se descartó sin
+llegar a verse en un dispositivo real. Queda documentada, pero su
+resultado visual nunca se evaluó.
 
 ---
 
