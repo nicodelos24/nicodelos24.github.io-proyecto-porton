@@ -1,0 +1,8 @@
+# Copias temporales de index.html usadas para depurar animaciones
+# y tomar capturas. No forman parte del sitio.
+_probe.html
+_shot.html
+
+# Sistema
+.DS_Store
+Thumbs.db
