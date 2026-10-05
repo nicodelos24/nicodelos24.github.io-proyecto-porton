@@ -1,0 +1,133 @@
+/* =============================================================
+   layout/hero.css
+   Capa 3 — Sección principal (portada)
+   -------------------------------------------------------------
+   - Fondo con parallax (--parallax lo escribe JS)
+   - Ken Burns: zoom lentísimo de la foto
+   - Entrada escalonada de los textos con --nav-ready
+   ============================================================= */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-top: clamp(6rem, 12vh, 10rem);
+  padding-bottom: clamp(5rem, 10vh, 8rem);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Capa de foto + zoom lento */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 30%;
+  transform: translateY(var(--parallax, 0)) scale(1.12);
+  animation: ken-burns 22s var(--ease-in-out) infinite alternate;
+}
+
+/* Velo en degradado: asegura legibilidad del texto */
+.hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(to right, rgb(10 10 10 / 88%) 0%, rgb(10 10 10 / 45%) 55%, rgb(10 10 10 / 70%) 100%),
+    linear-gradient(to top, var(--c-negro) 2%, transparent 45%);
+}
+
+@keyframes ken-burns {
+  from { transform: translateY(var(--parallax, 0)) scale(1.08); }
+  to   { transform: translateY(var(--parallax, 0)) scale(1.2); }
+}
+
+.hero__content {
+  max-width: 46rem;
+}
+
+/* ---- Entrada escalonada: se activa cuando el preloader termina ----
+   Solo se oculta si hay JS disponible (ver el script en <head>). */
+.js .hero__item {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+
+.js.nav-ready .hero__item {
+  opacity: 1;
+  transform: none;
+}
+
+.js.nav-ready .hero__item:nth-child(1) { transition-delay: 100ms; }
+.js.nav-ready .hero__item:nth-child(2) { transition-delay: 300ms; }
+.js.nav-ready .hero__item:nth-child(3) { transition-delay: 500ms; }
+.js.nav-ready .hero__item:nth-child(4) { transition-delay: 700ms; }
+
+.hero__title {
+  font-size: var(--fs-3xl);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* La palabra "Otro" en itálica dorado,Immutable referencia visual */
+.hero__title em {
+  display: block;
+  font-style: italic;
+  color: var(--c-acento);
+  text-shadow: 0 0 60px rgb(201 162 39 / 35%);
+}
+
+.hero__subtitle {
+  max-width: 46ch;
+  font-size: var(--fs-lg);
+  font-weight: 300;
+  color: var(--c-hueso-osc);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+}
+
+/* ---- Datos destacados (ubicación, horarios) ---- */
+.hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6);
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-borde);
+}
+
+.hero__fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.hero__fact-label {
+  font-size: 0.6rem;
+  letter-spacing: var(--tracking-mega);
+  text-transform: uppercase;
+  color: var(--c-texto-suave);
+}
+
+.hero__fact-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  color: var(--c-texto);
+}
+
+/* ---- Indicador de scroll ---- */
+.hero .scroll-hint {
+  display: flex;
+}

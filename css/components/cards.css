@@ -1,0 +1,155 @@
+/* =============================================================
+   components/cards.css
+   Capa 2 — Tarjetas
+   -------------------------------------------------------------
+   .card          → tarjeta genérica de superficie
+   .dish-card     → plato de la carta (imagen + texto + precio)
+   .card--feature → destacado grande de la sección heroica
+   ============================================================= */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-6);
+  background: var(--c-superficie);
+  border: 1px solid var(--c-borde);
+  border-radius: var(--r-md);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgb(217 182 74 / 35%);
+  box-shadow: var(--sombra-md);
+}
+
+.card-title {
+  font-size: var(--fs-xl);
+}
+
+.card-text {
+  color: var(--c-texto-suave);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- Tarjeta de plato ---------- */
+.dish-card {
+  overflow: hidden;
+  padding: 0;
+  background: var(--c-superficie);
+  border: 1px solid var(--c-borde);
+  border-radius: var(--r-md);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.dish-card:hover {
+  transform: translateY(-8px);
+  border-color: rgb(217 182 74 / 40%);
+  box-shadow: var(--sombra-md);
+}
+
+/* Contenedor de la imagen con zoom lento al hover */
+.dish-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--c-vino-900);
+}
+
+.dish-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.dish-card:hover .dish-card__media img {
+  transform: scale(1.08);
+}
+
+/* Velo oscuro + gradiente inferior sobre la foto */
+.dish-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(10 10 10 / 65%) 0%, transparent 55%);
+}
+
+/* Etiqueta de categoría sobre la foto */
+.dish-card__tag {
+  position: absolute;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  z-index: 1;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: var(--r-full);
+  background: rgb(10 10 10 / 55%);
+  backdrop-filter: blur(6px);
+  font-size: 0.65rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--c-oro-100);
+}
+
+.dish-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-5);
+}
+
+/* Fila título + precio: precio alineado a la derecha */
+.dish-card__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.dish-card__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.dish-card__price {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-acento);
+  font-variant-numeric: tabular-nums;
+}
+
+.dish-card__desc {
+  color: var(--c-texto-suave);
+  font-size: var(--fs-sm);
+}
+
+/* Línea de puntos entre nombre y precio */
+.dish-card__dots {
+  flex: 1;
+  min-width: 1.5rem;
+  height: 1px;
+  align-self: center;
+  background-image: radial-gradient(circle, var(--c-ceniza) 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.55;
+}
+
+/* ---------- Tarjeta destacada ---------- */
+.card--feature {
+  padding: clamp(1.75rem, 4vw, 3rem);
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgb(140 32 57 / 30%) 0%, transparent 60%),
+    var(--c-superficie);
+}

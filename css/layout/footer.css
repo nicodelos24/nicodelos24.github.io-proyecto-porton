@@ -1,0 +1,133 @@
+/* =============================================================
+   layout/footer.css
+   Capa 3 — Pie de página
+   ============================================================= */
+
+.footer {
+  padding-block: clamp(3rem, 6vw, 5rem) var(--sp-5);
+  background: var(--c-vino-900);
+  border-top: 1px solid var(--c-borde);
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+  padding-bottom: var(--sp-7);
+}
+
+.footer__brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.footer__logo {
+  width: 140px;
+  filter: invert(11%) sepia(38%) saturate(3400%) hue-rotate(340deg) brightness(85%);
+  opacity: 0.9;
+}
+
+.footer__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.footer__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: var(--c-texto-suave);
+}
+
+.footer__list a {
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    padding-left var(--dur-fast) var(--ease-out);
+}
+
+.footer__list a:hover {
+  color: var(--c-acento);
+  padding-left: 0.4rem;
+}
+
+/* ---------- Redes ---------- */
+.socials {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c-borde);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  letter-spacing: 0;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.social:hover {
+  background: var(--c-marca);
+  border-color: var(--c-marca);
+  color: var(--c-hueso);
+}
+
+/* ---------- Barra legal ---------- */
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-borde);
+  font-size: var(--fs-xs);
+  color: var(--c-ceniza);
+}
+
+.footer__made {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+/* ---------- Botón "volver arriba" ---------- */
+.to-top {
+  position: fixed;
+  right: var(--sp-5);
+  bottom: var(--sp-5);
+  z-index: calc(var(--z-nav) - 1);
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--c-borde);
+  border-radius: 50%;
+  background: rgb(10 10 10 / 70%);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(1rem);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.to-top:hover {
+  background: var(--c-marca);
+}

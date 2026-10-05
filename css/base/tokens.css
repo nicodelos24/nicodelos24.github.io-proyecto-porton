@@ -1,0 +1,101 @@
+/* =============================================================
+   design/tokens.css
+   Capa 1 — Tokens de diseño (variables CSS)
+   -------------------------------------------------------------
+   TODOS los valores de color, tipografía, espaciado y animación
+   viven acá. Si hay que cambiar la identidad visual del sitio,
+   este es el único archivo que hay que tocar.
+   ============================================================= */
+
+:root {
+  /* ---------- COLOR PRIMARIO: inspired en el logo (vino) ---------- */
+  --c-vino-900: #1a0a10;
+  --c-vino-800: #2b0f18;
+  --c-vino-700: #4a1226;
+  --c-vino-600: #6b1830;
+  --c-vino-500: #8c2039;
+  --c-vino-400: #a8324a;
+
+  /* ---------- COLOR SECUNDARIO: brasa / dorado ---------- */
+  --c-oro-500: #c9a227;
+  --c-oro-400: #d9b64a;
+  --c-oro-300: #e8cd7d;
+  --c-oro-100: #f3e6c4;
+
+  /* ---------- NEUTROS / SUPERFICIES ---------- */
+  --c-negro: #0a0a0a;
+  --c-carbón: #121212;
+  --c-carbón-2: #1c1a19;
+  --c-hueso: #f4efe6;
+  --c-hueso-osc: #ddd4c6;
+  --c-ceniza: #9a9086;
+
+  /* ---------- SEMÁNTICOS (alias) ---------- */
+  --c-bg: var(--c-negro);
+  --c-bg-alt: var(--c-carbón);
+  --c-superficie: var(--c-carbón-2);
+  --c-texto: var(--c-hueso);
+  --c-texto-suave: var(--c-ceniza);
+  --c-borde: rgb(255 255 255 / 10%);
+  --c-marca: var(--c-vino-500);
+  --c-acento: var(--c-oro-400);
+
+  /* ---------- TIPOGRAFÍA ---------- */
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Escala tipográfica fluida (clamp = responsive sin media queries) */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+  --fs-lg: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --fs-xl: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --fs-2xl: clamp(2rem, 1.4rem + 2.5vw, 3.5rem);
+  --fs-3xl: clamp(2.75rem, 1.6rem + 5vw, 6rem);
+
+  --lh-tight: 1.05;
+  --lh-base: 1.7;
+
+  --tracking-wide: 0.18em;
+  --tracking-mega: 0.32em;
+
+  /* ---------- ESPACIADO (escala de 8px) ---------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+  --sp-10: 8rem;
+
+  --seccion-pad-y: clamp(4rem, 8vw, 9rem);
+  --contenedor-max: 1280px;
+  --contenedor-pad: clamp(1.25rem, 5vw, 4rem);
+
+  /* ---------- RADIOS ---------- */
+  --r-sm: 4px;
+  --r-md: 10px;
+  --r-lg: 20px;
+  --r-full: 999px;
+
+  /* ---------- SOMBRAS ---------- */
+  --sombra-sm: 0 2px 12px rgb(0 0 0 / 35%);
+  --sombra-md: 0 12px 40px rgb(0 0 0 / 45%);
+  --sombra-lg: 0 30px 80px rgb(0 0 0 / 60%);
+  --glow-oro: 0 0 60px rgb(201 162 39 / 18%);
+
+  /* ---------- ANIMACIÓN ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 250ms;
+  --dur-base: 600ms;
+  --dur-slow: 1100ms;
+
+  /* ---------- Z-INDEX ---------- */
+  --z-nav: 100;
+  --z-menu: 200;
+  --z-preloader: 999;
+}

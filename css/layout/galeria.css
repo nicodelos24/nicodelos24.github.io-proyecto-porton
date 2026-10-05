@@ -1,0 +1,69 @@
+/* =============================================================
+   layout/galeria.css
+   Capa 3 — Galería masonry del local y los platos
+   ============================================================= */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  grid-auto-rows: 14rem;
+  grid-auto-flow: dense;
+}
+
+.gallery__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--c-superficie);
+  cursor: pointer;
+}
+
+/* Los ítems impares ocupan dos filas para romper la monotonía */
+.gallery__item:nth-child(3n + 1) {
+  grid-row: span 2;
+}
+
+.gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-base) var(--ease-out);
+}
+
+.gallery__item:hover img {
+  transform: scale(1.07);
+  filter: brightness(0.75);
+}
+
+/* Texto que aparece sobre la foto al hacer hover */
+.gallery__caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--sp-5);
+  background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.gallery__item:hover .gallery__caption {
+  opacity: 1;
+  transform: none;
+}
+
+@media (width < 48rem) {
+  .gallery {
+    grid-auto-rows: 11rem;
+  }
+
+  .gallery__item:nth-child(3n + 1) {
+    grid-row: span 1;
+  }
+}

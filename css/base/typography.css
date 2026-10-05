@@ -1,0 +1,56 @@
+/* =============================================================
+   base/typography.css
+   Capa 1 — Tipografía global y utilidades de texto
+   ============================================================= */
+
+/* Carga tipografías desde Google Fonts (display=swap evita bloqueo de render) */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..800&display=swap");
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  text-wrap: balance;
+}
+
+/* Etiqueta superior de sección ("01 — LA CARTA") */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-mega);
+  text-transform: uppercase;
+  color: var(--c-acento);
+}
+
+.eyebrow::before {
+  content: "";
+  width: clamp(1.5rem, 4vw, 3.5rem);
+  height: 1px;
+  background: currentcolor;
+  opacity: 0.55;
+}
+
+/* Texto de apoyo bajo los títulos */
+.lead {
+  max-width: 62ch;
+  color: var(--c-texto-suave);
+  font-size: var(--fs-lg);
+  font-weight: 300;
+}
+
+/* Resalte en itálico serif, usado dentro de titulares */
+.hl {
+  font-style: italic;
+  color: var(--c-acento);
+}
+
+/* Acento tipográfico de marca */
+.gold {
+  color: var(--c-acento);
+}

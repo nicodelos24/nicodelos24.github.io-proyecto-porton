@@ -1,0 +1,40 @@
+/* ==========================================================================
+   EL OTRO PORTÓN — main.css
+   --------------------------------------------------------------------------
+   Hoja de estilos principal. No escribe reglas: solo importa las capas.
+   Eso permite recargar UNA sola hoja y mantener el orden de cascada
+   explícito y predecible.
+
+   ARQUITECTURA EN 4 CAPAS (el orden importa: cada capa puede usar la anterior)
+
+     1. BASE       → tokens, reset, tipografía. Sin clases del proyecto.
+     2. UTILS      → helpers sin semántica (contenedor, grid, reveal).
+     3. COMPONENTS→ piezas reutilizables (botón, tarjeta, nav, animación).
+     4. LAYOUT     → secciones concretas que componen los componentes.
+
+   BUENA PRÁCTICA: si algo se repite en más de dos secciones, debería
+   estar en COMPONENTS, no en LAYOUT.
+   ========================================================================== */
+
+/* ---------- CAPA 1 · BASE ---------- */
+@import "base/tokens.css";
+@import "base/reset.css";
+@import "base/typography.css";
+
+/* ---------- CAPA 2 · UTILIDADES ---------- */
+@import "utils/helpers.css";
+
+/* ---------- CAPA 3 · COMPONENTES ---------- */
+@import "components/preloader.css";
+@import "components/nav.css";
+@import "components/buttons.css";
+@import "components/cards.css";
+@import "components/animations.css";
+
+/* ---------- CAPA 4 · LAYOUT DE SECCIONES ---------- */
+@import "layout/hero.css";
+@import "layout/about.css";
+@import "layout/carta.css";
+@import "layout/galeria.css";
+@import "layout/contacto.css";
+@import "layout/footer.css";

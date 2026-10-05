@@ -1,0 +1,81 @@
+/* =============================================================
+   layout/carta.css
+   Capa 3 — Sección de carta / menú
+   -------------------------------------------------------------
+   - Barra de filtros por categoría
+   - Rejilla de tarjetas renderizada desde js/data/menu.js
+   - La lista se anima con stagger al cambiar de categoría
+   ============================================================= */
+
+.carta__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* ---------- Filtros ---------- */
+.carta__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.filter-btn {
+  padding: 0.6rem 1.35rem;
+  border: 1px solid var(--c-borde);
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--c-texto-suave);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.filter-btn:hover {
+  color: var(--c-texto);
+  border-color: var(--c-texto-suave);
+}
+
+.filter-btn.is-active {
+  background: var(--c-marca);
+  border-color: var(--c-marca);
+  color: var(--c-hueso);
+}
+
+/* ---------- Rejilla de platos ---------- */
+.carta__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+/* Estado de re-entrada que aplica JS al filtrar */
+.dish-card.is-entering {
+  animation: dish-in var(--dur-slow) var(--ease-out) both;
+}
+
+@keyframes dish-in {
+  from { opacity: 0; transform: translateY(2rem) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Oculta los que no coinciden (aplicado por JS) */
+.dish-card.is-hidden {
+  display: none;
+}
+
+/* ---------- Nota al pie de la carta ---------- */
+.carta__note {
+  margin-top: var(--sp-7);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-borde);
+  font-size: var(--fs-xs);
+  color: var(--c-texto-suave);
+  text-align: center;
+}

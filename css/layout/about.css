@@ -1,0 +1,87 @@
+/* =============================================================
+   layout/about.css
+   Capa 3 — Sección "Sobre nosotros"
+   -------------------------------------------------------------
+   Composición editorial: texto a la izquierda, foto con marco
+   desplazado a la derecha.
+   ============================================================= */
+
+.about__layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.about__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.about__text p {
+  color: var(--c-texto-suave);
+  font-weight: 300;
+}
+
+.about__text p:first-of-type::first-letter {
+  float: left;
+  margin: 0.1em 0.12em 0 0;
+  font-family: var(--font-display);
+  font-size: 3.6em;
+  line-height: 0.8;
+  color: var(--c-acento);
+}
+
+/* ---- Composición de fotos ---- */
+.about__figure {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sombra-lg);
+}
+
+.about__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.about__figure:hover img {
+  transform: scale(1.06);
+}
+
+/* Marco decorativo desplazado detrás de la foto */
+.about__figure::after {
+  content: "";
+  position: absolute;
+  inset: var(--sp-5) calc(-1 * var(--sp-4)) calc(-1 * var(--sp-4)) var(--sp-5);
+  z-index: -1;
+  border: 1px solid var(--c-marca);
+  border-radius: var(--r-lg);
+}
+
+/* ---- Firma / valores ---- */
+.about__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--sp-5);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-5);
+  border-top: 1px solid var(--c-borde);
+}
+
+.about__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--c-texto);
+}
+
+.about__stat-label {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--c-texto-suave);
+}
