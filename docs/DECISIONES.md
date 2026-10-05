@@ -225,3 +225,86 @@ llamarla dos veces no rompe nada.
 
 **Regla:** si se inserta HTML con `data-reveal` desde JavaScript, llamar a
 `observeReveal` sobre el contenedor.
+---
+
+## D16 · El tema arranca con la preferencia del sistema
+
+**Qué:** el sitio se ve claro o oscuro según lo que tenga configurado el
+sistema del visitante. Recién después de que se toque el botón queda fija la
+elección, y esa elección se recuerda entre visitas.
+
+**Por qué:** si el sitio se impusiera un tema, quien tiene el sistema en
+claro igual lee mejor en claro. Y si se respetara solo al sistema, quien
+prefiera lo contrario no podría cambiarlo nunca.
+
+**Cómo se resuelve:** el atributo `data-tema` va en `<html>`.
+
+| Estado | Atributo | Quién decide el color |
+|---|---|---|
+| Sin elección (lo normal) | ninguno | La consulta `prefers-color-scheme` del CSS |
+| Elección a mano | `claro` u `oscuro` | El atributo, que gana sobre la consulta |
+
+La paleta está escrita **dos veces** en `tokens.css`, una en cada caso. Se
+repite a propósito: es lo que permite que funcione sin JavaScript.
+
+**Cuidado con el parpadeo:** el tema guardado se aplica con un script en
+línea dentro del `<head>`, no desde `main.js`. Si se hiciera más tarde, el
+visitante vería un destello del tema equivocado antes de que se corrija.
+
+---
+
+## D17 · El modo claro tiene su propia paleta, no es invertir el oscuro
+
+**Qué:** `tokens.css` define valores propios para el tema claro.
+
+**Por qué:** invertir los colores no funciona. El dorado de la marca
+(`#d9b64a`) sobre un fondo claro queda en una relación de contraste de
+2,1:1, cuando la norma pide 4,5:1 para texto normal. Con `#8a6a12` sube a
+4,7:1. Lo mismo con el vino de marca: `#8c2039` sobre marfil queda en 4,3:1
+y con `#6b1830` llega a 10,9:1.
+
+Las sombras también bajan de opacidad: sobre fondo claro, una sombra fuerte
+se ve como una mancha sucia en vez de dar profundidad.
+
+---
+
+## D18 · La portada y el pie se mantienen oscuros en los dos temas
+
+**Qué:** `.hero` y `.footer` redefinen por su cuenta los colores de texto,
+borde, marca y acento dentro de su propio bloque.
+
+**Por qué:** los dos van sobre una foto oscura con un velo encima. Si
+tomaran el color de texto del tema, en modo claro quedaría texto negro
+sobre una foto oscura, ilegible.
+
+**Truco:** las variables CSS se heredan, así que redefining unas pocas en el
+bloque alcanza para que todo lo de adentro use esa paleta, sin tener que
+duplicar las reglas de estilo.
+
+---
+
+## D19 · La galería no usa `auto-fit`
+
+**Qué:** el número de columnas está escrito en cada tramo de pantalla
+(2 en móvil, 3 en tablet, 4 en escritorio) en vez de dejar que lo calcule
+`auto-fit`.
+
+**Por qué:** con `auto-fit` la cantidad de columnas depende del ancho
+disponible *y* del mínimo declarado, así que la misma foto quedaba con
+alturas distintas según la pantalla. En el celular, además, las cinco fotos
+se apilaban en una sola columna y la sección quedaba **más alta** que en
+escritorio (1206 px contra 866 px), al revés de lo esperado.
+
+**Resultado:** la sección quedó parejo en los tres tamaños (814 / 698 /
+766 px) y el celular dejó de pedir tanto scroll.
+
+---
+
+## D20 · El botón de tema va fuera del panel de navegación
+
+**Qué:** el botón no está dentro de `<nav>`, sino en un contenedor hermano
+(`.nav__acciones`) al lado del botón de menú.
+
+**Por qué:** el menú del celular se abre como una pantalla completa. Si el
+botón de tema estuviera adentro, quedaría tapado y no se podría cambiar el
+tema sin cerrar el menú primero.

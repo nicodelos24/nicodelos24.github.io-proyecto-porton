@@ -3,9 +3,24 @@
    Capa 3 — Pie de página
    ============================================================= */
 
+/* El pie se mantiene oscuro aunque el sitio esté en modo claro: es un
+   remate que ancla la página y le da el cierre al vino de la marca.
+
+   Para poder reutilizar los estilos de texto sin duplicarlos, el bloque
+   redefine por su cuenta los colores que necesita. Como las variables
+   CSS se heredan, todo lo que está dentro del pie usa esta paleta
+   oscura, esté el sitio en el tema que esté. */
 .footer {
+  --c-texto: #f4efe6;
+  --c-texto-suave: #b3a89c;
+  --c-borde: rgb(255 255 255 / 12%);
+  --c-marca: #a8324a;
+  --c-acento: #d9b64a;
+  --mezcla-logo: screen;
+  --filtro-logo: invert(11%) sepia(38%) saturate(3400%) hue-rotate(340deg) brightness(85%);
+
   padding-block: clamp(3rem, 6vw, 5rem) var(--sp-5);
-  background: var(--c-vino-900);
+  background: var(--pie-bg);
   border-top: 1px solid var(--c-borde);
 }
 
@@ -24,7 +39,8 @@
 
 .footer__logo {
   width: 140px;
-  filter: invert(11%) sepia(38%) saturate(3400%) hue-rotate(340deg) brightness(85%);
+  filter: var(--filtro-logo);
+  mix-blend-mode: var(--mezcla-logo);
   opacity: 0.9;
 }
 
@@ -111,7 +127,7 @@
   height: 48px;
   border: 1px solid var(--c-borde);
   border-radius: 50%;
-  background: rgb(10 10 10 / 70%);
+  background: var(--sombra-nav);
   backdrop-filter: blur(8px);
   opacity: 0;
   pointer-events: none;

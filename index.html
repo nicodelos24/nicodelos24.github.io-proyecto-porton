@@ -22,6 +22,27 @@
     (hero, reveal) solo se aplican cuando esta clase existe: si el JS falla o
     está deshabilitado, el contenido se ve igual en vez de quedar invisible.
   -->
+  <!--
+    Se aplica el tema guardado antes de que el navegador pinte nada.
+    Si esto corriera más tarde (desde main.js), el visitante vería un
+    destello del tema equivocado al cargar.
+
+    Si no hay nada guardado, no se pone atributo: el CSS resuelve el
+    tema con prefers-color-scheme, así que funciona igual sin este script.
+  -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tema");
+        if (t === "claro" || t === "oscuro") {
+          document.documentElement.dataset.tema = t;
+        }
+      } catch (e) {
+        /* Sin almacenamiento: se usa el tema del sistema. */
+      }
+    })();
+  </script>
+
   <script>document.documentElement.classList.add("js");</script>
 </head>
 
@@ -62,11 +83,34 @@
         </a>
       </nav>
 
-      <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú">
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-      </button>
+      <div class="nav__acciones">
+        <!--
+          Botón de tema. Va fuera del <nav> a propósito: funciona incluso
+          con el menú de móvil abierto, y así nunca queda atrapado debajo
+          del panel que se abre a pantalla completa.
+        -->
+        <button class="theme-toggle" type="button" data-tema-boton data-estado="oscuro"
+                aria-label="Cambiar a modo claro">
+          <span class="theme-toggle__icon theme-toggle__icon--sol" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4.5"/>
+              <path d="M12 1.5v2.5M12 20v2.5M22.5 12H20M4 12H1.5M19.4 4.6l-1.8 1.8M6.4 17.6l-1.8 1.8M19.4 19.4l-1.8-1.8M6.4 6.4L4.6 4.6"/>
+            </svg>
+          </span>
+          <span class="theme-toggle__icon theme-toggle__icon--luna" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+            </svg>
+          </span>
+          <span class="theme-toggle__auto" aria-hidden="true"></span>
+        </button>
+
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú">
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
 
     </div>
   </header>

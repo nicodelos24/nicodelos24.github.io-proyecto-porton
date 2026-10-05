@@ -1,14 +1,65 @@
 /* =============================================================
    layout/galeria.css
-   Capa 3 — Galería masonry del local y los platos
+   Capa 3 — Galería en mosaico
+   -------------------------------------------------------------
+   El número de columnas es explícito en cada tamaño, en lugar de
+   dejar que lo decida `auto-fit`.
+
+   La razón: con `auto-fit` la cantidad de columnas depende del ancho
+   disponible y del mínimo declarado, así que la misma foto terminaba
+   con alturas muy distintas según la pantalla, y en tablet la sección
+   quedaba más alta que en escritorio (1180px contra 866px), al revés
+   de lo esperado. Con columnas fijas por tramo se puede elegir la
+   combinación que deja la galería más compacta en cada uno.
    ============================================================= */
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  grid-auto-rows: 14rem;
+  gap: clamp(0.5rem, 1.2vw, 1rem);
   grid-auto-flow: dense;
+}
+
+/* La foto grande ocupa dos filas: rompe la monotonía y llena el hueco
+   que dejan las chicas. */
+.gallery__item:nth-child(3n + 1) {
+  grid-row: span 2;
+}
+
+/* ---------- Escritorio: 4 columnas, filas cortas ---------- */
+@media (width >= 64rem) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 11rem;
+  }
+}
+
+/* ---------- Tablet: 3 columnas ---------- */
+@media (48rem <= width < 64rem) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 9rem;
+  }
+}
+
+/* ---------- Móvil: 2 columnas ----------
+   Con una sola columna las 5 fotos se apilaban y la sección quedaba
+   más alta que en escritorio (1206px contra 866px) en una pantalla
+   bastante más chica. Con dos columnas baja a menos de la mitad. */
+@media (width < 48rem) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 8rem;
+    gap: 0.5rem;
+  }
+
+  /* Cada foto muestra su pie aunque no se pase el dedo por encima:
+     en el celular no existe el hover. */
+  .gallery__caption {
+    opacity: 1;
+    transform: none;
+    padding: 0.75rem;
+    font-size: var(--fs-sm);
+  }
 }
 
 .gallery__item {
@@ -17,11 +68,6 @@
   border-radius: var(--r-md);
   background: var(--c-superficie);
   cursor: pointer;
-}
-
-/* Los ítems impares ocupan dos filas para romper la monotonía */
-.gallery__item:nth-child(3n + 1) {
-  grid-row: span 2;
 }
 
 .gallery__item img {
@@ -56,14 +102,4 @@
 .gallery__item:hover .gallery__caption {
   opacity: 1;
   transform: none;
-}
-
-@media (width < 48rem) {
-  .gallery {
-    grid-auto-rows: 11rem;
-  }
-
-  .gallery__item:nth-child(3n + 1) {
-    grid-row: span 1;
-  }
 }

@@ -62,6 +62,33 @@ mensaje de confirmación, pero los datos se descartan.
 
 ---
 
+## Importante: modo claro
+
+El tema claro está implementado pero **nunca se probó en un dispositivo
+real**, solo en el emulador. Antes de dar por bueno el trabajo:
+
+- [ ] **Cambiar el tema con el botón y recargar**: ¿lo recuerda?
+- [ ] **Mirar el puntito dorado** del botón (aparece cuando el sitio sigue
+      la preferencia del sistema): ¿se entiende qué significa?
+- [ ] **Cambiar el tema del sistema** sin haber elegido tema a mano: el
+      sitio debería seguir al sistema: verse claro de día u oscuro de
+      noche, según eso.
+- [ ] **Revisar la portada y el pie en modo claro**: los dos se mantienen
+      oscuros a propósito, hay que confirmar que se leen bien.
+- [ ] **Revisar los contrastes** con un verificador real, sobre todo el
+      texto secundario (`--c-texto-suave`). Las cifras de la paleta están
+      calculadas, pero conviene verlas con el texto renderizado.
+- [ ] **Probar en el celular**: la barra del navegador debería cambiar de
+      color junto con el tema.
+
+### Faltaría agregar
+
+- [ ] Un modo "automático" explícito en el botón, para volver al
+      comportamiento de seguir al sistema después de haber elegido a mano.
+      Hoy hay que borrar el dato del navegador a mano.
+
+---
+
 ## Importante: accesibilidad y SEO
 
 - [ ] **Probar la navegación completa con teclado.** Specialmente el menú

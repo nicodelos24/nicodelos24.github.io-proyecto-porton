@@ -19,7 +19,7 @@ index.html
    │
    ├── js/data/menu.js ──► carga el menú ANTES que main.js
    │
-   └── js/main.js ──► inicia los 7 módulos, cada uno protegido
+   └── js/main.js ──► inicia los 8 módulos, cada uno protegido
 ```
 
 No hay `package.json`, ni bundler, ni `node_modules`. Es una decisión
@@ -104,6 +104,7 @@ de inicio. `js/main.js` las importa y las arranca.
 | `smooth-scroll.js` | Desplazamiento suave entre secciones |
 | `carta.js` | Genera las tarjetas de platos y los filtros |
 | `contacto.js` | Validación y envío del formulario de reservas |
+| `tema.js` | Modo claro y oscuro, con memoria de la elección |
 
 ### Un módulo roto no rompe el sitio
 

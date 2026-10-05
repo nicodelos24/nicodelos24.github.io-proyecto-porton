@@ -11,7 +11,7 @@
   z-index: var(--z-preloader);
   display: grid;
   place-items: center;
-  background: var(--c-negro);
+  background: var(--c-bg);
   transition:
     opacity 700ms var(--ease-out),
     visibility 700ms var(--ease-out);
@@ -31,7 +31,8 @@
 
 .preloader__logo {
   width: 130px;
-  filter: invert(11%) sepia(38%) saturate(3400%) hue-rotate(340deg) brightness(85%);
+  filter: var(--filtro-logo);
+  mix-blend-mode: var(--mezcla-logo);
   opacity: 0.9;
   animation: preloader-pulse 2s var(--ease-in-out) infinite;
 }

@@ -7,7 +7,19 @@
    - Entrada escalonada de los textos con --nav-ready
    ============================================================= */
 
+/* El hero va siempre sobre una foto oscura con un velo encima, así que
+   su texto tiene que ser claro en los dos temas. Si tomara el color de
+   texto del tema, en modo claro quedaría negro sobre una foto oscura.
+
+   Se resuelve redefiniendo los colores dentro del bloque, igual que en
+   el pie de página: como las variables se heredan, todo lo de adentro
+   usa esta paleta sin importar el tema activo. */
 .hero {
+  --c-texto: #f4efe6;
+  --c-texto-suave: #b3a89c;
+  --c-borde: rgb(255 255 255 / 12%);
+  --c-acento: #d9b64a;
+
   position: relative;
   display: flex;
   align-items: center;
@@ -31,14 +43,17 @@
   animation: ken-burns 22s var(--ease-in-out) infinite alternate;
 }
 
-/* Velo en degradado: asegura legibilidad del texto */
+/* Velo en degradado: asegura legibilidad del texto.
+   Los tres tonos oscuros están fijos a propósito: van sobre la foto, y
+   tienen que ser oscuros en los dos temas. Solo el último, que se
+   funde con la página, sigue el color de fondo. */
 .hero__veil {
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
     linear-gradient(to right, rgb(10 10 10 / 88%) 0%, rgb(10 10 10 / 45%) 55%, rgb(10 10 10 / 70%) 100%),
-    linear-gradient(to top, var(--c-negro) 2%, transparent 45%);
+    linear-gradient(to top, var(--c-bg) 2%, transparent 45%);
 }
 
 @keyframes ken-burns {
