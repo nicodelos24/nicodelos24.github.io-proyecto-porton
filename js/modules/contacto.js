@@ -6,7 +6,7 @@
    IMPORTANTE: hoy no envía nada a ningún lado. Solo valida y muestra el
    mensaje de confirmación. Cuando conectes un backend (Formspree, Google
    Apps Script, un endpoint propio) reemplazá el preventDefault() por el
-   fetch correspondiente. Dejé commented la forma de hacerlo.
+   fetch correspondiente. Abajo está comentado el ejemplo.
    ========================================================================== */
 
 export function initContacto() {

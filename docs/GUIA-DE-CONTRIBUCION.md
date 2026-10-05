@@ -119,9 +119,16 @@ llegue a cargar.
 Todo el texto visible está en `index.html`, salvo el de los platos, que
 está en `js/data/menu.js`.
 
-Para cambiar el teléfono, el horario o la dirección: buscar en `index.html`
-dentro de la sección de contacto. **El mismo dato está dos veces**: en la
-sección de contacto y en el pie de página. Hay que cambiar los dos.
+Para cambiar el teléfono o la dirección: buscar en `index.html` dentro de
+la sección de contacto.
+
+Ojo con los datos que están **repetidos**:
+
+| Dato | Dónde aparece | Cómo cambiarlo |
+|---|---|---|
+| Teléfono | Enlace `tel:` **y** el texto al lado, en la misma línea | Cambiar los dos de una vez |
+| Horarios | Sección de contacto **y** pie de página | Cambiar las dos listas |
+| Año del copyright | Lo inyecta JavaScript | No hay que tocarlo |
 
 ---
 

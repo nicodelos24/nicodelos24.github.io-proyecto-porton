@@ -1,8 +1,8 @@
 # Decisiones de diseño técnico
 
 Registro de las decisiones tomadas al construir el sitio, con su motivo.
-El objetivo es que dentro de un año se pueda cambiar de opinión con fundamento,
-no por forgotten.
+El objetivo es que dentro de un año se pueda cambiar de opinión con
+fundamento, no por inercia.
 
 ---
 
@@ -100,12 +100,12 @@ defecto, así que un script clásico sin `defer` se ejecuta antes y
 ## D7 · El sitio tiene que verse bien sin JavaScript
 
 **Qué:** un script en el `<head>` agrega la clase `js` al `<html>`, y los
-estados iniciales de las animaciones están scopeados con `.js`.
+estados iniciales de las animaciones se limitan a esa clase con `.js`.
 
 **Por qué:** si el JavaScript falla en la carga, la clase nunca se agrega,
 las reglas no se aplican y el contenido se ve normal. Es lo contrario de lo
 habitual, donde un fallo de JS deja la página vacía porque el CSS oculta
-todo sinaminesación que llegue a mostrarse.
+todo para que no llegue a mostrarse ninguna animación.
 
 ---
 
@@ -139,8 +139,12 @@ HTML.
 **Por qué:** `scroll-behavior: smooth` no permite compensar por la altura
 del menú fijo, y el salto a un ancla quedaría con el título tapado. El módulo
 propio además compensa la altura del menú, cancela la animación si el
-visitante scrollea a mano, y actualiza el enlace activo del menú durante el
-recorrido.
+visitante scrollea a mano, y actualiza la barra de direcciones al terminar
+para que el enlace copiado apunte a la sección correcta.
+
+El resaltado del enlace activo no lo hace este módulo sino `nav.js`, que lo
+recalcula en cada scroll: si lo hiciera el scroll suave, el menú no se
+actualizaría al scrollear con la rueda.
 
 **Costo:** son 2,7 KB de JavaScript para reemplazar dos palabras de CSS. Se
 considera aceptable porque el desplazamiento entre secciones es la
@@ -169,17 +173,55 @@ vacía. El mínimo es una decisión de percepción; el máximo, de seguridad.
 
 ---
 
-## D13 · `_probe.html` y `_shot.html` no se versionan
+## D13 · Las copias de depuración no se versionan
 
-**Qué:** esos dos archivos aparecen en la raíz del repositorio. Son copias
-temporales de `index.html` usadas para depurar animaciones y tomar capturas
-(una inyecta estilos que congelan el hero, la otra imprime medidas de las
-capas por consola).
+**Qué:** durante el desarrollo se usaron dos copias temporales de
+`index.html` en la raíz (`_probe.html` y `_shot.html`) para probar el
+comportamiento de las animaciones y para tomar capturas de pantalla. No
+están en el repositorio: están listadas en `.gitignore`, y los archivos
+fueron borrados al terminar.
 
-**Cómo evitarlo:** esos dos archivos están listados en `.gitignore`.
-Duplicar el archivo principal en la raíz es una forma segura de arruinar un
-commit: cualquier cambio aplicado a uno queda desincronizado del otro sin
-avisar.
+**Por qué:** duplicar el archivo principal en la raíz es una forma segura
+de arruinar un commit: cualquier cambio aplicado a uno queda
+desincronizado del otro sin avisar.
 
 **Cuando hagan falta:** si alguna vez se necesitan, se regeneran desde
-`index.html` y vuelven a borrarse.
+`index.html` y se vuelven a borrar. Está anotado en `.gitignore` justamente
+para que no se cuelguen en un commit por descuido.
+
+---
+
+## D14 · Las fotos de fondo son `<img>`, no variables CSS
+
+**Qué:** la imagen del hero y la de la sección de contacto están como
+`<img class="hero__bg" src="…">`, y no como un `<div>` con
+`background-image: var(--hero-img)`.
+
+**Por qué:** una URL relativa dentro de una variable CSS se resuelve
+contra la **hoja de estilos** donde se usa la variable, no contra el
+documento. Como los estilos están repartidos en varias capas importadas,
+la imagen se busca en `css/layout/assets/img/…` y simplemente no
+aparece, sin ningún error en la consola.
+
+Un `<img>` resuelve su `src` contra el documento, que es lo que se quiere.
+Además tiene otras ventajas: se le puede poner `alt=""` y `aria-hidden`,
+`fetchpriority` para la del hero, y `loading="lazy"` para el resto.
+
+---
+
+## D15 · Contenido dinámico tiene que volver a registrarse
+
+**Qué:** `reveal.js` exporta `observeReveal(raíz)`, y `carta.js` la llama
+después de generar las tarjetas.
+
+**Por qué:** un `IntersectionObserver` solo observa los elementos que ya
+existían cuando se creó. Las tarjetas de la carta se insertan después, así
+que quedaban sin observar y, como su estado inicial es `opacity: 0`,
+**no aparecían nunca**. Un bug que no da error en la consola y solo se ve
+al mirar la página.
+
+La función marca cada elemento con `data-reveal-observed`, así que
+llamarla dos veces no rompe nada.
+
+**Regla:** si se inserta HTML con `data-reveal` desde JavaScript, llamar a
+`observeReveal` sobre el contenedor.

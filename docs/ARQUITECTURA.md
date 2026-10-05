@@ -175,7 +175,7 @@ En el `<head>` hay un script en línea que agrega la clase `js` al elemento
 <script>document.documentElement.classList.add("js");</script>
 ```
 
-Los estilos de las animaciones iniciales están.scopeados con esa clase:
+Los estilos de las animaciones iniciales se limitan a esa clase:
 
 ```css
 .js [data-reveal] { opacity: 0; transform: translateY(2.5rem); }
