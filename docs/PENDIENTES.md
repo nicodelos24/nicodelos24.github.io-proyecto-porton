@@ -22,8 +22,9 @@ público.
       ningún lado.
 - [ ] **Email de contacto**, si se quiere agregar.
 
-> El teléfono está escrito **dos veces** en `index.html` (sección de
-> contacto y pie de página). Hay que cambiar ambos.
+> El teléfono aparece una sola vez visible en `index.html` (sección de
+> contacto, línea con `tel:`), pero hay que cambiar **dos lugares**: ese
+> enlace y el texto que se ve al lado (`+598 00 000 000`).
 
 ### Carta
 
@@ -90,6 +91,30 @@ mensaje de confirmación, pero los datos se descartan.
       `caption_14.jpg`, entre otras). Se pueden borrar.
 - [ ] **Agregar `sitemap.xml` y `robots.txt`**, si se quiere posicionar
       mejor.
+
+---
+
+## Trampas conocidas del código
+
+### Imágenes de fondo: usar `<img>`, no `background-image` con variables
+
+Las fotos de fondo del hero y de la sección de contacto están como `<img>`
+y no como `background-image` con una variable CSS:
+
+```html
+<!-- Sí: la ruta se resuelve contra el HTML -->
+<img class="hero__bg" src="assets/img/cabecera.jpg" alt="" aria-hidden="true">
+
+<!-- No: la ruta se resuelve contra la hoja de estilos -->
+<div class="hero__bg" style="--hero-img: url('assets/img/cabecera.jpg')"></div>
+```
+
+Con la segunda forma el navegador busca la imagen en `css/layout/assets/…`,
+porque la URL relativa se resuelve contra la hoja donde está la regla, no
+contra el documento. Como los estilos vienen de varias capas importadas, es
+un error fácil de cometer y difícil de detectar: la imagen simplemente no
+aparece y no hay ningún error en la consola.
+
 
 ---
 

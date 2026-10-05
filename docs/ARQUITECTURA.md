@@ -142,6 +142,26 @@ ejecuta antes).
 
 Agregar un plato es agregar un objeto en `js/data/menu.js`.
 
+### Contenido que se inserta después necesita volver a registrarse
+
+Un `IntersectionObserver` solo observa los elementos que existían cuando se
+creó. Si un módulo inserta HTML nuevo después, esos elementos quedan sin
+observar y, como su estado inicial es invisible, **no aparecen nunca**.
+
+Por eso `reveal.js` exporta `observeReveal(raíz)`, y `carta.js` la llama
+después de renderizar las tarjetas:
+
+```js
+grid.innerHTML = platos.map(dishCardHTML).join("");
+observeReveal(grid);   // sin esto, las tarjetas quedan invisibles
+```
+
+La función marca cada elemento con `data-reveal-observed`, así que llamarla
+dos veces sobre el mismo contenido no lo rompe.
+
+Regla general: **si insertás elementos con `data-reveal` desde JavaScript,
+llamá a `observeReveal` sobre el contenedor.**
+
 ---
 
 ## Capa 3 · Accesibilidad y degradación
