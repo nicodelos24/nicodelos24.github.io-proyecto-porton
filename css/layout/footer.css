@@ -18,6 +18,7 @@
   --c-acento: #d9b64a;
   --mezcla-logo: screen;
   --filtro-logo: invert(11%) sepia(38%) saturate(3400%) hue-rotate(340deg) brightness(85%);
+  color: var(--c-texto);
 
   padding-block: clamp(3rem, 6vw, 5rem) var(--sp-5);
   background: var(--pie-bg);

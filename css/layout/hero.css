@@ -20,6 +20,13 @@
   --c-borde: rgb(255 255 255 / 12%);
   --c-acento: #d9b64a;
 
+  /* Importante: hay que declarar `color`, no solo la variable.
+     El color del body ya viene resuelto desde `body`, y los hijos heredan
+     ese valor ya resuelto: cambiar `--c-texto` acá no cambiaría nada.
+     Declarando `color` la variable se resuelve en este elemento, que es
+     lo que hace que todo lo de adentro salga claro. */
+  color: var(--c-texto);
+
   position: relative;
   display: flex;
   align-items: center;

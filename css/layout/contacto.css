@@ -36,8 +36,20 @@
   align-items: start;
 }
 
-/* ---------- Datos ---------- */
+/* ---------- Datos ----------
+   Esta columna va directamente sobre el velo oscuro de la foto de fondo,
+   así que su texto tiene que ser claro en los dos temas. Si tomara el
+   color del tema, en modo claro quedaría oscuro sobre oscuro.
+
+   El formulario de al lado NO entra en este bloque: va sobre su propio
+   panel, que sí cambia de color con el tema. */
 .contacto__info {
+  --c-texto: #f4efe6;
+  --c-texto-suave: #b3a89c;
+  --c-borde: rgb(255 255 255 / 12%);
+  --c-acento: #d9b64a;
+  color: var(--c-texto);
+
   display: flex;
   flex-direction: column;
   gap: var(--sp-5);
@@ -85,7 +97,7 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--sp-4);
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: rgb(18 18 18 / 80%);
+  background: var(--c-panel);
   backdrop-filter: blur(16px);
   border: 1px solid var(--c-borde);
   border-radius: var(--r-lg);
@@ -110,7 +122,7 @@
 
 .field__input {
   padding: 0.85rem 1rem;
-  background: rgb(255 255 255 / 4%);
+  background: var(--c-panel-input);
   border: 1px solid var(--c-borde);
   border-radius: var(--r-sm);
   color: var(--c-texto);
@@ -121,13 +133,14 @@
 }
 
 .field__input::placeholder {
-  color: rgb(154 144 134 / 55%);
+  color: var(--c-texto-suave);
+  opacity: 0.65;
 }
 
 .field__input:focus {
   outline: none;
   border-color: var(--c-marca);
-  background: rgb(255 255 255 / 7%);
+  background: var(--c-panel-input-foco);
 }
 
 /* Estilo nativo del select para que no rompa el tema */
@@ -157,11 +170,11 @@
 .form__status {
   grid-column: 1 / -1;
   padding: var(--sp-3) var(--sp-4);
-  border: 1px solid rgb(201 162 39 / 40%);
+  border: 1px solid var(--c-aviso-borde);
   border-radius: var(--r-sm);
-  background: rgb(201 162 39 / 10%);
+  background: var(--c-aviso-fondo);
   font-size: var(--fs-sm);
-  color: var(--c-oro-100);
+  color: var(--c-aviso-texto);
   opacity: 0;
   transform: translateY(-0.5rem);
   transition:
