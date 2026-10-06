@@ -68,13 +68,18 @@
 
 /* Velo: oscurece la foto para que el texto se lea. Las dos capas
    juntas, una lateral y otra vertical, evitan que quede una franja
-   clara en el medio donde el texto compite con la comida. */
+   clara en el medio donde el texto compite con la comida.
+
+   Los bordes están casi igual de tapados que el centro (63% y 61%
+   contra 61%), porque el texto va siempre en el medio: oscurecer los
+   costados no gana nada y en fotos oscuras los deja completamente
+   negros. Con valores más suaves la comida se ve en toda la franja. */
 .transicion__veil {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to right, rgb(10 10 10 / 82%) 0%, rgb(10 10 10 / 58%) 45%, rgb(10 10 10 / 74%) 100%),
-    linear-gradient(to top, rgb(10 10 10 / 60%), rgb(10 10 10 / 25%));
+    linear-gradient(to right, rgb(10 10 10 / 68%) 0%, rgb(10 10 10 / 44%) 45%, rgb(10 10 10 / 62%) 100%),
+    linear-gradient(to top, rgb(10 10 10 / 52%), rgb(10 10 10 / 18%));
 }
 
 .transicion__content {

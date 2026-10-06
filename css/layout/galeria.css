@@ -69,6 +69,172 @@
   background-image: url("/assets/img/chorizo-morcilla-queso.jpg");
 }
 
+/* Las dos fotos del bloque central */
+.gallery__item--empanada {
+  background-image: url("/assets/img/empanada-de-carne-a-cuchillo.jpg");
+}
+
+.gallery__item--tortilla {
+  background-image: url("/assets/img/tortilla-con-alioli.jpg");
+}
+
+.gallery__item--negro {
+  background-image: url("/assets/img/el-negro-inspirado-en.jpg");
+}
+
+/* ==========================================================================
+   LOS BLOQUES QUE SE METEN EN LOS HUECOS ENTRE FOTOS
+   ==========================================================================
+   Antes la galería era una tira de fotos con espacio vacío entre ellas. Ese
+   espacio ahora lleva contenido: los platos fuertes, un texto con dos fotos
+   a los lados, y los postres. La idea es que la galería no sea solo mirar
+   fotos, sino que vaya contando qué se come.
+
+   Los dos bloques de platos se llenan desde js/data/menu.js. Si ese archivo
+   no llegara a cargar, quedan vacíos, y un bloque con el título pero sin
+   platos parece un error: por eso se ocultan entero con :has().
+   ========================================================================== */
+
+.galeria-bloque {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Los dos bloques de platos se llenan desde js/data/menu.js. Si ese archivo
+   no llegara a cargar, quedan vacíos, y un bloque con el título pero sin
+   platos parece un error: por eso se ocultan entero con :has(). */
+.galeria-bloque:has([data-platos]:empty) {
+  display: none;
+}
+
+/* ---- Bloque 1 y 3 · lista a un lado, foto con efecto al otro ----
+   La lista va primero y la foto después, para que en el celular, donde se
+   apilan en una columna, el texto se lea antes que la foto. */
+.galeria-bloque--pareja {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.gallery__item--pareja {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.galeria-lista .galeria-bloque__titulo {
+  margin-block: var(--sp-2) var(--sp-5);
+}
+
+/* ---- Las bebidas, solas ----
+   Sin foto que las represente: una lista angosta y centrada, sin media
+   columna vacía al costado como en los bloques de pareja. */
+.galeria-bloque--solo {
+  align-items: center;
+}
+
+.galeria-bloque--solo .galeria-lista {
+  width: min(100%, 30rem);
+  text-align: center;
+}
+
+.galeria-bloque__nota {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--c-texto-suave);
+}
+
+/* ---- Bloque 2 · dos fotos con el texto en el medio ---- */
+.galeria-bloque--costuras {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.gallery__item--costura {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.galeria-centro {
+  text-align: center;
+}
+
+.galeria-centro__texto {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: 1.45;
+  color: var(--c-texto);
+  margin-block: var(--sp-3) 0;
+}
+
+/* Las entradas van abajo de las dos fotos y ocupan la fila entera: son
+   cuatro platos y haciendo dos columnas quedarían ilegibles. */
+.galeria-lista--ancha {
+  grid-column: 1 / -1;
+  margin-top: var(--sp-5);
+}
+
+.galeria-lista--ancha .galeria-bloque__titulo {
+  margin-block: 0 var(--sp-5);
+  text-align: center;
+}
+
+/* ---- El título que comparten los bloques ---- */
+.galeria-bloque__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
+  color: var(--c-texto);
+}
+
+/* ---- La lista de platos ----
+   Formato de carta en papel: nombre, puntitos de guía, precio. El puntito no
+   está en el HTML sino dibujado en CSS, así se estira solo y el precio queda
+   siempre pegado al borde derecho sin importar el largo del nombre. */
+.galeria-platos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.galeria-plato__fila {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.galeria-plato__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-texto);
+}
+
+.galeria-plato__puntos {
+  flex: 1;
+  height: 1px;
+  margin-bottom: 0.35em;
+  border-bottom: 1px dotted var(--c-borde);
+}
+
+.galeria-plato__precio {
+  font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+  color: var(--c-acento);
+  white-space: nowrap;
+}
+
+.galeria-plato__desc {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: 300;
+  color: var(--c-texto-suave);
+}
+
 /* ---- Bloque angosto: portrait, pegado a un lado ---- */
 .gallery__item--angosta {
   width: min(100%, 26rem);
@@ -146,5 +312,24 @@
 
   .gallery__item--der {
     align-self: flex-start;
+  }
+
+  /* Los bloques de dos columnas se apilan. El texto va arriba y las fotos
+     abajo, porque al revés el texto queda apretado entre dos fotos angostas
+     y no hay ancho para leerlo. */
+  .galeria-bloque--costuras,
+  .galeria-bloque--pareja {
+    grid-template-columns: 1fr;
+  }
+
+  /* En el bloque central la foto de la derecha ya no aporta nada: se oculta
+     para no alargar la sección con dos fotos iguales apiladas. */
+  .gallery__item--tortilla {
+    display: none;
+  }
+
+  .gallery__item--costura,
+  .gallery__item--pareja {
+    aspect-ratio: 4 / 3;
   }
 }

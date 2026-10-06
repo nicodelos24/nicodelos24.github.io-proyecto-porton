@@ -75,7 +75,7 @@
       <nav class="nav__links" aria-label="Navegación principal">
         <a class="nav__link" href="#inicio">Inicio</a>
         <a class="nav__link" href="#sobre-nosotros">Nosotros</a>
-        <a class="nav__link" href="#carta">Carta</a>
+        <a class="nav__link" href="carta.html">Carta</a>
         <a class="nav__link" href="#galeria">Galería</a>
         <a class="nav__link" href="#contacto">Contacto</a>
         <a class="btn btn--primary btn--sm nav__cta" href="#reservas">
@@ -139,7 +139,7 @@
           </p>
 
           <div class="hero__actions hero__item">
-            <a class="btn btn--primary btn--lg" href="#carta">
+            <a class="btn btn--primary btn--lg" href="carta.html">
               Ver la carta <span class="btn-arrow" aria-hidden="true">→</span>
             </a>
             <a class="btn btn--ghost btn--lg" href="#reservas">Reservar mesa</a>
@@ -236,7 +236,7 @@
     </section>
 
     <!-- ========================================================================
-         BANDA DE TRANSICIÓN — respiro visual entre "Nosotros" y la carta
+         BANDA DE TRANSICIÓN — respiro visual entre "Nosotros" y la galería
          ======================================================================== -->
     <section class="transicion transicion--mollejas">
       <div class="transicion__veil" aria-hidden="true"></div>
@@ -246,44 +246,12 @@
         <h2 class="transicion__title" data-reveal>
           Un plato que <em>vale el viaje</em>
         </h2>
-        <a class="btn btn--primary" href="#carta" data-reveal>
-          Ver la carta <span class="btn-arrow" aria-hidden="true">→</span>
+        <a class="btn btn--primary" href="#galeria" data-reveal>
+          Ver los platos <span class="btn-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>
 
-    <!-- ========================================================================
-         CARTA — se renderiza desde js/data/menu.js (js/modules/carta.js)
-         ======================================================================== -->
-    <section class="section section--alt" id="carta">
-      <div class="container">
-
-        <div class="section-head section-head--center">
-          <span class="eyebrow" data-reveal>La carta</span>
-          <h2 class="section-title" data-reveal>Nuestros platos</h2>
-          <p class="lead" data-reveal>
-            En Parrillada “El Otro Portón” ofrecemos carnes asadas y servidas con dedicación,
-            en ambiente cálido para disfrutar con familia y amigos.
-          </p>
-        </div>
-
-        <div class="carta__toolbar">
-          <div class="carta__filters" role="group" aria-label="Filtrar por categoría"></div>
-          <a class="btn btn--link" href="#reservas">Pedir reserva →</a>
-        </div>
-
-        <div class="carta__grid"></div>
-
-        <p class="carta__note" data-reveal>
-          Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
-        </p>
-
-      </div>
-    </section>
-
-    <!-- ========================================================================
-         BANDA DE TRANSICIÓN — respiro visual entre la carta y la galería
-         ======================================================================== -->
     <section class="transicion transicion--tortelinis">
       <div class="transicion__veil" aria-hidden="true"></div>
 
@@ -313,7 +281,14 @@
              Los angostos cambian de lado para que el ojo no caiga siempre
              en el mismo punto.
 
-             Las cinco fotos van de fondo (ver galeria.css) porque es lo
+             Entre foto y foto hay bloques con texto y con platos de la
+             carta, que es lo que evita que la galería sea solo una tira de
+             fotos. Los dos bloques de platos se llenan solos desde
+             js/data/menu.js (ver modules/galeria-menu.js): los destacados
+             y los postres. Si ese archivo no llegara a cargar, esos dos
+             bloques se ocultan solos y no queda un hueco vacío.
+
+             Todas las fotos van de fondo (ver galeria.css) porque es lo
              único que el navegador puede dejar clavada en la pantalla. Por
              eso la descripción va en el marco, con role="img".
 
@@ -328,17 +303,84 @@
             <figcaption class="gallery__caption">El salón</figcaption>
           </figure>
 
-          <figure class="gallery__item gallery__item--ancha gallery__item--asado"
-                  role="img" aria-label="Carnes asadas a la parrilla, recién salidas de la chapa"
-                  data-reveal="fade">
-            <figcaption class="gallery__caption">A la parrilla</figcaption>
-          </figure>
+          <!-- BLOQUE 1 · la parrilla, al lado de la foto de la parrilla.
+               Cada categoría queda junto a la foto que la representa: se lee
+               mejor que una lista de platos suelta, y la foto sola no dice
+               nada de lo que se cocina.
+
+               Ojo con el valor de data-platos: es la CLAVE de la categoría en
+               js/data/menu.js, no la etiqueta que se ve. La de la parrilla es
+               "parrilla" y su etiqueta es "Parrillada". Con la palabra
+               equivocada el bloque se oculta solo y no se ve por qué. -->
+          <section class="galeria-bloque galeria-bloque--pareja"
+                   aria-labelledby="galeria-parrillada-titulo">
+            <div class="galeria-lista" data-reveal="fade">
+              <span class="eyebrow">Del fuego</span>
+              <h3 class="galeria-bloque__titulo" id="galeria-parrillada-titulo">La parrilla</h3>
+              <ul class="galeria-platos" data-platos="parrilla"></ul>
+            </div>
+
+            <figure class="gallery__item gallery__item--pareja gallery__item--asado"
+                    role="img" aria-label="Carnes asadas a la parrilla, recién salidas de la chapa"
+                    data-reveal="fade">
+              <figcaption class="gallery__caption">A la parrilla</figcaption>
+            </figure>
+          </section>
+
+          <!-- BLOQUE 2 · dos fotos con el efecto clavado, una a cada lado,
+               con el texto en el medio -->
+          <section class="galeria-bloque galeria-bloque--costuras">
+            <figure class="gallery__item gallery__item--costura gallery__item--empanada"
+                    role="img" aria-label="Empanadas de carne a cuchillo, recién hechas"
+                    data-reveal="fade">
+              <figcaption class="gallery__caption">Empanadas</figcaption>
+            </figure>
+
+            <div class="galeria-centro" data-reveal="fade">
+              <span class="eyebrow">La cocina</span>
+              <p class="galeria-centro__texto">
+                Cada plato sale de la parrilla cuando está en su punto, no antes.
+                Las empanadas se amasan a mano y las tortillas llevan su tiempo.
+                Nada se sirve apurado.
+              </p>
+            </div>
+
+            <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
+                    role="img" aria-label="Tortilla española con alioli de ajo y huevo"
+                    data-reveal="fade">
+              <figcaption class="gallery__caption">Tortilla con alioli</figcaption>
+            </figure>
+
+            <!-- Y abajo, las entradas, que son justamente lo que sale en
+                 esas dos fotos -->
+            <div class="galeria-lista galeria-lista--ancha" data-reveal="fade">
+              <h3 class="galeria-bloque__titulo">Para compartir</h3>
+              <ul class="galeria-platos" data-platos="entradas"></ul>
+            </div>
+          </section>
 
           <figure class="gallery__item gallery__item--angosta gallery__item--der gallery__item--casa"
                   role="img" aria-label="Plato de la casa, servido en mesa"
                   data-reveal="fade" data-reveal-delay="1">
             <figcaption class="gallery__caption">Plato de la casa</figcaption>
           </figure>
+
+          <!-- BLOQUE 3 · los postres a la izquierda y una foto con el efecto
+               clavado a la derecha -->
+          <section class="galeria-bloque galeria-bloque--pareja"
+                   aria-labelledby="galeria-postres-titulo">
+            <div class="galeria-lista" data-reveal="fade">
+              <span class="eyebrow">Para terminar</span>
+              <h3 class="galeria-bloque__titulo" id="galeria-postres-titulo">Postres</h3>
+              <ul class="galeria-platos" data-platos="especiales"></ul>
+            </div>
+
+            <figure class="gallery__item gallery__item--pareja gallery__item--negro"
+                    role="img" aria-label="El Negro, postre frío de cacao con chocolate amargo"
+                    data-reveal="fade">
+              <figcaption class="gallery__caption">El Negro</figcaption>
+            </figure>
+          </section>
 
           <figure class="gallery__item gallery__item--ancha gallery__item--calabaza"
                   role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
@@ -351,6 +393,20 @@
                   data-reveal="fade" data-reveal-delay="2">
             <figcaption class="gallery__caption">Entradas</figcaption>
           </figure>
+
+          <!-- Las bebidas quedan solas al final: no hay foto del local que las
+               represente y no hacía falta inventar una. -->
+          <section class="galeria-bloque galeria-bloque--solo"
+                   aria-labelledby="galeria-bebidas-titulo">
+            <div class="galeria-lista" data-reveal="fade">
+              <span class="eyebrow">Para beber</span>
+              <h3 class="galeria-bloque__titulo" id="galeria-bebidas-titulo">Bebidas</h3>
+              <ul class="galeria-platos" data-platos="bebidas"></ul>
+              <p class="galeria-bloque__nota">
+                Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
+              </p>
+            </div>
+          </section>
 
         </div>
 
@@ -481,7 +537,7 @@
           <ul class="footer__list" style="margin-top: 1rem;">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#sobre-nosotros">Nosotros</a></li>
-            <li><a href="#carta">Carta</a></li>
+            <li><a href="carta.html">Carta</a></li>
             <li><a href="#galeria">Galería</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>
