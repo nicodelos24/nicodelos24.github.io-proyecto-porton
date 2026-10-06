@@ -35,6 +35,7 @@
 /* ---------- CAPA 4 · LAYOUT DE SECCIONES ---------- */
 @import "layout/hero.css";
 @import "layout/about.css";
+@import "layout/transicion.css";
 @import "layout/carta.css";
 @import "layout/galeria.css";
 @import "layout/contacto.css";

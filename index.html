@@ -227,11 +227,32 @@
             </div>
           </div>
 
-          <figure class="about__figure" data-reveal="right">
-            <img src="assets/img/calabaza-asada-con-queso.jpg" alt="Calabaza asada con queso y semillas, en un plato negro" loading="lazy">
+          <!-- El logo va de fondo (ver about.css), y por eso la descripción va en el
+         marco y no en un alt: una imagen de fondo no se le puede poner. Con
+         role="img" y aria-label el lector de pantalla la anuncia igual. -->
+          <figure class="about__figure" role="img"
+                  aria-label="Logo de El Otro Portón, parrillada"
+                  data-reveal="right">
           </figure>
 
         </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         BANDA DE TRANSICIÓN — respiro visual entre "Nosotros" y la carta
+         ======================================================================== -->
+    <section class="transicion transicion--mollejas">
+      <div class="transicion__veil" aria-hidden="true"></div>
+
+      <div class="container transicion__content">
+        <span class="eyebrow transicion__eyebrow" data-reveal>La carta</span>
+        <h2 class="transicion__title" data-reveal>
+          Un plato que <em>vale el viaje</em>
+        </h2>
+        <a class="btn btn--primary" href="#carta" data-reveal>
+          Ver la carta <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
 
@@ -261,6 +282,23 @@
           Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
         </p>
 
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         BANDA DE TRANSICIÓN — respiro visual entre la carta y la galería
+         ======================================================================== -->
+    <section class="transicion transicion--tortelinis">
+      <div class="transicion__veil" aria-hidden="true"></div>
+
+      <div class="container transicion__content">
+        <span class="eyebrow transicion__eyebrow" data-reveal>El local</span>
+        <h2 class="transicion__title" data-reveal>
+          Una cocina que <em>no se apura</em>
+        </h2>
+        <a class="btn btn--primary" href="#galeria" data-reveal>
+          Ver la galería <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
 

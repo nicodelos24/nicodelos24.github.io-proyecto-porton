@@ -1,0 +1,116 @@
+/* =============================================================
+   layout/transicion.css
+   Capa 4 — Bandas que separan las secciones grandes
+   -------------------------------------------------------------
+   Franja de imagen a todo el ancho, con el texto centrado encima.
+   El mismo motivo que la portada: la foto va de fondo y encima un
+   velo oscuro, porque es lo único que garantiza que el texto se lea
+   pase lo que pase con la foto.
+
+   Hay dos: una antes de la carta y otra entre la carta y la galería.
+   Comparten todo el diseño y solo cambian la foto, que va en una
+   clase aparte. Agregar una tercera banda es agregar dos cosas: un
+   `<section class="transicion transicion--LoQueSea">` en el HTML y su
+   regla de una línea acá abajo.
+
+   Van sobre fotos oscuras, así que declaran sus propios colores y se
+   quedan iguales en los dos temas, igual que el hero y el pie.
+   ============================================================= */
+
+.transicion {
+  /* Colores propios: la banda es oscura en los dos temas. Declarando
+     también `color`, el texto de adentro sale claro: el color se
+     resuelve acá y no heredado desde el body. */
+  --c-texto: var(--c-hueso);
+  --c-texto-suave: #b3a89c;
+  color: var(--c-texto);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Baja y ancha, como la de referencia, pero sin volverse una franja
+     tan baja que la comida quede en un pedacito. */
+  min-height: clamp(16rem, 34vw, 28rem);
+  padding-block: var(--sp-7);
+  overflow: hidden;
+
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* ---- La foto de cada banda ---- */
+.transicion--mollejas {
+  background-image: url("/assets/img/mollejas-con-cremoso.jpg");
+  background-position: center 55%;
+}
+
+.transicion--tortelinis {
+  background-image: url("/assets/img/tortellinis-de-espinaca.jpg");
+  background-position: center 50%;
+}
+
+/* El efecto: la foto queda clavada en la pantalla y la franja va
+   mostrando partes distintas de ella al bajar, en vez de viajar con
+   la página.
+
+   Solo en pantallas anchas, que es lo mismo que hace la página de
+   referencia. En el celular no se aplica por dos razones: ahí la
+   imagen casi nunca llega a estar más alta que la franja, así que el
+   efecto no se nota, y `fixed` obliga al navegador a recomponer en
+   cada scroll, que en un teléfono se nota como tirones. */
+@media (min-width: 1025px) {
+  .transicion {
+    background-attachment: fixed;
+  }
+}
+
+/* Velo: oscurece la foto para que el texto se lea. Las dos capas
+   juntas, una lateral y otra vertical, evitan que quede una franja
+   clara en el medio donde el texto compite con la comida. */
+.transicion__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgb(10 10 10 / 82%) 0%, rgb(10 10 10 / 58%) 45%, rgb(10 10 10 / 74%) 100%),
+    linear-gradient(to top, rgb(10 10 10 / 60%), rgb(10 10 10 / 25%));
+}
+
+.transicion__content {
+  position: relative;
+  text-align: center;
+}
+
+.transicion__eyebrow {
+  color: var(--c-acento);
+  margin-bottom: var(--sp-3);
+}
+
+.transicion__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+  color: var(--c-texto);
+  max-width: 22ch;
+  margin-inline: auto;
+  margin-bottom: var(--sp-6);
+}
+
+.transicion__title em {
+  font-style: italic;
+  color: var(--c-acento);
+}
+
+/* En el celular el título tiene que bajar de tamaño o se parte en tres
+   líneas y la franja queda altísima. */
+@media (max-width: 40rem) {
+  .transicion {
+    min-height: clamp(14rem, 60vw, 18rem);
+    padding-block: var(--sp-6);
+  }
+
+  .transicion__title {
+    max-width: 16ch;
+  }
+}

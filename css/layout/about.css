@@ -33,35 +33,35 @@
   color: var(--c-acento);
 }
 
-/* ---- Composición de fotos ---- */
+/* ---- Composición de fotos ----
+   Acá va el logo del local, no una foto de comida: es lo que identifica
+   la marca y tiene que verse entero y quieto.
+
+   Por eso NO lleva el efecto de imagen fija que tienen las bandas de
+   transicion.css. Ese efecto existe para dar profundidad a una foto
+   grande; aplicado a un logo solo lo deformaría visualmente, porque el
+   navegador lo ampliaría a pantalla completa y se vería una porción
+   gigante del cuadro en vez del logo.
+
+   Tampoco lleva el agrandado al pasar el mouse: zoomear un logo no
+   aporta nada.
+
+   El marco es apaisado en todas las pantallas, porque el logo es
+   cuadrado y así entra entero en cualquier tamaño.
+
+   Ruta con barra inicial: se resuelve desde la raíz del sitio y no desde
+   esta hoja (ver DECISIONES.md, D14). */
 .about__figure {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--sombra-lg);
-}
 
-/* El encuadre se corre apenas hacia la derecha: la comida está muy cerca del
-   centro de la foto, pero no del todo, y con el recorte centrado se perdía el
-   borde derecho del plato. Con 55% la calabaza queda prácticamente centrada sin
-   que se corte nada.
-
-   El 1.16 es el zoom mínimo que hace falta para que el paralaje tenga de dónde
-   moverse sin que aparezca un borde vacío. Con cualquier valor menor, al llegar
-   al final del recorrido se ve un hueco abajo o arriba. El marco no cambia de
-   tamaño en ningún momento: la foto se ve más grande, no más chica. */
-.about__figure img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 55% 50%;
-  transform: translateY(var(--parallax, 0)) scale(1.16);
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-.about__figure:hover img {
-  transform: translateY(var(--parallax, 0)) scale(1.22);
+  background-image: url("/assets/img/PORTON_logo.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* Marco decorativo desplazado detrás de la foto */
