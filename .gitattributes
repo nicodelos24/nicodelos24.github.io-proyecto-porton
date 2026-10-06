@@ -1,0 +1,18 @@
+# Los finales de línea los fija el repositorio, no cada computadora.
+
+# Sin esto, un archivo editado en Windows (CRLF) y después en Linux (LF)
+# aparece como modificado entero: cientos de líneas de diff que en realidad
+# no son cambios de contenido.
+
+* text=auto eol=lf
+
+# Los archivos que no son texto se tratan como binarios: Git nunca los
+# convierte ni intenta resolver sus conflictos línea por línea.
+
+*.jpg   binary
+*.png   binary
+*.webp  binary
+*.gif   binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary

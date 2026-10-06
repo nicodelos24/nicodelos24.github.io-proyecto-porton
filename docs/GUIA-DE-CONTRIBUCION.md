@@ -290,6 +290,78 @@ las tarjetas.
 - [ ] ¿El sitio se ve bien en el celular? La navegación cambia bastante.
 - [ ] ¿Sigue funcionando si se desactiva JavaScript? El contenido tiene que
       quedar visible.
+
+---
+
+## Trabajar desde dos computadoras (Linux y Windows)
+
+Este proyecto se trabaja indistintamente desde dos máquinas. Para no tener que
+cambiar la configuración cada vez que se cambia de computadora, hay dos cosas
+que quedan resueltas **en el repositorio**, no en cada máquina.
+
+### 1. El remoto es siempre por SSH
+
+Las dos computadoras usan la misma dirección:
+
+```
+git@github.com:nicodelos24/nicodelos24.github.io-proyecto-porton.git
+```
+
+SSH y no HTTPS, porque no pide usuario ni token en cada push.
+
+Si alguna vez aparece una dirección `https://github.com/...`, se corrige en esa
+máquina con:
+
+```sh
+git remote set-url origin git@github.com:nicodelos24/nicodelos24.github.io-proyecto-porton.git
+```
+
+Se comprueba con `git remote -v`: tiene que decir `git@github.com:` en las dos.
+
+### 2. Cada computadora tiene su propia clave, y las dos están en la cuenta
+
+GitHub permite varias claves SSH en una misma cuenta, así que **cada máquina
+genera la suya** y las dos sirven para el mismo repositorio. No hay que copiar
+la clave de la otra computadora: la clave privada nunca se comparte.
+
+En una máquina Linux nueva:
+
+```sh
+ssh-keygen -t ed25519 -C "nicodelos24@gmail.com"
+cat ~/.ssh/id_ed25519.pub
+```
+
+En una máquina Windows nueva (en Git Bash, o PowerShell):
+
+```sh
+ssh-keygen -t ed25519 -C "nicodelos24@gmail.com"
+type %USERPROFILE%\.ssh\id_ed25519.pub
+```
+
+La línea que imprime se copia en GitHub: **Settings → SSH and GPG keys → New
+SSH key**. Se le puede poner de nombre "PC Linux" o "PC Windows", para saber de
+cuál es.
+
+Queda listo cuando GitHub reconoce la máquina:
+
+```sh
+ssh -T git@github.com
+# Hi nicodelos24! You've successfully authenticated...
+```
+
+### 3. Los finales de línea ya están resueltos
+
+En la raíz del repositorio está `.gitattributes`, que fija los finales de línea
+a LF para todos los archivos de texto, sin importar en qué sistema se edite.
+
+Por qué importa: si no estuviera, al abrir un archivo en Windows se guarda con
+CRLF y al abrirlo en Linux se ve como si **todo el archivo hubiera cambiado**,
+con un diff de cientos de líneas que en realidad no son cambios de contenido.
+Con `.gitattributes` eso no puede pasar, porque Git normaliza al commitear.
+
+No hay que configurar nada en Windows para que funcione: no usar el editor
+"Guardar con finales de línea CRLF" manualmente.
+
 ---
 
 ## Cambiar los colores de un tema
