@@ -8,3 +8,34 @@ _shot.html
 # Sistema
 .DS_Store
 Thumbs.db
+
+# ==========================================================================
+#  SECRETOS · NUNCA AL REPOSITORIO
+# ==========================================================================
+#  Un archivo .env guarda las claves y contraseñas que el programa necesita
+#  para conectarse a servicios externos (API de reservas, base de datos, bot
+#  de WhatsApp). No es código: solo lo lee el programa al arrancar.
+#
+#  Va ignorado porque este repositorio es PÚBLICO. Lo que se sube se puede
+#  ver, copiar y usar. Una clave de reservas publicada significa que cualquiera
+#  que lea el repo puede mandar reservas falsas o leer los datos de los
+#  clientes que ya reserve.
+#
+#  Si alguna vez subiste una clave por error: borrar el archivo NO alcanza,
+#  porque queda en el historial de git para siempre. Hay que ROTAR la clave
+#  en el servicio y recién después borrarla.
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Credenciales de servicios, por si alguien las guarda con otro nombre
+credentials.json
+serviceAccount*.json
+secrets.yml
