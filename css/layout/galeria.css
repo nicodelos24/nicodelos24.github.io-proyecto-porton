@@ -144,6 +144,62 @@
   color: var(--c-texto-suave);
 }
 
+/* ==========================================================================
+   LA REJILLA — contraste con las fotos de efecto
+   ==========================================================================
+   Estas dos van al revés que las de arriba: no tienen ningún efecto de scroll,
+   son fotos quietas. El contraste no viene del movimiento sino del tamaño:
+   la rejilla es chica y de distintas proporciones, mientras las de efecto
+   ocupan todo el ancho. Eso hace que la vista se frene un momento antes de
+   volver a una foto grande.
+
+   Se probó con un efecto de revelado (la foto siendo tres pantallas de alto,
+   que es como lo hace el sitio de Triciclo) pero acá no suma: con la página
+   ya llena de fotos con efecto, un efecto más es ruido y no descanso.
+
+   Las fotos van como <img> y no de fondo a propósito: una imagen de fondo
+   solo se puede dejar clavada, que es justo lo que aquí no se quiere.
+   ========================================================================== */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.rejilla__foto {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  background: var(--c-superficie);
+}
+
+/* Proporciones distintas a propósito: es lo que hace que se lea como un
+   mosaico y no como una grilla de cuadros iguales. */
+.rejilla__foto--angosta {
+  grid-column: span 4;
+  aspect-ratio: 3 / 4;
+}
+
+.rejilla__foto--ancha {
+  grid-column: span 8;
+  aspect-ratio: 4 / 3;
+}
+
+.rejilla__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 48rem) {
+  .rejilla__foto--angosta,
+  .rejilla__foto--ancha {
+    grid-column: span 12;
+    aspect-ratio: 4 / 3;
+  }
+}
+
 /* ---- Bloque 2 · dos fotos con el texto en el medio ---- */
 .galeria-bloque--costuras {
   display: grid;
