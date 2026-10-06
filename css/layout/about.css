@@ -42,15 +42,26 @@
   box-shadow: var(--sombra-lg);
 }
 
+/* El encuadre se corre apenas hacia la derecha: la comida está muy cerca del
+   centro de la foto, pero no del todo, y con el recorte centrado se perdía el
+   borde derecho del plato. Con 55% la calabaza queda prácticamente centrada sin
+   que se corte nada.
+
+   El 1.16 es el zoom mínimo que hace falta para que el paralaje tenga de dónde
+   moverse sin que aparezca un borde vacío. Con cualquier valor menor, al llegar
+   al final del recorrido se ve un hueco abajo o arriba. El marco no cambia de
+   tamaño en ningún momento: la foto se ve más grande, no más chica. */
 .about__figure img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 55% 50%;
+  transform: translateY(var(--parallax, 0)) scale(1.16);
   transition: transform var(--dur-slow) var(--ease-out);
 }
 
 .about__figure:hover img {
-  transform: scale(1.06);
+  transform: translateY(var(--parallax, 0)) scale(1.22);
 }
 
 /* Marco decorativo desplazado detrás de la foto */
