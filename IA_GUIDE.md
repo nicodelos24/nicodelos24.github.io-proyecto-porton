@@ -108,11 +108,11 @@ configurada. Los pushes posteriores funcionan sin hacer nada especial.
 
 ---
 
-## 5. Modo claro — revertido
+## 5. Modo claro
 
 > *«Primero podríamos comenzar con la opción de un modo claro»*
 
-**Estado: 🧪**
+**Estado: ✅**
 
 Se agregó cambio de tema con botón en la barra de navegación.
 
@@ -218,11 +218,13 @@ alguien mirando la pantalla.
 
 ---
 
-## 8. Reordenar: la galería antes de los platos — revertido
+## 8. Reordenar: la galería antes de los platos
 
 > *«Esa sección de galería se muestre antes de la de los platos»*
 
-**Estado: ✅**
+**Estado: ↩️ revertido**
+
+El orden de las secciones **no se restauró**: quedó el original, con la carta antes que la galería.
 
 El orden de la página pasó a ser: portada, nosotros, galería, carta,
 contacto. El menú de arriba y el del pie siguen el mismo orden.
@@ -233,11 +235,13 @@ carta vuelve al color de la página.
 
 ---
 
-## 9. Ver las fotos grandes al tocarlas — revertido
+## 9. Ver las fotos grandes al tocarlas
 
 > *«Y que al tocar una foto esta se expanda y se puedan ver una a una»*
 
-**Estado: 🧪**
+**Estado: ↩️ revertido**
+
+El visor de fotos **no se restauró**. La galería vuelve a ser el mosaico de cinco fotos.
 
 La galería pasó de 5 a 10 fotos, y cada una abre un visor grande con:
 
@@ -255,13 +259,15 @@ Qué mirar vos: tocar una foto en el celular y deslizar entre fotos.
 
 ---
 
-## 10. Carta resumida con el menú completo a un clic — revertido
+## 10. Carta resumida con el menú completo a un clic
 
 > *«Que la carta en la página muestre solo algunos platos (los que sean más
 > llamativos visualmente) y luego el menú completo se vea al seleccionarlo,
 > así no hay que hacer tanto scroll, no se si esa es buena idea»*
 
-**Estado: 🧪**
+**Estado: ↩️ revertido**
+
+La carta resumida **no se restauró**: se muestran los once platos desde el principio, sin botón de desplegar.
 
 Es buena idea, y quedó así:
 
@@ -281,12 +287,12 @@ convendría que sean 6 o menos.
 
 ---
 
-## 11. Arreglar el modo claro — revertido
+## 11. Arreglar el modo claro
 
 > *«En el modo claro no se lee bien el botón reservar mesa y la parte del
 > formulario no se ve afectada por el modo claro»*
 
-**Estado: 🧪**
+**Estado: ✅**
 
 Eran tres problemas, todos causados por colores oscuros escritos a mano en
 lugar de tokens:
@@ -406,6 +412,48 @@ archivo por archivo.
 La última tanda (el fondo fijo con `position: sticky`) se descartó sin
 llegar a verse en un dispositivo real. Queda documentada, pero su
 resultado visual nunca se evaluó.
+
+---
+
+## 17. Reincorporar solo el modo claro
+
+> *«Me gustaría poder reincorporar solamente el modo claro pero dejando el
+> resto tal como ahora»*
+
+**Estado: ✅**
+
+Después de la marcha atrás, el modo claro volvió **solo**, sin el resto de
+lo que se había hecho en la misma tanda.
+
+### Qué entró
+
+- El módulo de tema (`js/modules/tema.js`) y su botón en la barra.
+- La paleta clara de `tokens.css`, con el dorado y el vino oscurecidos para
+  mantener el contraste sobre fondo claro.
+- Los tokens del panel del formulario, que antes tenía el color oscuro
+  escrito a mano y por eso no cambiaban con el tema.
+- El arreglo para que el botón del tema y las barras del menú se vean
+  sobre la foto oscura de la portada.
+
+### Qué NO entró
+
+| Lo que quedó afuera | Por qué |
+|---|---|
+| Galería en mosaico compacto | No se pidió recuperarlo |
+| Cambio del orden de las secciones | No se pidió |
+| Visor de fotos al tocar | No se pidió |
+| Carta resumida con menú desplegable | No se pidió |
+| Galería con fotos del local | No se pidió |
+
+### Un error que se repitió
+
+Cuando se implementó por primera vez, el arreglo de los íconos de la barra
+**nunca llegó a commitearse**: quedó en una rama que se borró sin commits,
+así que se perdió del todo. Cuando se pidió recuperarlo, no estaba en
+ningún commit y hubo que escribirlo de nuevo.
+
+Por eso ahora el orden es: se commitea en la rama, y recién después se
+decide si se aprueba o se descarta.
 
 ---
 

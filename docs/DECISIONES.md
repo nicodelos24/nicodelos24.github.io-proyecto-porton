@@ -227,12 +227,7 @@ llamarla dos veces no rompe nada.
 `observeReveal` sobre el contenedor.
 ---
 
-<!--
-  D16 a D20 describen funcionalidades que se implementaron y después se
-  revirtieron: no están en el código. Se conservan como registro.
--->
-
-## D16 · (revertido) El tema arranca con la preferencia del sistema
+## D16 · El tema arranca con la preferencia del sistema
 
 **Qué:** el sitio se ve claro o oscuro según lo que tenga configurado el
 sistema del visitante. Recién después de que se toque el botón queda fija la
@@ -258,7 +253,7 @@ visitante vería un destello del tema equivocado antes de que se corrija.
 
 ---
 
-## D17 · (revertido) El modo claro tiene su propia paleta, no es invertir el oscuro
+## D17 · El modo claro tiene su propia paleta, no es invertir el oscuro
 
 **Qué:** `tokens.css` define valores propios para el tema claro.
 
@@ -273,7 +268,7 @@ se ve como una mancha sucia en vez de dar profundidad.
 
 ---
 
-## D18 · (revertido) La portada y el pie se mantienen oscuros en los dos temas
+## D18 · La portada y el pie se mantienen oscuros en los dos temas
 
 **Qué:** `.hero` y `.footer` redefinen por su cuenta los colores de texto,
 borde, marca y acento dentro de su propio bloque.
@@ -290,6 +285,9 @@ duplicar las reglas de estilo.
 
 ## D19 · (revertido) La galería no usa `auto-fit`
 
+> La galería volvió a su versión en mosaico con `auto-fit`, así que esta
+> decisión **no está en el código**. Queda como registro.
+
 **Qué:** el número de columnas está escrito en cada tramo de pantalla
 (2 en móvil, 3 en tablet, 4 en escritorio) en vez de dejar que lo calcule
 `auto-fit`.
@@ -305,7 +303,7 @@ escritorio (1206 px contra 866 px), al revés de lo esperado.
 
 ---
 
-## D20 · (revertido) El botón de tema va fuera del panel de navegación
+## D20 · El botón de tema va fuera del panel de navegación
 
 **Qué:** el botón no está dentro de `<nav>`, sino en un contenedor hermano
 (`.nav__acciones`) al lado del botón de menú.
@@ -335,6 +333,27 @@ tiene riesgo.
 **En la práctica:** si un cambio toma más de unos minutos, primero
 `git commit -m "WIP"` en la rama, y después se sigue. Si al final se
 descarta, la rama se borra y el commit va con ella.
+
+
+## D22 · Sobre la portada, la barra se dibuja en claro
+
+**Qué:** mientras la barra no tenga fondo (`.nav--solid`), su contenido se
+pinta en claro con `#f4efe6`. Cuando aparece el fondo, vuelve a los
+colores del tema.
+
+**Por qué:** durante los primeros 80px la barra es transparente y queda
+sobre la foto oscura de la portada. En modo claro el color de texto
+normal es casi negro, así que el botón del tema y las barras del menú
+desaparecían contra el fondo.
+
+**Dos detalles que importan:**
+
+1. **Las barras del menú se pintan con `background`, no con `color`.**
+   Cambiar el color del botón no las mueve: necesitan su propia regla.
+2. **El menú de celular queda excluido** con `:not(.nav--open)`: su panel
+   es opaco y con el color del tema, así que sus enlaces no deben
+   aclararse.
+
 
 ---
 
