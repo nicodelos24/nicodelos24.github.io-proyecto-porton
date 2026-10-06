@@ -1,5 +1,7 @@
-# Copias temporales de index.html usadas para depurar animaciones
-# y tomar capturas. No forman parte del sitio.
+# Copias temporales de index.html usadas para depurar animaciones,
+# probar módulos y tomar capturas. Empiezan con guion bajo para que
+# queden visibles y sea fácil acordarse de borrarlas.
+_t*.html
 _probe.html
 _shot.html
 
