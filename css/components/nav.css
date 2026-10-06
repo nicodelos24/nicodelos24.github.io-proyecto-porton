@@ -34,6 +34,37 @@
   transform: translateY(-100%);
 }
 
+/* ---------- Sobre la portada, la barra va en claro ----------
+
+   Durante los primeros 80px la barra es transparente y queda sobre la
+   foto oscura de la portada. En modo claro el color de texto normal es
+   casi negro, así que el botón del tema y el del menú se perdían contra
+   el fondo.
+
+   Mientras la barra siga transparente, su contenido va en claro. En
+   cuanto `nav.js` le pone `.nav--solid`, que ya tiene fondo, vuelve a
+   los colores del tema.
+
+   El `:not(.nav--open)` evita el caso del menú de celular: ese panel es
+   opaco y con el color del tema, así que sus enlaces no se aclaran. */
+.nav:not(.nav--solid):not(.nav--open) :is(
+    .nav__link,
+    .nav__tagline,
+    .theme-toggle
+  ) {
+  color: #f4efe6;
+}
+
+/* Las barras del menú se pintan con `background`, no con `color`,
+   así que necesitan su propia regla. */
+.nav:not(.nav--solid):not(.nav--open) .nav__toggle-bar {
+  background: #f4efe6;
+}
+
+.nav:not(.nav--solid):not(.nav--open) :is(.theme-toggle, .nav__toggle) {
+  border-color: rgb(255 255 255 / 20%);
+}
+
 .nav__inner {
   display: flex;
   align-items: center;
