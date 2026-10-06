@@ -164,6 +164,12 @@ real. Solo se verificaron en el emulador.
 
 ## Técnico: mejora del sitio
 
+- [ ] **Pasar la publicación a Cloudflare Pages** para poder dejar el
+      repositorio en privado. GitHub Pages, en el plan gratuito, solo publica
+      repositorios públicos. El paso a paso, con el orden y la lista de
+      verificaciones, está en
+      [`MIGRACION-CLOUDFLARE.md`](MIGRACION-CLOUDFLARE.md).
+
 - [ ] **Quitar la carpeta `images/` de la raíz.** Es la copia vieja de las
       fotos, ya reemplazada por `assets/img/`. Ocupa unos 2,9 MB que no
       sirven para nada. Se puede borrar junto con `prototipo-boceto/` una

@@ -92,6 +92,7 @@ por la IP de la computadora.
 | [`docs/GUIA-DE-CONTRIBUCION.md`](docs/GUIA-DE-CONTRIBUCION.md) | Cómo cambiar la carta, los colores y agregar una sección |
 | [`docs/DECISIONES.md`](docs/DECISIONES.md) | Decisiones de diseño técnico y sus motivos |
 | [`docs/PENDIENTES.md`](docs/PENDIENTES.md) | Lo que falta antes de publicar |
+| [`docs/MIGRACION-CLOUDFLARE.md`](docs/MIGRACION-CLOUDFLARE.md) | Cómo pasar la publicación a Cloudflare y dejar el repositorio en privado |
 
 ---
 
