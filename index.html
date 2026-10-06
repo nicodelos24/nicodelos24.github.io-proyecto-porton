@@ -227,12 +227,8 @@
             </div>
           </div>
 
-          <!-- El logo va de fondo (ver about.css), y por eso la descripción va en el
-         marco y no en un alt: una imagen de fondo no se le puede poner. Con
-         role="img" y aria-label el lector de pantalla la anuncia igual. -->
-          <figure class="about__figure" role="img"
-                  aria-label="Logo de El Otro Portón, parrillada"
-                  data-reveal="right">
+          <figure class="about__figure" data-reveal="right">
+            <img src="assets/img/caption.jpg" alt="Salón del restaurante El Otro Portón" loading="lazy">
           </figure>
 
         </div>
@@ -313,27 +309,49 @@
           <h2 class="section-title" data-reveal>El local y <span class="hl">lo que sale de la parrilla</span></h2>
         </div>
 
+        <!-- Secuencia alternada: angosto, ancho, angosto, ancho, angosto.
+             Los angostos cambian de lado para que el ojo no caiga siempre
+             en el mismo punto.
+
+             Las cinco fotos van de fondo (ver galeria.css) porque es lo
+             único que el navegador puede dejar clavada en la pantalla. Por
+             eso la descripción va en el marco, con role="img".
+
+             Y van con data-reveal="fade" y no "scale": cualquier transform
+             o will-change rompe el efecto de foto clavada. Ver la nota en
+             css/components/animations.css. -->
         <div class="gallery">
-          <figure class="gallery__item" data-reveal="scale">
-            <img src="assets/img/caption.jpg" alt="Salón del restaurante" loading="lazy">
+
+          <figure class="gallery__item gallery__item--angosta gallery__item--izq gallery__item--salon"
+                  role="img" aria-label="Salón del restaurante El Otro Portón"
+                  data-reveal="fade">
             <figcaption class="gallery__caption">El salón</figcaption>
           </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="1">
-            <img src="assets/img/asad.jpg" alt="Carnes a la parrilla" loading="lazy">
+
+          <figure class="gallery__item gallery__item--ancha gallery__item--asado"
+                  role="img" aria-label="Carnes asadas a la parrilla, recién salidas de la chapa"
+                  data-reveal="fade">
             <figcaption class="gallery__caption">A la parrilla</figcaption>
           </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="2">
-            <img src="assets/img/port.jpg" alt="Plato de la casa" loading="lazy">
+
+          <figure class="gallery__item gallery__item--angosta gallery__item--der gallery__item--casa"
+                  role="img" aria-label="Plato de la casa, servido en mesa"
+                  data-reveal="fade" data-reveal-delay="1">
             <figcaption class="gallery__caption">Plato de la casa</figcaption>
           </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="3">
-            <img src="assets/img/calabaza-asada-con-queso.jpg" alt="Calabaza asada con queso" loading="lazy">
+
+          <figure class="gallery__item gallery__item--ancha gallery__item--calabaza"
+                  role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
+                  data-reveal="fade">
             <figcaption class="gallery__caption">Postre de la casa</figcaption>
           </figure>
-          <figure class="gallery__item" data-reveal="scale" data-reveal-delay="4">
-            <img src="assets/img/chorizo-morcilla-queso.jpg" alt="Chorizo y morcilla con queso" loading="lazy">
+
+          <figure class="gallery__item gallery__item--angosta gallery__item--izq gallery__item--entradas"
+                  role="img" aria-label="Chorizo y morcilla con queso"
+                  data-reveal="fade" data-reveal-delay="2">
             <figcaption class="gallery__caption">Entradas</figcaption>
           </figure>
+
         </div>
 
       </div>

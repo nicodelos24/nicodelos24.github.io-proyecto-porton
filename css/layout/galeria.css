@@ -1,49 +1,125 @@
 /* =============================================================
    layout/galeria.css
-   Capa 3 — Galería masonry del local y los platos
+   Capa 3 — Galería del local y los platos
+   -------------------------------------------------------------
+   No es una grilla pareja: es una secuencia que alterna bloques
+   angostos y anchos al bajar. Ese contraste de tamaños es lo que
+   hace que se lea como una secuencia y no como una tabla de fotos.
+
+   La cadencia viene de una idea: tres bloques angostos y dos anchos,
+   con los angostos cambiando de lado (izquierda, derecha, izquierda)
+   para que el ojo no caiga siempre en el mismo punto.
+
+   TODAS las fotos llevan el efecto de imagen fija: la foto queda
+   clavada en la pantalla y el bloque va mostrando partes distintas
+   de ella al scrollear. Es el mismo efecto que las bandas de
+   transicion.css.
+
+   Eso obliga a que las fotos sean fondo de CSS y no <img>: una
+   imagen de fondo es lo único que el navegador puede dejar clavada
+   en la pantalla. El costo es que las imágenes de fondo no se cargan
+   diferidas como las de <img loading="lazy">, así que las cinco se
+   piden al abrir la página. Cuando se reemplazen por las fotos
+   definitivas conviene revisar el peso y, si molesta, volver las
+   angostas a <img> y dejar el efecto solo en las anchas.
+
+   Por lo mismo, la descripción de cada foto va en el marco con
+   role="img", que es la forma de que un lector de pantalla la
+   anuncie igual.
    ============================================================= */
 
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: clamp(0.75rem, 1.5vw, 1.25rem);
-  grid-auto-rows: 14rem;
-  grid-auto-flow: dense;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 7vw, 5.5rem);
 }
 
 .gallery__item {
   position: relative;
   overflow: hidden;
-  border-radius: var(--r-md);
+  border-radius: var(--r-lg);
   background: var(--c-superficie);
-  cursor: pointer;
+  box-shadow: var(--sombra-md);
+
+  /* Rutas con barra inicial: se resuelven desde la raíz del sitio y no
+     desde esta hoja (ver DECISIONES.md, D14). */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Los ítems impares ocupan dos filas para romper la monotonía */
-.gallery__item:nth-child(3n + 1) {
-  grid-row: span 2;
+/* ---- La foto de cada bloque ---- */
+.gallery__item--salon {
+  background-image: url("/assets/img/caption.jpg");
 }
 
-.gallery__item img {
+.gallery__item--asado {
+  background-image: url("/assets/img/asad.jpg");
+}
+
+.gallery__item--casa {
+  background-image: url("/assets/img/port.jpg");
+}
+
+.gallery__item--calabaza {
+  background-image: url("/assets/img/calabaza-asada-con-queso.jpg");
+}
+
+.gallery__item--entradas {
+  background-image: url("/assets/img/chorizo-morcilla-queso.jpg");
+}
+
+/* ---- Bloque angosto: portrait, pegado a un lado ---- */
+.gallery__item--angosta {
+  width: min(100%, 26rem);
+  aspect-ratio: 3 / 4;
+}
+
+.gallery__item--izq {
+  align-self: flex-start;
+}
+
+.gallery__item--der {
+  align-self: flex-end;
+}
+
+/* ---- Bloque ancho: apaisado, a todo el ancho ---- */
+.gallery__item--ancha {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition:
-    transform var(--dur-slow) var(--ease-out),
-    filter var(--dur-base) var(--ease-out);
+  aspect-ratio: 16 / 9;
 }
 
-.gallery__item:hover img {
-  transform: scale(1.07);
-  filter: brightness(0.75);
+/* El efecto de imagen fija, igual que en las bandas: solo en pantallas
+   anchas. En el celular no se vería y, además, obliga al navegador a
+   recomponer en cada scroll. */
+@media (min-width: 1025px) {
+  .gallery__item {
+    background-attachment: fixed;
+  }
+}
+
+/* Oscurecido al pasar el mouse. Como las fotos son de fondo, no hay
+   <img> que oscurecer: se hace con una capa por encima. */
+.gallery__item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(10 10 10 / 0%);
+  transition: background var(--dur-base) var(--ease-out);
+}
+
+.gallery__item:hover::before {
+  background: rgb(10 10 10 / 28%);
 }
 
 /* Texto que aparece sobre la foto al hacer hover */
 .gallery__caption {
   position: absolute;
   inset: auto 0 0 0;
+  z-index: 1;
   padding: var(--sp-5);
   background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
+  color: var(--c-hueso);
   font-family: var(--font-display);
   font-size: var(--fs-lg);
   opacity: 0;
@@ -58,12 +134,17 @@
   transform: none;
 }
 
-@media (width < 48rem) {
-  .gallery {
-    grid-auto-rows: 11rem;
+/* ---- Celular ----
+   Los angostos ya ocupan todo el ancho solos (el límite de 26rem es
+   más ancho que cualquier teléfono), así que solo hay que ajustar la
+   altura de los anchos: 16/9 en un teléfono queda en una franja de
+   22 centímetros, demasiado angosta para mirar una foto. */
+@media (max-width: 48rem) {
+  .gallery__item--ancha {
+    aspect-ratio: 4 / 3;
   }
 
-  .gallery__item:nth-child(3n + 1) {
-    grid-row: span 1;
+  .gallery__item--der {
+    align-self: flex-start;
   }
 }

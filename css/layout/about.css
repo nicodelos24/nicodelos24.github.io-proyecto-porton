@@ -33,35 +33,24 @@
   color: var(--c-acento);
 }
 
-/* ---- Composición de fotos ----
-   Acá va el logo del local, no una foto de comida: es lo que identifica
-   la marca y tiene que verse entero y quieto.
-
-   Por eso NO lleva el efecto de imagen fija que tienen las bandas de
-   transicion.css. Ese efecto existe para dar profundidad a una foto
-   grande; aplicado a un logo solo lo deformaría visualmente, porque el
-   navegador lo ampliaría a pantalla completa y se vería una porción
-   gigante del cuadro en vez del logo.
-
-   Tampoco lleva el agrandado al pasar el mouse: zoomear un logo no
-   aporta nada.
-
-   El marco es apaisado en todas las pantallas, porque el logo es
-   cuadrado y así entra entero en cualquier tamaño.
-
-   Ruta con barra inicial: se resuelve desde la raíz del sitio y no desde
-   esta hoja (ver DECISIONES.md, D14). */
+/* ---- Composición de fotos ---- */
 .about__figure {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--sombra-lg);
+}
 
-  background-image: url("/assets/img/PORTON_logo.png");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+.about__figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.about__figure:hover img {
+  transform: scale(1.06);
 }
 
 /* Marco decorativo desplazado detrás de la foto */

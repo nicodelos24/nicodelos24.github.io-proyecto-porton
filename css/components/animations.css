@@ -31,6 +31,20 @@
   transform: scale(0.92);
 }
 
+/* Variante "fade": solo aparece, sin desplazarse.
+
+   Existe por una razón concreta: cualquier elemento con `transform` o con
+   `will-change: transform` deja de anclar las imágenes de fondo a la
+   pantalla, y entonces se rompe el efecto de foto clavada
+   (`background-attachment: fixed`) que usan las bandas y la galería.
+
+   No cambiar esta variante por "scale" ni por "left"/"right" en un bloque
+   que lleva foto de fondo: el efecto deja de verse sin dar ningún error. */
+.js [data-reveal="fade"] {
+  transform: none;
+  will-change: opacity;
+}
+
 /* Estado final (agregado por JS) */
 .js [data-reveal].is-visible {
   opacity: 1;

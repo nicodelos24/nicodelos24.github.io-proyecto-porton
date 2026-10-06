@@ -8,8 +8,15 @@
    lo hace CSS (ver components/animations.css), así que el JS queda chico.
 
    Cada elemento puede pedir una dirección y un retraso:
-     data-reveal="left|right|scale"
+     data-reveal="left|right|scale|fade"
      data-reveal-delay="1..6"
+
+   Ojo con "fade": es la única variante que no mueve el elemento, y por eso
+   es la única que se puede usar en algo con foto de fondo clavada
+   (`background-attachment: fixed`). Un `transform` o un `will-change:
+   transform` hacen que el navegador pinte esa foto contra el elemento en vez
+   de contra la pantalla, y el efecto desaparece sin ningún error visible.
+   Ver la nota en components/animations.css.
    ========================================================================== */
 
 let observer = null;
