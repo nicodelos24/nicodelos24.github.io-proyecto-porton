@@ -15,7 +15,6 @@ import { initNav } from "./modules/nav.js";
 import { initReveal } from "./modules/reveal.js";
 import { initParallax } from "./modules/parallax.js";
 import { initCarta } from "./modules/carta.js";
-import { initGaleriaMenu } from "./modules/galeria-menu.js";
 import { initContacto } from "./modules/contacto.js";
 import { initSmoothScroll } from "./modules/smooth-scroll.js";
 import { initTema } from "./modules/tema.js";
@@ -40,6 +39,5 @@ document.addEventListener("DOMContentLoaded", () => {
   safe("parallax", initParallax);
   safe("smooth-scroll", initSmoothScroll);
   safe("carta", initCarta);
-  safe("galeria-menu", initGaleriaMenu);
   safe("contacto", initContacto);
 });

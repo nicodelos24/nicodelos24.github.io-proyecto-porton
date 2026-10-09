@@ -1,11 +1,24 @@
 /* =============================================================
    layout/carta.css
-   Capa 3 — Sección de carta / menú
+   Capa 4 — Sección de carta / menú
    -------------------------------------------------------------
+   La carta completa con fotos y precios. Es la sección que más
+   invitada a reservar: se ve la comida, su descripción y su precio.
+
+   La barra de filtros y la grilla de tarjetas se renderizan desde
+   js/data/menu.js (ver modules/carta.js). El HTML solo aporta el
+   esqueleto con .carta__filters y .carta__grid.
+
    - Barra de filtros por categoría
    - Rejilla de tarjetas renderizada desde js/data/menu.js
    - La lista se anima con stagger al cambiar de categoría
    ============================================================= */
+
+/* Fondo apenas distinto al de la página: separa la carta de las
+   secciones vecinas sin competir con las fotos de los platos. */
+.section--carta {
+  background: var(--c-bg-alt);
+}
 
 .carta__toolbar {
   display: flex;
@@ -70,11 +83,22 @@
   display: none;
 }
 
+/* ---------- Cierre de la carta ----------
+   Con la rejilla de platos arriba, el que decide reservar necesita
+   un camino claro: la nota de precios y un botón a la vista, sin
+   tener que bajar hasta la sección de contacto. */
+.carta__cierre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-5);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
 /* ---------- Nota al pie de la carta ---------- */
 .carta__note {
-  margin-top: var(--sp-7);
-  padding-top: var(--sp-5);
-  border-top: 1px solid var(--c-borde);
+  max-width: 52ch;
+  margin: 0;
   font-size: var(--fs-xs);
   color: var(--c-texto-suave);
   text-align: center;

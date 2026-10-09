@@ -75,7 +75,7 @@
       <nav class="nav__links" aria-label="Navegación principal">
         <a class="nav__link" href="#inicio">Inicio</a>
         <a class="nav__link" href="#sobre-nosotros">Nosotros</a>
-        <a class="nav__link" href="carta.html">Carta</a>
+        <a class="nav__link" href="#carta">Carta</a>
         <a class="nav__link" href="#galeria">Galería</a>
         <a class="nav__link" href="#contacto">Contacto</a>
         <a class="btn btn--primary btn--sm nav__cta" href="#reservas">
@@ -139,7 +139,7 @@
           </p>
 
           <div class="hero__actions hero__item">
-            <a class="btn btn--primary btn--lg" href="carta.html">
+            <a class="btn btn--primary btn--lg" href="#carta">
               Ver la carta <span class="btn-arrow" aria-hidden="true">→</span>
             </a>
             <a class="btn btn--ghost btn--lg" href="#reservas">Reservar mesa</a>
@@ -236,7 +236,7 @@
     </section>
 
     <!-- ========================================================================
-         BANDA DE TRANSICIÓN — respiro visual entre "Nosotros" y la galería
+         BANDA DE TRANSICIÓN — respiro visual entre "Nosotros" y la carta
          ======================================================================== -->
     <section class="transicion transicion--mollejas">
       <div class="transicion__veil" aria-hidden="true"></div>
@@ -246,23 +246,49 @@
         <h2 class="transicion__title" data-reveal>
           Un plato que <em>vale el viaje</em>
         </h2>
-        <a class="btn btn--primary" href="#galeria" data-reveal>
-          Ver los platos <span class="btn-arrow" aria-hidden="true">→</span>
+        <a class="btn btn--primary" href="#carta" data-reveal>
+          Ver la carta <span class="btn-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </section>
 
-    <section class="transicion transicion--tortelinis">
-      <div class="transicion__veil" aria-hidden="true"></div>
+    <!-- ========================================================================
+         LA CARTA — el corazón de la página: platos con foto, descripción,
+         precio y filtros por categoría.
 
-      <div class="container transicion__content">
-        <span class="eyebrow transicion__eyebrow" data-reveal>El local</span>
-        <h2 class="transicion__title" data-reveal>
-          Una cocina que <em>no se apura</em>
-        </h2>
-        <a class="btn btn--primary" href="#galeria" data-reveal>
-          Ver la galería <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
+         Acá no hay ni un plato escrito a mano: la grilla y los filtros se
+         arman solos desde js/data/menu.js (ver modules/carta.js). Solo hace
+         falta este esqueleto con .carta__filters y .carta__grid, que son los
+         dos lugares donde el módulo escribe.
+         ======================================================================== -->
+    <section class="section section--carta" id="carta">
+      <div class="container">
+
+        <div class="section-head section-head--center">
+          <span class="eyebrow" data-reveal>La carta</span>
+          <h2 class="section-title" data-reveal>Lo que sale de <span class="hl">la parrilla</span></h2>
+          <p class="lead" data-reveal>
+            Cortes asados al fuego, entradas para compartir y postres de la casa.
+            Tocá una categoría para ver solo eso.
+          </p>
+        </div>
+
+        <div class="carta__toolbar">
+          <div class="carta__filters"></div>
+        </div>
+
+        <!-- La grilla de platos se inyecta acá desde menu.js -->
+        <div class="carta__grid"></div>
+
+        <div class="carta__cierre">
+          <p class="carta__note">
+            Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
+          </p>
+          <a class="btn btn--primary" href="#reservas">
+            Reservar mesa <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
       </div>
     </section>
 
@@ -277,157 +303,76 @@
           <h2 class="section-title" data-reveal>El local y <span class="hl">lo que sale de la parrilla</span></h2>
         </div>
 
-        <!-- Secuencia alternada: angosto, ancho, angosto, ancho, angosto.
-             Los angostos cambian de lado para que el ojo no caiga siempre
-             en el mismo punto.
+        <!-- Una selección cuidada, no una tira interminable de fotos.
 
-             Entre foto y foto hay bloques con texto y con platos de la
-             carta, que es lo que evita que la galería sea solo una tira de
-             fotos. Los dos bloques de platos se llenan solos desde
-             js/data/menu.js (ver modules/galeria-menu.js): los destacados
-             y los postres. Si ese archivo no llegara a cargar, esos dos
-             bloques se ocultan solos y no queda un hueco vacío.
+             Antes eran ocho fotos grandes alternadas con el efecto de imagen
+             clavada, más cuatro listas de platos metidas en los huecos. En
+             escritorio quedaba alternando tamaños; en el celular, donde el
+             efecto clavado no funciona, se convertía en un apilado largo sin
+             jerarquía. La sensación era "muchas imágenes".
 
-             Todas las fotos van de fondo (ver galeria.css) porque es lo
-             único que el navegador puede dejar clavada en la pantalla. Por
-             eso la descripción va en el marco, con role="img".
+             Ahora el ritmo es otro: una foto principal a todo el ancho del
+             contenedor y, debajo, una rejilla de piezas de tamaños distintos.
+             Menos imágenes, mejor distribuidas, y se lee igual en cualquier
+             pantalla.
 
-             Y van con data-reveal="fade" y no "scale": cualquier transform
-             o will-change rompe el efecto de foto clavada. Ver la nota en
-             css/components/animations.css. -->
-        <div class="gallery">
+             Todas van como <img loading="lazy">: el navegador las pide solo
+             cuando están por entrar, así la página abre rápido. Por eso acá
+             no hace falta el efecto de foto clavada y se puede usar la
+             animación de entrada normal. -->
+        <div class="galeria">
 
-          <figure class="gallery__item gallery__item--angosta gallery__item--izq gallery__item--salon"
-                  role="img" aria-label="Salón del restaurante El Otro Portón"
-                  data-reveal="fade">
-            <figcaption class="gallery__caption">El salón</figcaption>
+          <figure class="galeria__principal" data-reveal>
+            <img src="assets/img/caption.jpg" alt="El salón del restaurante El Otro Portón"
+                 loading="lazy" decoding="async">
+            <figcaption>El salón, a la luz de la tarde</figcaption>
           </figure>
 
-          <!-- BLOQUE 1 · la parrilla, al lado de la foto de la parrilla.
-               Cada categoría queda junto a la foto que la representa: se lee
-               mejor que una lista de platos suelta, y la foto sola no dice
-               nada de lo que se cocina.
+          <div class="galeria__rejilla">
 
-               Ojo con el valor de data-platos: es la CLAVE de la categoría en
-               js/data/menu.js, no la etiqueta que se ve. La de la parrilla es
-               "parrilla" y su etiqueta es "Parrillada". Con la palabra
-               equivocada el bloque se oculta solo y no se ve por qué. -->
-          <section class="galeria-bloque galeria-bloque--pareja"
-                   aria-labelledby="galeria-parrillada-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">Del fuego</span>
-              <h3 class="galeria-bloque__titulo" id="galeria-parrillada-titulo">La parrilla</h3>
-              <ul class="galeria-platos" data-platos="parrilla"></ul>
-            </div>
-
-            <figure class="gallery__item gallery__item--pareja gallery__item--asado"
-                    role="img" aria-label="Carnes asadas a la parrilla, recién salidas de la chapa"
-                    data-reveal="fade">
-              <figcaption class="gallery__caption">A la parrilla</figcaption>
-            </figure>
-          </section>
-
-          <!-- BLOQUE 2 · dos fotos con el efecto clavado, una a cada lado,
-               con el texto en el medio -->
-          <section class="galeria-bloque galeria-bloque--costuras">
-            <figure class="gallery__item gallery__item--costura gallery__item--empanada"
-                    role="img" aria-label="Empanadas de carne a cuchillo, recién hechas"
-                    data-reveal="fade">
-              <figcaption class="gallery__caption">Empanadas</figcaption>
+            <figure class="galeria__foto galeria__foto--ancha" data-reveal>
+              <img src="assets/img/asad.jpg" alt="Carnes asadas a la parrilla, recién salidas de la chapa"
+                   loading="lazy" decoding="async">
+              <figcaption>A la parrilla</figcaption>
             </figure>
 
-            <div class="galeria-centro" data-reveal="fade">
-              <span class="eyebrow">La cocina</span>
-              <p class="galeria-centro__texto">
-                Cada plato sale de la parrilla cuando está en su punto, no antes.
-                Las empanadas se amasan a mano y las tortillas llevan su tiempo.
-                Nada se sirve apurado.
-              </p>
-            </div>
-
-            <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
-                    role="img" aria-label="Tortilla española con alioli de ajo y huevo"
-                    data-reveal="fade">
-              <figcaption class="gallery__caption">Tortilla con alioli</figcaption>
+            <figure class="galeria__foto galeria__foto--alta" data-reveal>
+              <img src="assets/img/empanada-de-carne-a-cuchillo.jpg" alt="Empanadas de carne a cuchillo, recién hechas"
+                   loading="lazy" decoding="async">
+              <figcaption>Empanadas</figcaption>
             </figure>
 
-            <!-- Y abajo, las entradas, que son justamente lo que sale en
-                 esas dos fotos -->
-            <div class="galeria-lista galeria-lista--ancha" data-reveal="fade">
-              <h3 class="galeria-bloque__titulo">Para compartir</h3>
-              <ul class="galeria-platos" data-platos="entradas"></ul>
-            </div>
-          </section>
-
-          <figure class="gallery__item gallery__item--angosta gallery__item--der gallery__item--casa"
-                  role="img" aria-label="Plato de la casa, servido en mesa"
-                  data-reveal="fade" data-reveal-delay="1">
-            <figcaption class="gallery__caption">Plato de la casa</figcaption>
-          </figure>
-
-          <!-- LA REJILLA · contraste con las fotos de efecto
-               Estas dos van al revés que las de arriba: NO tienen efecto de
-               scroll. El contraste no viene del movimiento sino del tamaño:
-               son chicas, de distintas proporciones, y ahí la vista se para
-               un momento antes de volver a las fotos grandes.
-               Cuando lleguen las fotos de los tragos, este mosaico es el
-               lugar donde van. -->
-          <div class="rejilla" data-reveal="fade">
-            <figure class="rejilla__foto rejilla__foto--angosta">
-              <img src="assets/img/2.jpg" alt="Costillar de carnes asado a la parrilla" loading="lazy" decoding="async">
+            <figure class="galeria__foto galeria__foto--alta" data-reveal>
+              <img src="assets/img/port.jpg" alt="Plato de la casa, servido en mesa"
+                   loading="lazy" decoding="async">
+              <figcaption>Plato de la casa</figcaption>
             </figure>
 
-            <figure class="rejilla__foto rejilla__foto--ancha">
-              <img src="assets/img/8.jpg" alt="La mesa servida, con pan y condimentos" loading="lazy" decoding="async">
+            <figure class="galeria__foto galeria__foto--ancha" data-reveal>
+              <img src="assets/img/8.jpg" alt="La mesa servida, con pan y condimentos"
+                   loading="lazy" decoding="async">
+              <figcaption>La mesa, servida</figcaption>
             </figure>
+
+            <figure class="galeria__foto galeria__foto--ancha" data-reveal>
+              <img src="assets/img/2.jpg" alt="Costillar de carnes asado a la parrilla"
+                   loading="lazy" decoding="async">
+              <figcaption>El costillar</figcaption>
+            </figure>
+
+            <figure class="galeria__foto galeria__foto--alta" data-reveal>
+              <img src="assets/img/el-negro-inspirado-en.jpg" alt="El Negro, postre frío de cacao con chocolate amargo"
+                   loading="lazy" decoding="async">
+              <figcaption>El Negro</figcaption>
+            </figure>
+
           </div>
 
-          <!-- BLOQUE 3 · los postres a la izquierda y una foto con el efecto
-               clavado a la derecha -->
-          <section class="galeria-bloque galeria-bloque--pareja"
-                   aria-labelledby="galeria-postres-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">Para terminar</span>
-              <h3 class="galeria-bloque__titulo" id="galeria-postres-titulo">Postres</h3>
-              <ul class="galeria-platos" data-platos="especiales"></ul>
-            </div>
-
-            <figure class="gallery__item gallery__item--pareja gallery__item--negro"
-                    role="img" aria-label="El Negro, postre frío de cacao con chocolate amargo"
-                    data-reveal="fade">
-              <figcaption class="gallery__caption">El Negro</figcaption>
-            </figure>
-          </section>
-
-          <!-- Con "sangria" la foto rompe el ancho del contenedor y toca los dos
-               bordes de la pantalla. A lo ancho del contenedor se veía
-               encerrada; a pantalla completa tiene la escala de una imagen de
-               verdad. El efecto clavado sigue funcionando igual. -->
-          <figure class="gallery__item gallery__item--ancha gallery__item--calabaza sangria"
-                  role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
-                  data-reveal="fade">
-            <figcaption class="gallery__caption">Postre de la casa</figcaption>
-          </figure>
-
-          <figure class="gallery__item gallery__item--angosta gallery__item--izq gallery__item--entradas"
-                  role="img" aria-label="Chorizo y morcilla con queso"
-                  data-reveal="fade" data-reveal-delay="2">
-            <figcaption class="gallery__caption">Entradas</figcaption>
-          </figure>
-
-          <!-- Las bebidas quedan solas al final: no hay foto del local que las
-               represente y no hacía falta inventar una. -->
-          <section class="galeria-bloque galeria-bloque--solo"
-                   aria-labelledby="galeria-bebidas-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">Para beber</span>
-              <h3 class="galeria-bloque__titulo" id="galeria-bebidas-titulo">Bebidas</h3>
-              <ul class="galeria-platos" data-platos="bebidas"></ul>
-              <p class="galeria-bloque__nota">
-                Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
-              </p>
-            </div>
-          </section>
+          <p class="galeria__nota" data-reveal>
+            Cada plato sale de la parrilla cuando está en su punto, no antes.
+            Las empanadas se amasan a mano y las tortillas llevan su tiempo.
+            Nada se sirve apurado.
+          </p>
 
         </div>
 
@@ -558,7 +503,7 @@
           <ul class="footer__list" style="margin-top: 1rem;">
             <li><a href="#inicio">Inicio</a></li>
             <li><a href="#sobre-nosotros">Nosotros</a></li>
-            <li><a href="carta.html">Carta</a></li>
+            <li><a href="#carta">Carta</a></li>
             <li><a href="#galeria">Galería</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>

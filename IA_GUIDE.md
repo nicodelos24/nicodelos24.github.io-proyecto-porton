@@ -457,6 +457,83 @@ decide si se aprueba o se descarta.
 
 ---
 
+## 18. Corregir la distribución de la página
+
+> *«Que el sitio tenga un frontend hermoso como ahora pero bien corregido en
+> la distribución de la página, sin modificar el hero y el pie, y hoy hay
+> muchas imágenes»*
+
+**Estado: ✅**
+
+La portada y el pie quedaron **intactos**. Todo lo de en medio se reordenó.
+
+### El diagnóstico
+
+Tres cosas estaban rotas, y solo una era visible:
+
+1. **La carta no existía.** Tres enlaces apuntaban a `carta.html`, que nunca
+   se creó: los 404 seguían en el menú, en el botón de la portada y en el pie.
+   Mientras tanto, `js/modules/carta.js` y `css/layout/carta.css` ya estaban
+   escritos y completos, pero sin un contenedor en el HTML donde renderizarse:
+   el módulo arrancaba, no encontraba nada y se iba. Toda la parte de la carta
+   —la que más invita a reservar— estaba huérfana.
+
+2. **La galería era una tira larga de fotos.** Ocho fotos con efecto clavado,
+   alternadas con cuatro listas de platos metidas en los huecos. En
+   escritorio el contraste de tamaños le daba algo de ritmo, pero en el celular
+   el efecto clavado no funciona: ahí quedaban apiladas en una columna sin
+   jerarquía. De ahí la sensación de "muchas imágenes".
+
+3. **Las bandas de transición eran dos y seguidas**, con el mismo rol y casi el
+   mismo texto. Una repetida no aporta nada.
+
+### Qué se hizo
+
+**El orden nuevo** está pensado para alguien que todavía no conoce el local:
+lo ve, lee quién es, **ve la comida y los precios**, y recién al final reserva.
+
+```
+portada → marquee → nosotros → banda → CARTA → galería → contacto → pie
+```
+
+La carta pasó a ser el corazón de la página: los 11 platos con foto,
+descripción y precio, filtrables por categoría. Se reutilizó el código que ya
+existía, así que no hubo que escribir la grilla, solo darle un lugar donde
+vivir.
+
+**Los enlaces rotos** dejaron de existir: nav, portada y pie ahora apuntan a
+`#carta`, la sección nueva. Los tres conduzcan al mismo lado.
+
+**La galería** pasó de ocho fotos con efecto a siete fotos sin efecto: una
+principal a todo el ancho y una rejilla de piezas de tamaños distintos (8 y 4
+columnas de 12, así cada fila cierra). Todas van como `<img loading="lazy">`,
+as que el navegador las pide al acercarse y la página abre bastante más
+rápido. De paso se cayó el efecto clavado de la galería, que no rendía nada en
+el celular y obligaba a usar una animación de entrada especial.
+
+**Las listas de platos de la galería** se fueron. Los platos aparecen en un
+solo lugar: mantener el mismo precio en dos Markup distintos es exactamente el
+tipo de cosa que después se desincroniza.
+
+**Las bandas** quedaron en una.
+
+**El módulo `galeria-menu.js`** se eliminó: quedó sin nada que hacer.
+
+### Lo que NO cambió
+
+La portada y el pie, tal como estaban. Solo se les cambió el `href` del enlace
+a la carta, que antes daba 404.
+
+### Cosas que quedaron pendientes de revisar
+
+- La sección de carta quedó con el mismo ancho que el resto, y la rejilla de
+  platos usa 3 columnas en escritorio. Con los datos reales puede pasar que
+  haya que ajustar la proporción.
+- La galería quedó con 7 fotos; si el restaurante manda más, la rejilla de 12
+  columnas las va a absorber bien, pero conviene mirarlo.
+
+---
+
 # Tareas pendientes
 
 ## Pendientes por pedido
@@ -477,14 +554,21 @@ Nada de lo pedido quedó a medias.
 
 ## Pendientes de esta tanda (para probar a mano)
 
-- [ ] Tocar una foto de la galería en el celular y deslizar entre fotos.
 - [ ] Mirar la portada, la carta y el formulario en modo claro.
-- [ ] Ver si los 5 platos destacados representan bien al restaurante.
-- [ ] Recorrer la galería y la carta con el teclado.
+- [ ] Recorrer la carta y la galería con el teclado.
+- [ ] Probar los filtros de categoría de la carta: que al tocar cada uno
+      salgan solo los platos de esa categoría.
+- [ ] Ver la galería con más fotos, cuando lleguen las definitivas: la
+      rejilla de 12 columnas debería absorberlas, pero conviene mirarlo.
+- [ ] Revisar la proporción de la rejilla de platos con los datos reales
+      (nombres largos, precios de tres cifras).
 
 ## Pendientes de antes (siguen abiertos)
 
 - [ ] Poner los datos reales: teléfono, dirección, horarios, precios.
+      Los reales, anotados en la entrada 16, son: 18 de Julio 351 esquina
+      Intendente Suárez, 099 514 133, lunes a viernes 12:00–15:30 y
+      20:00–23:30, sábado y domingo cerrado.
 - [ ] Implementar el envío del formulario de reservas.
 - [ ] Revisar el contraste real de los textos.
 - [ ] Probar el sitio en un celular de verdad.
