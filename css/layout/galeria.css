@@ -158,9 +158,14 @@
   inset-inline-start: 0;
   translate: 0 -50%;
 
-  /* Más angosto que su columna a propósito: así pica la foto sin taparla, y el
-     texto queda bien menor que la imagen. */
-  width: 44%;
+  /* El ancho sale de medir la imagen de referencia: el panel de vidrio llega
+     hasta el 55-65% del ancho de la pantalla. Con el 44% que tenía antes la
+     foto asomaba apenas y los dos se leían como dos piezas pegadas, no como
+     una sola. */
+
+  /* Se pasa del ancho de su columna: la foto empieza en el 40% y el panel
+     llega al 58%, así que se superpone con la foto en una banda ancha. */
+  width: 58%;
 
   /* El texto se separa del borde de la pantalla con el mismo margen que usa el
      resto de la página, para que no quede pegado al canto. */
