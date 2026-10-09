@@ -121,6 +121,18 @@
   grid-template-columns: 0.8fr 1.2fr;
   align-items: center;
 
+  /* Dónde termina la foto, como porcentaje de la pantalla. Lo usa el ancho del
+     texto para que este termine justo donde arranca la imagen y no haya ni una
+     palabra en la parte del panel que se desvanece. El bloque invertido lo
+     cambia por el otro lado (ver más abajo).
+
+     Se guarda en unidades de pantalla (`vw`), y no como porcentaje, porque el
+     ancho del texto se mide con `max-width` en porcentaje: eso se resuelve
+     contra el ancho del CONTENIDO, no contra el de la pantalla, y el cálculo
+     daba un texto de 218px en vez de 448px. Con `vw` las dos medidas cuentan
+     sobre lo mismo. */
+  --borde-foto: 40vw;
+
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
@@ -179,15 +191,72 @@
   box-shadow: var(--sombra-lg);
 }
 
+/* La parte del panel que se superpone con la foto se desvanece.
+
+   En la referencia el vidrio se va aclarando hacia la foto: la banda que
+   pisa la imagen se vuelve casi transparente y deja ver la comida detrás. Sin
+   esto, el panel es una tapa rectangular sobre la foto y se pierde lo que hay
+   abajo.
+
+   Se hace con `mask`: apaga el panel de forma progresiva hacia el lado de la
+   foto, sin tocar el color de fondo ni las fotos.
+
+   El `linear-gradient` va de blanco (se ve) a negro (invisible), y el primer
+   tope está en 45%: hasta ahí el panel es normal y de ahí en adelante se
+   desvanece hasta desaparecer en el borde. El borde del panel también se
+   desvanece con la máscara, que es lo correcto: una línea que se desvanece
+   acompaña al degradado en vez de cortarlo en seco. */
+.galeria-bloque--pareja .galeria-lista {
+  --apagado: linear-gradient(
+    to right,
+    #fff 0%,
+    #fff 45%,
+    rgb(0 0 0 / 30%) 78%,
+    #000 100%
+  );
+  -webkit-mask-image: var(--apagado);
+  mask-image: var(--apagado);
+}
+
+/* El texto del panel NO usa todo el ancho. En la referencia el texto termina
+   antes de que empiece la foto, y de ahí en adelante el panel es vidrio vacío
+   sobre la imagen.
+
+   El ancho se mide contra la foto, no contra el panel: el panel mide 58% y la
+   foto arranca en el 40%. El texto tiene que caber en esos 40% menos el margen
+   del panel, para que ninguna palabra caiga en la parte que se desvanece.
+
+   Va en los hijos y no en el panel con `max-width`, porque si se acota el
+   panel entero se encoge también el vidrio: el bloque 1 quedó en 448px de
+   ancho en vez de 835, y con el vidrio desapareciendo sobre la foto. Acotando
+   solo el texto, el panel conserva el ancho que lo hace verse como una banda
+   y lo único angosto es lo que tiene que leerse. */
+.galeria-bloque--pareja .galeria-lista > * {
+  max-width: min(
+    calc(var(--borde-foto) - 2 * var(--contenedor-pad)),
+    calc(58vw - 2 * var(--contenedor-pad))
+  );
+}
+
 /* El bloque invertido: la foto a la izquierda tocando el borde, y el texto a
    la derecha. Solo cambian la columna de la foto y de qué borde se apoya el
    panel. */
+/* El texto del bloque invertido se apoya contra el borde derecho de la
+   pantalla, que es de donde arranca el panel. Sin esto el texto quedaría
+   mitad de un lado y mitad del otro del panel, con la mitad del lado de la
+   foto apenas visible por el degradado.
+
+   El ancho sale de la misma cuenta que en el bloque normal pero del lado
+   derecho: acá la foto ocupa el 60% y el texto vive en el 40% que sobra. */
 .galeria-bloque--pareja-inversa {
   grid-template-columns: 1.2fr 0.8fr;
+  --borde-foto: 60vw;
 }
 
 .galeria-bloque--pareja-inversa .gallery__item {
   grid-column: 1;
+
+  /* Las esquinas se invierten: ahora la foto toca el borde izquierdo. */
   border-start-end-radius: var(--r-lg);
   border-end-end-radius: var(--r-lg);
   border-start-start-radius: 0;
@@ -199,6 +268,51 @@
   inset-inline-end: 0;
   border-inline: 1px solid var(--c-borde);
   border-block: 1px solid var(--c-borde);
+
+  /* El degradado va al revés: acá la foto está a la izquierda, así que el
+     vidrio se desvanece hacia ese lado, no hacia la derecha. */
+  --apagado: linear-gradient(
+    to left,
+    #fff 0%,
+    #fff 45%,
+    rgb(0 0 0 / 30%) 78%,
+    #000 100%
+  );
+}
+
+/* El texto del bloque invertido necesita el mismo límite, pero del otro lado.
+
+   En el bloque normal el límite es "la parte del panel que no pisa la foto",
+   y esa parte está a la IZQUIERDA. Acá el panel está pegado a la derecha, así
+   que el texto se empuja con `margin-inline-start: auto` para quedar del lado
+   del texto.
+
+   El límite se mide en `vw`, no en porcentaje: un `max-width` en porcentaje
+   se resuelve contra el ancho del contenido del panel (835 - padding), no
+   contra el de la pantalla, y el cálculo daba un texto de 189px. Con `vw` las
+   dos medidas cuentan sobre lo mismo.
+
+   40vw es el ancho del lado del texto (la pantalla menos el 60% de la foto),
+   menos el margen del panel por los dos lados. */
+.galeria-bloque--pareja-inversa .galeria-lista > * {
+  max-width: calc(40vw - 2 * var(--contenedor-pad));
+  margin-inline-start: auto;
+}
+
+/* El "eyebrow" (el texto chiquito de arriba) necesita alinearse con el título.
+
+   Con el `margin-inline-start: auto` de arriba no alcanza: ese margen solo
+   reparte el espacio sobrante cuando el ancho del elemento es máximo, y el
+   eyebrow es corto y toma su ancho natural, así que el margen queda en 0 y se
+   apoya contra la izquierda del panel, que es justo la parte que se desvanece.
+
+   Se le pone el ancho del título y se lo saca del flujo normal con `float: end`,
+   que sí lo apoya contra el borde derecho del panel. El título no necesita el
+   float porque su ancho es máximo y por eso el margen automático sí le
+   funciona. */
+.galeria-bloque--pareja-inversa .galeria-lista > .eyebrow {
+  float: inline-end;
+  width: calc(40vw - 2 * var(--contenedor-pad));
 }
 
 /* El pie de foto sobre un panel de vidrio no se lee: el degradado negro del
@@ -544,6 +658,22 @@
     padding: clamp(1.5rem, 3vw, 2.5rem);
     border: 1px solid var(--c-borde);
     border-radius: var(--r-lg);
+
+    /* Y con ellos, la máscara y el límite del texto. Sin esto el texto sigue
+       medido en `vw` contra una pantalla de 390 px (40vw = 156px) y los nombres
+       de los platos se parten en tres o cuatro líneas, con el precio
+       colgando al lado de cada línea. */
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* El texto vuelve a ocupar todo el ancho del panel, y a apoyarse contra el
+     borde izquierdo como en el resto del sitio. */
+  .galeria-bloque--pareja .galeria-lista > *,
+  .galeria-bloque--pareja-inversa .galeria-lista > * {
+    max-width: none;
+    margin-inline-start: 0;
+    float: none;
   }
 
   .gallery__item--pareja {
