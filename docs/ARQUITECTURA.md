@@ -356,11 +356,34 @@ animación en vez de dejar elementos invisibles.
 - La foto del hero saltea la espera (`fetchpriority="high"`) porque es lo
   primero que ve el visitante.
 
-### Una trampa con rutas relativas en CSS
+### Rutas de imágenes en CSS: relativas, y por qué
 
-Las fotos de fondo usan ruta **con barra inicial** (`/assets/img/...`), no
-relativa. Con una ruta relativa, el navegador la resuelve contra la hoja de
-estilos y no contra el documento: acabaría buscando en `css/layout/assets/...`.
+Las fotos de fondo usan ruta **relativa**, con los dos niveles de subida que
+hacen falta desde `css/layout/`:
+
+```css
+background-image: url("../../assets/img/mollejas-con-cremoso.jpg");
+```
+
+Dos trampas acá, y conviene conocer las dos:
+
+1. **Una ruta relativa se resuelve contra la hoja de estilos**, no contra el
+   documento. Por eso hacen falta los `../../`: sin ellos el navegador busca
+   en `css/layout/assets/...`, que no existe.
+2. **Una ruta con barra inicial (`/assets/img/...`) está mal en GitHub Pages**,
+   porque este repositorio se publica en un subdirectorio,
+   `nicodelos24.github.io/nicodelos24.github.io-proyecto-porton/`, y no en la raíz
+   del dominio. La barra inicial se salta el prefijo y la imagen da 404.
+
+Las rutas del HTML (`<img src="assets/img/...">`) son relativas al documento,
+que está en la raíz del proyecto, y por eso andan en los dos casos.
+
+En local el problema **no aparece**: el servidor arranca justo en la carpeta del
+proyecto, así que `/assets/...` sí existe. Solo se ve en el sitio publicado.
+
+Ojo: la barra inicial funcionaría si el sitio estuviera en la raíz de un
+dominio. Cuando se migre a Cloudflare Pages pasa a estarlo, así que **no
+conviene volver a usarla**.
 
 ---
 

@@ -210,22 +210,26 @@ escritorio pero **no en iOS ni en celular**. Está anotado en
 
 ## Trampas conocidas del código
 
-### Rutas de imágenes de fondo: siempre con barra inicial
+### Rutas de imágenes en CSS: relativas, nunca con barra inicial
 
-Las fotos que van como fondo en CSS usan ruta **completa**, no relativa:
+Las fotos de fondo se escriben con ruta relativa y los dos niveles de subida
+desde `css/layout/`:
 
 ```css
-/* Sí */
-background-image: url("/assets/img/mollejas-con-cremoso.jpg");
-
-/* No: se resuelve contra la hoja de estilos, no contra el documento */
-background-image: url("assets/img/mollejas-con-cremoso.jpg");
+background-image: url("../../assets/img/mollejas-con-cremoso.jpg");
 ```
 
-Con la segunda forma el navegador busca la imagen en `css/layout/assets/…`.
-Como los estilos vienen de varias capas importadas, es un error fácil de
-cometer y difícil de detectar: la imagen simplemente no aparece y no hay ningún
-error en la consola.
+Las dos trampas:
+
+- **Sin los `../../`** el navegador resuelve contra la hoja de estilos y
+  busca en `css/layout/assets/...`, que no existe.
+- **Con barra inicial (`/assets/img/...`) funciona en local y falla en
+  GitHub Pages**, porque este repositorio se publica en un subdirectorio del
+  dominio y no en la raíz. La barra se salta el prefijo y la foto da 404.
+  Pasó con las diez fotos de la galería y de las bandas.
+
+Las rutas del HTML (`<img src="assets/img/...">`) son relativas al documento
+y funcionan en los dos casos.
 
 ### Un `transform` rompe la foto clavada
 

@@ -42,12 +42,12 @@
 
 /* ---- La foto de cada banda ---- */
 .transicion--mollejas {
-  background-image: url("/assets/img/mollejas-con-cremoso.jpg");
+  background-image: url("../../assets/img/mollejas-con-cremoso.jpg");
   background-position: center 55%;
 }
 
 .transicion--tortelinis {
-  background-image: url("/assets/img/tortellinis-de-espinaca.jpg");
+  background-image: url("../../assets/img/tortellinis-de-espinaca.jpg");
   background-position: center 50%;
 }
 

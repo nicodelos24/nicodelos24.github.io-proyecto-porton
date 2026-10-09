@@ -50,36 +50,36 @@
 
 /* ---- La foto de cada bloque ---- */
 .gallery__item--salon {
-  background-image: url("/assets/img/caption.jpg");
+  background-image: url("../../assets/img/caption.jpg");
 }
 
 .gallery__item--asado {
-  background-image: url("/assets/img/asad.jpg");
+  background-image: url("../../assets/img/asad.jpg");
 }
 
 .gallery__item--casa {
-  background-image: url("/assets/img/port.jpg");
+  background-image: url("../../assets/img/port.jpg");
 }
 
 .gallery__item--calabaza {
-  background-image: url("/assets/img/calabaza-asada-con-queso.jpg");
+  background-image: url("../../assets/img/calabaza-asada-con-queso.jpg");
 }
 
 .gallery__item--entradas {
-  background-image: url("/assets/img/chorizo-morcilla-queso.jpg");
+  background-image: url("../../assets/img/chorizo-morcilla-queso.jpg");
 }
 
 /* Las dos fotos del bloque central */
 .gallery__item--empanada {
-  background-image: url("/assets/img/empanada-de-carne-a-cuchillo.jpg");
+  background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
 }
 
 .gallery__item--tortilla {
-  background-image: url("/assets/img/tortilla-con-alioli.jpg");
+  background-image: url("../../assets/img/tortilla-con-alioli.jpg");
 }
 
 .gallery__item--negro {
-  background-image: url("/assets/img/el-negro-inspirado-en.jpg");
+  background-image: url("../../assets/img/el-negro-inspirado-en.jpg");
 }
 
 /* ==========================================================================
