@@ -17,6 +17,19 @@
   max-width: 880px;
 }
 
+/* ---------- Sangría completa ----------
+   Rompe el ancho del contenedor para que el elemento toque los dos bordes de la
+   pantalla. `margin-inline: calc(50% - 50vw)` descuenta la mitad del contenedor
+   y suma la mitad de la ventana: el elemento queda centrado en la pantalla, no
+   en el contenedor.
+
+   Sirve para las fotos de la galería, que con el ancho del contenedor quedan
+   encerradas y pierden la escala de una imagen a todo el ancho. */
+.sangria {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
 /* ---------- Secciones ---------- */
 .section {
   position: relative;

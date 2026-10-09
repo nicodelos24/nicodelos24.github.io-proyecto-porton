@@ -18,6 +18,12 @@ html {
   scroll-behavior: smooth;
   /* Compensa el nav fijo al saltar a un ancla */
   scroll-padding-top: 6rem;
+
+  /* Las imágenes a todo el ancho se miden en 100vw, y eso incluye la barra de
+     desplazamiento: sin esto aparece una barra horizontal. `clip` y no `hidden`
+     porque `hidden` crea un contenedor de scroll y rompería los elementos
+     fijos. */
+  overflow-x: clip;
 }
 
 body {

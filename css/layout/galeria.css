@@ -200,17 +200,38 @@
   }
 }
 
-/* ---- Bloque 2 · dos fotos con el texto en el medio ---- */
+/* ---- Bloque 2 · dos fotos con el texto en el medio ----
+   El bloque entero se sangra a pantalla completa, y por eso las dos fotos de
+   los extremos quedan pegadas a los bordes sin código extra: son la primera y
+   la última columna de una grilla que ya ocupa toda la pantalla.
+
+   El `minmax(0, ...)` importa: sin él, las columnas no pueden achicarse por
+   debajo del contenido y el texto empuja la grilla y las fotos dejan de tocar
+   el borde. Es el error clásico de las grillas.
+
+   La columna del medio es más angosta que las laterales a propósito: así las
+   fotos se llevan más ancho y el texto queda en una columna de lectura, con
+   aire para no quedar apretado contra dos imágenes. */
 .galeria-bloque--costuras {
   display: grid;
-  grid-template-columns: 1fr 1.15fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: center;
+
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 
+/* Sin esquinas redondeadas: son imágenes a tamaño casi completo, y el radio las
+   hace ver como tarjetas metidas en la página en vez de fotos.
+
+   El margen lateral las centra dentro de su mitad de la pantalla. Sin él
+   quedarían pegadas contra el borde de un lado, con un hueco feo del otro. */
 .gallery__item--costura {
-  width: 100%;
+  width: auto;
   aspect-ratio: 3 / 4;
+  border-radius: 0;
+  margin-inline: clamp(1rem, 3.5vw, 3.5rem);
 }
 
 .galeria-centro {
@@ -230,6 +251,12 @@
 .galeria-lista--ancha {
   grid-column: 1 / -1;
   margin-top: var(--sp-5);
+
+  /* La lista ocupa las tres columnas del bloque, que ahora miden toda la
+     pantalla. Sin tope de ancho los platos quedarían tirados de un borde al
+     otro, con el precio de un lado y el nombre del otro. */
+  max-width: 42rem;
+  margin-inline: auto;
 }
 
 .galeria-lista--ancha .galeria-bloque__titulo {
@@ -387,5 +414,13 @@
   .gallery__item--costura,
   .gallery__item--pareja {
     aspect-ratio: 4 / 3;
+  }
+
+  /* El bloque central sangra a pantalla completa, así que apiladas sus columnas
+     también tocarían los bordes. Solo las fotos van de borde a borde: el texto
+     y la lista de platos recuperan el margen del contenedor. */
+  .galeria-centro,
+  .galeria-lista--ancha {
+    padding-inline: var(--contenedor-pad);
   }
 }
