@@ -121,7 +121,7 @@
    vez, así el tema claro y el oscuro se encargo solos: si el panel es claro,
    la franja sale clara también. */
 .galeria-bloque--pareja {
-  --c-franja: color-mix(in srgb, var(--c-panel) 30%, transparent);
+  --c-franja: color-mix(in srgb, var(--c-panel-carta) var(--c-franja-panel), transparent);
 
   position: relative;
   isolation: isolate;
@@ -144,7 +144,7 @@
   /* El ancho del panel (58vw) menos donde arranca la foto (40vw): lo que el
      panel se superpone con la imagen. Es la franja de vidrio transparente. */
   --ancho-panel: 58vw;
-  --ancho-franja: calc(var(--ancho-panel) - var(--borde-foto));
+  --ancho-franja: calc(var(--borde-foto) - (100vw - var(--ancho-panel)));
 
   width: 100vw;
   margin-inline: calc(50% - 50vw);
@@ -196,7 +196,7 @@
      resto de la página, para que no quede pegado al canto. */
   padding: clamp(1.5rem, 3vw, 2.5rem) var(--contenedor-pad);
 
-  background: var(--c-panel);
+  background: var(--c-panel-carta);
 
   /* El desenfoque NO va acá sino en el pseudoelemento de más abajo. Aplicado
      al panel entero, emborronaba también la franja que pisa la foto, que es
@@ -259,8 +259,8 @@
 .galeria-bloque--pareja .galeria-lista {
   background: linear-gradient(
     to right,
-    var(--c-panel) 0,
-    var(--c-panel) 40vw,
+    var(--c-panel-carta) 0,
+    var(--c-panel-carta) 40vw,
     var(--c-franja) 40vw,
     var(--c-franja) 100%
   );
@@ -335,8 +335,8 @@
     to right,
     var(--c-franja) 0,
     var(--c-franja) var(--ancho-franja),
-    var(--c-panel) var(--ancho-franja),
-    var(--c-panel) 100%
+    var(--c-panel-carta) var(--ancho-franja),
+    var(--c-panel-carta) 100%
   );
 }
 
