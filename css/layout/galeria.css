@@ -495,29 +495,45 @@
   margin-block: var(--sp-3) 0;
 }
 
-/* ---- "La cocina", como sección propia antes de la galería ----
-   Antes este bloque estaba dentro de la galería y heredaba de ella el
-   relleno. Al salir como sección necesita el suyo, o las fotos quedan
-   pegadas a las bandas de transición y a la galería.
+/* ---- "La cocina", en el medio de la galería ----
+   Este bloque se sangra a pantalla completa, igual que las bandas de
+   transición: son fotos a tamaño casi completo y con el radio y el ancho del
+   contenedor se verían como tarjetas pegadas en la página en vez de fotos.
 
-   El título es un <h2> (para que la sección tenga nombre real y el visitor
-   de pantalla la anuncie), pero se le saca el peso 600 que le dan los
-   encabezados: el texto se leía como un párrafo, y ahora tiene que seguir
-   viéndose igual. */
+   Va dentro de `.gallery` (que es una columna flex con `gap`), así que el
+   espacio de arriba y de abajo lo pone el `gap` de la galería. Lo único que
+   hace falta es sacarle el relleno de sección que tenía cuando estaba antes
+   de la galería, porque ahora ese relleno lo pone el `gap` y se sumaría.
+
+   El título es un <h2> (para que la sección tenga nombre real y el visitor de
+   pantalla la anuncie), pero se le saca el peso 600 que le dan los encabezados:
+   el texto se leía como un párrafo, y tiene que seguir viéndose igual. */
 .cocina {
-  padding-block: var(--seccion-pad-y) 0;
+  padding-block: 0;
+
+  /* Sale del contenedor para tocar los dos bordes de la pantalla, igual que
+     las bandas de transición. Es el mismo truco de `.sangria` (ver
+     utils/helpers.css): el margen negativo descuenta la mitad del contenedor y
+     suma la mitad de la ventana, así el elemento queda centrado en la
+     pantalla y no en el contenedor.
+
+     El espacio de arriba y abajo lo pone el `gap` de la galería, que ya es
+     suficiente. Antes esta sección traía su propio relleno de sección y, al
+     quedar dentro de la galería, ese relleno se sumaba al `gap` y dejaba un
+     hueco vacío. */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+
+  /* Se le descuenta una parte del `gap` de la galería para que el bloque no
+     quede más separado del de la parrilla que del de las entradas: este está
+     en el medio de los dos, y con el `gap` entero se leía como una sección más
+     suelta entre medio de la serie. */
+  margin-block: calc(clamp(2.5rem, 7vw, 5.5rem) * -0.25);
 }
 
-/* La galería ya empieza con su propio relleno (viene de .section), así que
-   entre las dos secciones hay que repartir el espacio en vez de sumarlo: con
-   los dos rellenos completos quedaba un hueco vacío de una pantalla.
-
-   Igual hace falta un mínimo: sin nada, el título de la galería queda pegado
-   al borde de abajo de las fotos de "La cocina". */
-.cocina + .section {
-  padding-block-start: clamp(3rem, 6vw, 6rem);
-}
-
+/* Al sangrarse hasta el borde de la pantalla, el texto del medio necesita
+   recuperar el margen del contenedor: si no, queda pegado al canto de la
+   pantalla en una pantalla angosta. */
 .cocina .galeria-centro__texto {
   font-weight: 400;
   text-wrap: pretty;

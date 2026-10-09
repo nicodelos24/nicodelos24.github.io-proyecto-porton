@@ -267,40 +267,6 @@
     </section>
 
     <!-- ========================================================================
-         LA COCINA — dos fotos con el texto en el medio
-         Va antes de la galería, y no dentro de ella: es el bloque que
-         explica cómo se cocina, y con la galería ya entrando se leía como
-         un foto más de la tira. Acá funciona como un respiro entre las
-         bandas de transición y la galería.
-         ======================================================================== -->
-    <section class="cocina" aria-labelledby="cocina-titulo">
-      <div class="galeria-bloque galeria-bloque--costuras">
-
-        <figure class="gallery__item gallery__item--costura gallery__item--empanada"
-                role="img" aria-label="Empanadas de carne a cuchillo, recién hechas"
-                data-reveal="fade">
-          <figcaption class="gallery__caption">Empanadas</figcaption>
-        </figure>
-
-        <div class="galeria-centro" data-reveal="fade">
-          <span class="eyebrow">La cocina</span>
-          <h2 class="galeria-centro__texto" id="cocina-titulo">
-            Cada plato sale de la parrilla cuando está en su punto, no antes.
-            Las empanadas se amasan a mano y las tortillas llevan su tiempo.
-            Nada se sirve apurado.
-          </h2>
-        </div>
-
-        <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
-                role="img" aria-label="Tortilla española con alioli de ajo y huevo"
-                data-reveal="fade">
-          <figcaption class="gallery__caption">Tortilla con alioli</figcaption>
-        </figure>
-
-      </div>
-    </section>
-
-    <!-- ========================================================================
          GALERÍA
          ======================================================================== -->
     <section class="section" id="galeria">
@@ -352,6 +318,46 @@
                     role="img" aria-label="Costillar de carnes asándose sobre la parrilla"
                     data-reveal="fade">
             </figure>
+          </section>
+
+          <!-- LA COCINA · dos fotos con el texto en el medio
+
+               Va entre el bloque de la parrilla y el de las entradas, y no
+               antes de la galería como estaba antes. El motivo es el ritmo: los
+               dos bloques de platos son el mismo esquema (lista + foto) y se
+               leen como una serie. Este bloque se pone en el medio para
+               partirla en dos, y de paso el texto explica cómo se cocina justo
+               entre los dos platos de la parrilla y las entradas, que es de
+               donde salen esas dos fotos.
+
+               Es una sección propia y no un <div> más de la galería porque se
+               sangra a pantalla completa: tiene su propio relleno y no el de
+               los bloques de adentro. -->
+          <section class="cocina" aria-labelledby="cocina-titulo">
+            <div class="galeria-bloque galeria-bloque--costuras">
+
+              <figure class="gallery__item gallery__item--costura gallery__item--empanada"
+                      role="img" aria-label="Empanadas de carne a cuchillo, recién hechas"
+                      data-reveal="fade">
+                <figcaption class="gallery__caption">Empanadas</figcaption>
+              </figure>
+
+              <div class="galeria-centro" data-reveal="fade">
+                <span class="eyebrow">La cocina</span>
+                <h2 class="galeria-centro__texto" id="cocina-titulo">
+                  Cada plato sale de la parrilla cuando está en su punto, no antes.
+                  Las empanadas se amasan a mano y las tortillas llevan su tiempo.
+                  Nada se sirve apurado.
+                </h2>
+              </div>
+
+              <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
+                      role="img" aria-label="Tortilla española con alioli de ajo y huevo"
+                      data-reveal="fade">
+                <figcaption class="gallery__caption">Tortilla con alioli</figcaption>
+              </figure>
+
+            </div>
           </section>
 
           <!-- BLOQUE 1b · las entradas, con la foto al revés que en el
