@@ -104,41 +104,58 @@
   display: none;
 }
 
-/* ---- Bloque 1 y 1b · la foto manda, el texto va en un panel encima ----
-   Antes eran dos columnas iguales: lista a un lado, foto al otro, con un
-   hueco en el medio. Ahora la foto ocupa todo el ancho del bloque y la lista
-   es un panel de vidrio montado encima, más cerca de una carta de menú sobre
-   la mesa que de dos cajas alineadas.
+/* ---- Bloque 1 y 1b · la foto contra un borde, el texto encima ----
+   La foto ocupa media pantalla y llega hasta el borde: a la derecha en el
+   bloque de la parrilla, a la izquierda en el de las entradas. El texto va en
+   un panel de vidrio montado en la mitad opuesta, que pica hacia la foto y se
+   superpone encima de ella.
 
-   El panel se monta sobre la foto con `position: absolute` y margen negativo
-   en vez de con `grid`, porque si el texto fuera una celda de la grilla la
-   foto quedaría limitada a la mitad y no llegaría al borde de la pantalla. */
+   El bloque se sangra a pantalla completa con el mismo truco que las bandas de
+   "La cocina" (width: 100vw + margen negativo), así la foto puede tocar el
+   borde. El lado del texto conserva el margen del contenedor para que el
+   texto siga alineado con el resto de la página. */
 .galeria-bloque--pareja {
   position: relative;
   isolation: isolate;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 
-/* Alto de la foto. Alto de verdad, no una proporción 4/3: con el panel
-   encima, una proporción baja dejaba la lista sin lugar. */
+/* La foto, en una mitad. Sin esquinas en el borde que toca la pantalla: se lee
+   como una foto que continúa fuera del marco, no como una tarjeta. */
 .gallery__item--pareja {
+  grid-column: 2;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 
-/* El texto, en un panel de vidrio sobre la foto.
+/* El texto, en un panel de vidrio sobre el fondo de la página, montado hacia
+   el centro para picar la foto por su mitad.
 
-   El `inset-block-end` lo baja contra el borde de abajo en vez de centrarlo:
-   centrado, el texto tapaba justo el centro de la foto, que es la parte
-   interesante. Abajo deja la foto limpia arriba. */
+   Se posiciona con `absolute` y no como celda de la grilla porque tiene que
+   salirse de su columna: la grilla lo dejaría siempre dentro de su mitad y no
+   habría solapamiento.
+
+   El volteo hacia la foto va en `translate` y no en un margen: en un elemento
+   posicionado, el margen lateral solo separa, no mueve. El desplazamiento se
+   aplica junto al centrado vertical en la misma propiedad. */
 .galeria-bloque--pareja .galeria-lista {
   position: absolute;
   z-index: 2;
-  inset-block-end: clamp(1.25rem, 4vw, 3rem);
-  inset-inline-start: clamp(1.25rem, 4vw, 3.5rem);
+  inset-block-start: 50%;
+  inset-inline-start: var(--contenedor-pad);
 
-  width: min(100% - 2.5rem, 30rem);
+  /* Se ancla al borde del texto y se empuja hacia la foto la mitad de lo que
+     mide de sobra, para que el solapamiento sea siempre el mismo. */
+  translate: min(21vw, 17rem) -50%;
+
+  width: min(42vw, 34rem);
   padding: clamp(1.5rem, 3vw, 2.5rem);
 
   background: var(--c-panel);
@@ -149,21 +166,21 @@
   box-shadow: var(--sombra-lg);
 }
 
-/* El bloque invertido pone la foto y el panel al revés: la foto se sangra
-   desde el borde derecho y el panel se apoya contra el izquierdo.
-
-   Se invierte con `order` y no escribiendo el marcado al revés, porque en el
-   celular todo se apila en una columna y ahí manda el orden del HTML. Con
-   `order` la lista sigue siendo lo primero que se lee (el texto antes que la
-   foto) sin tener que tocar el marcado. */
+/* El bloque invertido: la foto a la izquierda tocando el borde, y el texto a
+   la derecha. Solo cambian la columna de la foto, de dónde se ancla el panel
+   y hacia qué lado se lo empuja. */
 .galeria-bloque--pareja-inversa .gallery__item {
+  grid-column: 1;
+  border-start-end-radius: var(--r-lg);
+  border-end-end-radius: var(--r-lg);
   border-start-start-radius: 0;
   border-end-start-radius: 0;
 }
 
 .galeria-bloque--pareja-inversa .galeria-lista {
   inset-inline-start: auto;
-  inset-inline-end: clamp(1.25rem, 4vw, 3.5rem);
+  inset-inline-end: var(--contenedor-pad);
+  translate: calc(-1 * min(21vw, 17rem)) -50%;
 }
 
 /* El pie de foto sobre un panel de vidrio no se lee: el degradado negro del
@@ -469,29 +486,36 @@
     display: none;
   }
 
-  /* Los bloques con panel: en el celular el texto deja de flotar sobre la foto
-     y pasa a ser un bloque normal abajo de la foto. Montado arriba, en una
-     pantalla de 390 px el panel tapaba la foto entera y no se veía ni una ni
-     otra cosa.
+  /* Los bloques con panel: en el celular no hay mitad y mitad, así que la foto
+     deja de sangrar (tocaría el borde en una pantalla de 390 px y quedaría
+     ilegible) y el texto deja de flotar: pasa a ser un bloque normal abajo de
+     la foto, con su margen del contenedor.
 
-     El `order` invierte el orden del HTML, que pone el texto primero para que
-     en el escritorio el panel quede arriba de la lista sin tener que escribir
-     el marcado al revés. Sin esto, al dejar de flotar el texto se leía antes
-     que la foto. */
-  .galeria-bloque--pareja .gallery__item {
-    order: -1;
+     Por eso el bloque vuelve a `display: block` y se deshace el sangrado: sin
+     las dos mitades, `100vw` y el margen negativo no tienen sentido. */
+  .galeria-bloque--pareja {
+    display: flex;
+    flex-direction: column;
+
+    width: auto;
+    margin-inline: 0;
   }
 
-  .galeria-bloque--pareja .galeria-lista {
+  .galeria-bloque--pareja .gallery__item,
+  .galeria-bloque--pareja-inversa .gallery__item {
+    grid-column: auto;
+    order: -1;
+
+    /* Vuelven las esquinas: la foto ya no toca el borde de la pantalla. */
+    border-radius: var(--r-lg);
+  }
+
+  .galeria-bloque--pareja .galeria-lista,
+  .galeria-bloque--pareja-inversa .galeria-lista {
     position: static;
+    translate: none;
     width: 100%;
     margin-top: var(--sp-4);
-  }
-
-  /* El bloque invertido ya no se invierte en el celular: los dos quedan con la
-     foto arriba y el texto abajo, que es lo único que entra en una columna. */
-  .galeria-bloque--pareja-inversa .galeria-lista {
-    inset-inline-end: auto;
   }
 
   .gallery__item--pareja {
