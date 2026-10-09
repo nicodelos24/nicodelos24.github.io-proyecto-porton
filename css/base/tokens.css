@@ -138,11 +138,11 @@
 
   /* La franja del mismo cuadro que se superpone sobre la foto.
 
-     El número es qué tanto del color queda: en claro 30% es un vidrio apenas
-     perceptible, y en oscuro hace falta más (55%) porque un negro muy
-     transparente sobre una foto oscura desaparece y el borde del cuadro se ve
-     como un corte recto en medio de la imagen. */
-  --c-franja-panel: 55%;
+     El número es qué tanto del color queda. En oscuro hace falta bastante más
+     que en claro: un negro muy transparente sobre una foto oscura desaparece
+     y el panel queda sin contorno. Ahora que ya no está el resplandor del
+     desenfoque, con 65% se lee el vidrio sin que la comida se pierda detrás. */
+  --c-franja-panel: 65%;
 
   /* Aviso de confirmación del formulario */
   --c-aviso-fondo: rgb(201 162 39 / 10%);
