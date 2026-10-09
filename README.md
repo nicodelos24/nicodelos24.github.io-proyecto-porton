@@ -12,14 +12,16 @@ este repositorio con GitHub Pages.
 ## Qué hay que saber antes de tocar nada
 
 - **El menú no está escrito en el HTML.** Los platos salen de
-  `js/data/menu.js`, y la página los pide con un contenedor vacío. Para agregar,
-  quitar o cambiar un plato se edita ese archivo y nada más.
-- **La carta está en la página principal**, en la sección `#carta`: los platos
-  con foto, descripción y precio, y un filtro por categoría.
-- **Las fotos se cargan diferidas.** Todas las de la galería van como
-  `<img loading="lazy">`, así que la página abre rápido. Solo la banda de
-  transición usa foto de fondo con efecto clavado, que **no funciona en iOS ni
-  en celular**, y está anotado en `docs/ARQUITECTURA.md`.
+  `js/data/menu.js`, y cada bloque de la página pide su categoría con un
+  atributo. Para agregar, quitar o cambiar un plato se edita ese archivo y nada
+  más.
+- **Los platos no están todos juntos.** Cada categoría va junto a la foto que
+  la representa: la parrilla al lado de la parrilla, los postres al lado del
+  postre. La carta completa, con fotos y precios, va en su propia página.
+- **Las fotos con efecto están clavadas en la pantalla.** Al scrollear se van
+  viendo franjas distintas de la imagen. Lo hace el navegador con
+  `background-attachment: fixed`, sin JavaScript. **No funciona en iOS ni en
+  celular**, y está anotado en `docs/ARQUITECTURA.md`.
 - **Los colores, las fuentes y el espaciado no están escritos en los
   estilos de cada sección.** Salen todos de las variables de
   `css/base/tokens.css`. Cambiar la identidad visual del sitio es editar
@@ -34,11 +36,8 @@ este repositorio con GitHub Pages.
 - **Los datos de contacto y los precios son de ejemplo.** Hay que
   reemplazarlos por los reales antes de publicar. Está detallado en
   `docs/PENDIENTES.md`.
-- **`carta.html` ya no hace falta.** La carta quedó integrada en la página
-  principal (`#carta`); ver arriba.
-- **El formulario de reservas todavía no envía nada.** Valida y muestra el
-  aviso de confirmación. Hay que conectarlo a un backend antes de publicar
-  (`js/modules/contacto.js`).
+- **`carta.html` todavía no existe**, y tres enlaces ya apuntan a ella. Está
+  como primer pendiente en `docs/PENDIENTES.md`.
 - **[`IA_GUIDE.md`](IA_GUIDE.md)** lleva el registro de qué se pidió y qué
   se hizo, además de lo que falta probar a mano.
 

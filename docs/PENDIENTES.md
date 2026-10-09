@@ -5,28 +5,31 @@ revisar más adelante.
 
 ---
 
-## ~~Bloqueante: enlaces rotos~~
+## Bloqueante: enlaces rotos
 
-### [x] La página `carta.html` no existía
+### [ ] La página `carta.html` no existe
 
-Estaba en el pendiente más arriba desde hace rato, y ya no es un problema: los
-tres enlaces que apuntaban a ella ahora van a la sección de carta de la página
-principal (`#carta`), que ya renderiza los 11 platos con su filtro por
-categoría.
+Tres enlaces del sitio apuntan a ella y **devuelven 404** hasta que se arme:
 
-| Dónde | Antes | Ahora |
-|---|---|---|
-| Menú de navegación | `carta.html` | `#carta` |
-| Botón de la portada | `carta.html` | `#carta` |
-| Pie de página | `carta.html` | `#carta` |
+| Dónde | Texto |
+|---|---|
+| Menú de navegación | Carta |
+| Botón de la portada | Ver la carta |
+| Pie de página | Carta |
 
-**Lo que se ganó:** la carta quedó dentro de la página principal, con foto,
-descripción y precio de cada plato, filtrable por categoría. Antes ese código ya
-estaba escrito (`js/modules/carta.js` y `css/layout/carta.css`) pero no tenía
-dónde aparecer.
+La idea es que la página principal quede visual, con los platos repartidos
+junto a las fotos, y que esta sea la carta sobria para consultar precios y,
+más adelante, para hacer pedidos.
 
-Si más adelante se quiere una página de carta aparte (por ejemplo para pedidos
-en línea), se puede armar en base a esto, pero ya no es bloqueante.
+**Lo que ya está listo para usar:**
+
+- `js/modules/carta.js` renderiza la grilla con los 11 platos y los filtros
+  por categoría. No se rompió, simplemente no encuentra su contenedor.
+- `css/layout/carta.css` tiene todos los estilos de esa grilla.
+- `js/data/menu.js` es la fuente de los platos.
+
+Con copiar el `index.html` como base, cambiar el `<main>` y la ruta del CSS
+(`css/main.css` pasa a `../css/main.css`) debería alcanzar. **Falta probarlo.**
 
 ---
 

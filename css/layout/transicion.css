@@ -7,11 +7,9 @@
    velo oscuro, porque es lo único que garantiza que el texto se lea
    pase lo que pase con la foto.
 
-   Hay una sola banda, entre "Nosotros" y la carta. Comparte el diseño
-   del hero: la foto va de fondo y encima un velo oscuro, porque es lo
-   único que garantiza que el texto se lea pase lo que pase con la foto.
-
-   Agregar otra banda es agregar dos cosas: un
+   Hay dos: una antes de la carta y otra entre la carta y la galería.
+   Comparten todo el diseño y solo cambian la foto, que va en una
+   clase aparte. Agregar una tercera banda es agregar dos cosas: un
    `<section class="transicion transicion--LoQueSea">` en el HTML y su
    regla de una línea acá abajo.
 
@@ -42,12 +40,15 @@
   background-repeat: no-repeat;
 }
 
-/* ---- La foto de la banda ----
-   Con una sola banda alcanza con una regla. Para sumar otra, se
-   duplica este bloque cambiando la imagen y la clase del <section>. */
+/* ---- La foto de cada banda ---- */
 .transicion--mollejas {
   background-image: url("../../assets/img/mollejas-con-cremoso.jpg");
   background-position: center 55%;
+}
+
+.transicion--tortelinis {
+  background-image: url("../../assets/img/tortellinis-de-espinaca.jpg");
+  background-position: center 50%;
 }
 
 /* El efecto: la foto queda clavada en la pantalla y la franja va

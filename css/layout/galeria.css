@@ -1,122 +1,355 @@
 /* =============================================================
    layout/galeria.css
-   Capa 4 — El local y los platos
+   Capa 3 — Galería del local y los platos
    -------------------------------------------------------------
-   Una selección cuidada de fotos, no una tira interminable.
+   No es una grilla pareja: es una secuencia que alterna bloques
+   angostos y anchos al bajar. Ese contraste de tamaños es lo que
+   hace que se lea como una secuencia y no como una tabla de fotos.
 
-   Antes esta sección era una secuencia de ocho fotos grandes con
-   el efecto de imagen clavada (`background-attachment: fixed`),
-   alternadas con cuatro listas de platos metidas en los huecos.
-   En escritorio el contraste de tamaños daba un ritmo, pero en el
-   celular el efecto clavado no funciona: ahí quedaban apiladas en
-   una columna larga, sin jerarquía. Y en cualquier pantalla eran
-   demasiadas imágenes compitiendo.
+   La cadencia viene de una idea: tres bloques angostos y dos anchos,
+   con los angostos cambiando de lado (izquierda, derecha, izquierda)
+   para que el ojo no caiga siempre en el mismo punto.
 
-   Ahora son dos piezas:
-     · una foto principal a todo el ancho del contenedor;
-     · una rejilla de piezas de tamaños distintos debajo.
+   TODAS las fotos llevan el efecto de imagen fija: la foto queda
+   clavada en la pantalla y el bloque va mostrando partes distintas
+   de ella al scrollear. Es el mismo efecto que las bandas de
+   transicion.css.
 
-   Todas van como <img loading="lazy">. El navegador las pide solo
-   cuando están por entrar a la pantalla, así la página abre rápido
-   aunque sean muchas. Como ya no hay foto de fondo clavada, estas
-   fotos pueden usar la animación de entrada normal (`data-reveal`)
-   sin el cuidado especial que exigía el efecto anterior.
+   Eso obliga a que las fotos sean fondo de CSS y no <img>: una
+   imagen de fondo es lo único que el navegador puede dejar clavada
+   en la pantalla. El costo es que las imágenes de fondo no se cargan
+   diferidas como las de <img loading="lazy">, así que las cinco se
+   piden al abrir la página. Cuando se reemplazen por las fotos
+   definitivas conviene revisar el peso y, si molesta, volver las
+   angostas a <img> y dejar el efecto solo en las anchas.
+
+   Por lo mismo, la descripción de cada foto va en el marco con
+   role="img", que es la forma de que un lector de pantalla la
+   anuncie igual.
    ============================================================= */
 
-.galeria {
+.gallery {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.25rem, 2.5vw, 2rem);
+  gap: clamp(2.5rem, 7vw, 5.5rem);
 }
 
-/* ---------- La foto principal ----------
-   Abre la sección con una imagen de escala. El degradado de abajo
-   es para que el texto se lea: la foto puede ser clara u oscura
-   según la que manden, y el texto siempre sale del mismo color. */
-.galeria__principal {
+.gallery__item {
   position: relative;
   overflow: hidden;
   border-radius: var(--r-lg);
-  box-shadow: var(--sombra-md);
   background: var(--c-superficie);
-  aspect-ratio: 16 / 9;
+  box-shadow: var(--sombra-md);
+
+  /* Rutas con barra inicial: se resuelven desde la raíz del sitio y no
+     desde esta hoja (ver DECISIONES.md, D14). */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.galeria__principal img {
+/* ---- La foto de cada bloque ---- */
+.gallery__item--salon {
+  background-image: url("../../assets/img/caption.jpg");
+}
+
+.gallery__item--asado {
+  background-image: url("../../assets/img/asad.jpg");
+}
+
+.gallery__item--casa {
+  background-image: url("../../assets/img/port.jpg");
+}
+
+.gallery__item--calabaza {
+  background-image: url("../../assets/img/calabaza-asada-con-queso.jpg");
+}
+
+.gallery__item--entradas {
+  background-image: url("../../assets/img/chorizo-morcilla-queso.jpg");
+}
+
+/* Las dos fotos del bloque central */
+.gallery__item--empanada {
+  background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
+}
+
+.gallery__item--tortilla {
+  background-image: url("../../assets/img/tortilla-con-alioli.jpg");
+}
+
+.gallery__item--negro {
+  background-image: url("../../assets/img/el-negro-inspirado-en.jpg");
+}
+
+/* ==========================================================================
+   LOS BLOQUES QUE SE METEN EN LOS HUECOS ENTRE FOTOS
+   ==========================================================================
+   Antes la galería era una tira de fotos con espacio vacío entre ellas. Ese
+   espacio ahora lleva contenido: los platos fuertes, un texto con dos fotos
+   a los lados, y los postres. La idea es que la galería no sea solo mirar
+   fotos, sino que vaya contando qué se come.
+
+   Los dos bloques de platos se llenan desde js/data/menu.js. Si ese archivo
+   no llegara a cargar, quedan vacíos, y un bloque con el título pero sin
+   platos parece un error: por eso se ocultan entero con :has().
+   ========================================================================== */
+
+.galeria-bloque {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Los dos bloques de platos se llenan desde js/data/menu.js. Si ese archivo
+   no llegara a cargar, quedan vacíos, y un bloque con el título pero sin
+   platos parece un error: por eso se ocultan entero con :has(). */
+.galeria-bloque:has([data-platos]:empty) {
+  display: none;
+}
+
+/* ---- Bloque 1 y 3 · lista a un lado, foto con efecto al otro ----
+   La lista va primero y la foto después, para que en el celular, donde se
+   apilan en una columna, el texto se lea antes que la foto. */
+.galeria-bloque--pareja {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.gallery__item--pareja {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--dur-slow) var(--ease-out);
+  aspect-ratio: 4 / 3;
 }
 
-.galeria__principal:hover img {
-  transform: scale(1.05);
+.galeria-lista .galeria-bloque__titulo {
+  margin-block: var(--sp-2) var(--sp-5);
 }
 
-/* Velo: oscurece solo la franja de abajo, donde va el texto. */
-.galeria__principal::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 60%;
-  background: linear-gradient(to top, rgb(10 10 10 / 78%), transparent);
+/* ---- Las bebidas, solas ----
+   Sin foto que las represente: una lista angosta y centrada, sin media
+   columna vacía al costado como en los bloques de pareja. */
+.galeria-bloque--solo {
+  align-items: center;
 }
 
-.galeria__principal figcaption {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 1;
-  padding: clamp(1.25rem, 4vw, 2.5rem);
-  font-family: var(--font-display);
-  font-size: var(--fs-xl);
-  color: var(--c-hueso);
+.galeria-bloque--solo .galeria-lista {
+  width: min(100%, 30rem);
+  text-align: center;
 }
 
-/* ---------- La rejilla ----------
-   Doce columnas: cada foto dice cuántas ocupa. Las anchas toman
-   ocho columnas y las altas cuatro, así los bordes de la grilla
-   siempre quedan parejos y ninguna foto queda con un hueco al lado.
+.galeria-bloque__nota {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-sm);
+  color: var(--c-texto-suave);
+}
 
-   El contraste entre anchas y altas es lo que hace que se lea como
-   un mosaico y no como una tabla de cuadros iguales. */
-.galeria__rejilla {
+/* ==========================================================================
+   LA REJILLA — contraste con las fotos de efecto
+   ==========================================================================
+   Estas dos van al revés que las de arriba: no tienen ningún efecto de scroll,
+   son fotos quietas. El contraste no viene del movimiento sino del tamaño:
+   la rejilla es chica y de distintas proporciones, mientras las de efecto
+   ocupan todo el ancho. Eso hace que la vista se frene un momento antes de
+   volver a una foto grande.
+
+   Se probó con un efecto de revelado (la foto siendo tres pantallas de alto,
+   que es como lo hace el sitio de Triciclo) pero acá no suma: con la página
+   ya llena de fotos con efecto, un efecto más es ruido y no descanso.
+
+   Las fotos van como <img> y no de fondo a propósito: una imagen de fondo
+   solo se puede dejar clavada, que es justo lo que aquí no se quiere.
+   ========================================================================== */
+
+.rejilla {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: clamp(0.75rem, 1.5vw, 1.25rem);
 }
 
-.galeria__foto {
+.rejilla__foto {
   position: relative;
   overflow: hidden;
   border-radius: var(--r-lg);
   background: var(--c-superficie);
 }
 
-.galeria__foto--ancha {
-  grid-column: span 8;
-  aspect-ratio: 16 / 9;
-}
-
-.galeria__foto--alta {
+/* Proporciones distintas a propósito: es lo que hace que se lea como un
+   mosaico y no como una grilla de cuadros iguales. */
+.rejilla__foto--angosta {
   grid-column: span 4;
   aspect-ratio: 3 / 4;
 }
 
-.galeria__foto img {
+.rejilla__foto--ancha {
+  grid-column: span 8;
+  aspect-ratio: 4 / 3;
+}
+
+.rejilla__foto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--dur-slow) var(--ease-out);
 }
 
-.galeria__foto:hover img {
-  transform: scale(1.07);
+@media (max-width: 48rem) {
+  .rejilla__foto--angosta,
+  .rejilla__foto--ancha {
+    grid-column: span 12;
+    aspect-ratio: 4 / 3;
+  }
 }
 
-/* Oscurecido al pasar el mouse. Como la foto es un <img> y no un
-   fondo, el velo va en una capa propia para que el texto de abajo
-   siempre se lea. */
-.galeria__foto::after {
+/* ---- Bloque 2 · dos fotos con el texto en el medio ----
+   El bloque entero se sangra a pantalla completa, y por eso las dos fotos de
+   los extremos quedan pegadas a los bordes sin código extra: son la primera y
+   la última columna de una grilla que ya ocupa toda la pantalla.
+
+   El `minmax(0, ...)` importa: sin él, las columnas no pueden achicarse por
+   debajo del contenido y el texto empuja la grilla y las fotos dejan de tocar
+   el borde. Es el error clásico de las grillas.
+
+   La columna del medio es más angosta que las laterales a propósito: así las
+   fotos se llevan más ancho y el texto queda en una columna de lectura, con
+   aire para no quedar apretado contra dos imágenes. */
+.galeria-bloque--costuras {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Sin esquinas redondeadas: son imágenes a tamaño casi completo, y el radio las
+   hace ver como tarjetas metidas en la página en vez de fotos.
+
+   El margen lateral las centra dentro de su mitad de la pantalla. Sin él
+   quedarían pegadas contra el borde de un lado, con un hueco feo del otro. */
+.gallery__item--costura {
+  width: auto;
+  aspect-ratio: 3 / 4;
+  border-radius: 0;
+  margin-inline: clamp(1rem, 3.5vw, 3.5rem);
+}
+
+.galeria-centro {
+  text-align: center;
+}
+
+.galeria-centro__texto {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: 1.45;
+  color: var(--c-texto);
+  margin-block: var(--sp-3) 0;
+}
+
+/* Las entradas van abajo de las dos fotos y ocupan la fila entera: son
+   cuatro platos y haciendo dos columnas quedarían ilegibles. */
+.galeria-lista--ancha {
+  grid-column: 1 / -1;
+  margin-top: var(--sp-5);
+
+  /* La lista ocupa las tres columnas del bloque, que ahora miden toda la
+     pantalla. Sin tope de ancho los platos quedarían tirados de un borde al
+     otro, con el precio de un lado y el nombre del otro. */
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.galeria-lista--ancha .galeria-bloque__titulo {
+  margin-block: 0 var(--sp-5);
+  text-align: center;
+}
+
+/* ---- El título que comparten los bloques ---- */
+.galeria-bloque__titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
+  color: var(--c-texto);
+}
+
+/* ---- La lista de platos ----
+   Formato de carta en papel: nombre, puntitos de guía, precio. El puntito no
+   está en el HTML sino dibujado en CSS, así se estira solo y el precio queda
+   siempre pegado al borde derecho sin importar el largo del nombre. */
+.galeria-platos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.galeria-plato__fila {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.galeria-plato__nombre {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-texto);
+}
+
+.galeria-plato__puntos {
+  flex: 1;
+  height: 1px;
+  margin-bottom: 0.35em;
+  border-bottom: 1px dotted var(--c-borde);
+}
+
+.galeria-plato__precio {
+  font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+  color: var(--c-acento);
+  white-space: nowrap;
+}
+
+.galeria-plato__desc {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: 300;
+  color: var(--c-texto-suave);
+}
+
+/* ---- Bloque angosto: portrait, pegado a un lado ---- */
+.gallery__item--angosta {
+  width: min(100%, 26rem);
+  aspect-ratio: 3 / 4;
+}
+
+.gallery__item--izq {
+  align-self: flex-start;
+}
+
+.gallery__item--der {
+  align-self: flex-end;
+}
+
+/* ---- Bloque ancho: apaisado, a todo el ancho ---- */
+.gallery__item--ancha {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/* El efecto de imagen fija, igual que en las bandas: solo en pantallas
+   anchas. En el celular no se vería y, además, obliga al navegador a
+   recomponer en cada scroll. */
+@media (min-width: 1025px) {
+  .gallery__item {
+    background-attachment: fixed;
+  }
+}
+
+/* Oscurecido al pasar el mouse. Como las fotos son de fondo, no hay
+   <img> que oscurecer: se hace con una capa por encima. */
+.gallery__item::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -124,56 +357,70 @@
   transition: background var(--dur-base) var(--ease-out);
 }
 
-.galeria__foto:hover::after {
-  background: rgb(10 10 10 / 30%);
+.gallery__item:hover::before {
+  background: rgb(10 10 10 / 28%);
 }
 
-.galeria__foto figcaption {
+/* Texto que aparece sobre la foto al hacer hover */
+.gallery__caption {
   position: absolute;
   inset: auto 0 0 0;
   z-index: 1;
   padding: var(--sp-5);
-  background: linear-gradient(to top, rgb(10 10 10 / 85%), transparent);
+  background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
   color: var(--c-hueso);
   font-family: var(--font-display);
-  font-size: var(--fs-base);
-}
-
-/* ---------- Texto al pie ----------
-   Lo que antes estaba metido entre dos fotos (el bloque "costuras")
-   ahora cierra la sección, centrado y con ancho de lectura. Sin la
-   competencia de dos imágenes a los lados, el texto se lee entero. */
-.galeria__nota {
-  max-width: 46ch;
-  margin: clamp(1rem, 3vw, 2rem) auto 0;
-  text-align: center;
-  font-family: var(--font-display);
   font-size: var(--fs-lg);
-  line-height: 1.45;
-  color: var(--c-texto-suave);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
 }
 
-/* ---------- Adaptación a pantallas chicas ----------
-   En el celular el mosaico deja de tener sentido (las fotos quedan
-   angostas y altas sin la alternancia que las acompaña), así que
-   pasan a una columna con proporción apaisada: más fácil de mirar
-   de una. */
+.gallery__item:hover .gallery__caption {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Celular ----
+   Los angostos ya ocupan todo el ancho solos (el límite de 26rem es
+   más ancho que cualquier teléfono), así que solo hay que ajustar la
+   altura de los anchos: 16/9 en un teléfono queda en una franja de
+   22 centímetros, demasiado angosta para mirar una foto. */
 @media (max-width: 48rem) {
-  .galeria__rejilla {
+  .gallery__item--ancha {
+    aspect-ratio: 4 / 3;
+  }
+
+  .gallery__item--der {
+    align-self: flex-start;
+  }
+
+  /* Los bloques de dos columnas se apilan. El texto va arriba y las fotos
+     abajo, porque al revés el texto queda apretado entre dos fotos angostas
+     y no hay ancho para leerlo. */
+  .galeria-bloque--costuras,
+  .galeria-bloque--pareja {
     grid-template-columns: 1fr;
   }
 
-  .galeria__foto--ancha,
-  .galeria__foto--alta {
-    grid-column: span 1;
+  /* En el bloque central la foto de la derecha ya no aporta nada: se oculta
+     para no alargar la sección con dos fotos iguales apiladas. */
+  .gallery__item--tortilla {
+    display: none;
+  }
+
+  .gallery__item--costura,
+  .gallery__item--pareja {
     aspect-ratio: 4 / 3;
   }
 
-  .galeria__principal {
-    aspect-ratio: 4 / 3;
-  }
-
-  .galeria__principal figcaption {
-    font-size: var(--fs-lg);
+  /* El bloque central sangra a pantalla completa, así que apiladas sus columnas
+     también tocarían los bordes. Solo las fotos van de borde a borde: el texto
+     y la lista de platos recuperan el margen del contenedor. */
+  .galeria-centro,
+  .galeria-lista--ancha {
+    padding-inline: var(--contenedor-pad);
   }
 }

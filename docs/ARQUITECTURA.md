@@ -21,7 +21,7 @@ index.html
    │
    ├── js/data/menu.js ──► carga los platos ANTES que main.js
    │
-   └── js/main.js ──► inicia los 8 módulos, cada uno protegido
+   └── js/main.js ──► inicia los 9 módulos, cada uno protegido
 ```
 
 No hay `package.json`, ni bundler, ni `node_modules`. Es una decisión
@@ -32,39 +32,32 @@ la misma persona y sin recordar por qué se usó cierta herramienta.
 
 ## Las secciones, en orden de la página
 
-El orden está pensado para el camino de alguien que todavía no conoce el local:
-primero lo ve, después lee quién es, después **ve la comida y los precios**, y
-recién al final reserva.
-
 | # | Sección | `#id` | Qué es |
 |---|---|---|---|
 | 1 | Portada | `inicio` | Foto a pantalla completa, parallax y zoom lento |
-| 2 | Marquee | — | Cinta de texto en movimiento |
-| 3 | Sobre nosotros | `sobre-nosotros` | Texto a la izquierda, foto del salón a la derecha |
-| 4 | Banda | — | Franja de imagen: mollejas |
-| 5 | Carta | `carta` | Platos con foto, descripción y precio, con filtros |
-| 6 | Galería | `galeria` | Una foto grande y una rejilla de piezas |
-| 7 | Contacto | `contacto` | Datos y formulario de reserva |
+| 2 | Sobre nosotros | `sobre-nosotros` | Texto a la izquierda, foto del salón a la derecha |
+| 3 | Banda | — | Franja de imagen: mollejas |
+| 4 | Banda | — | Franja de imagen: tortelinis |
+| 5 | Galería | `galeria` | Fotos y, repartidas entre ellas, las listas de platos |
 
-**Por qué la carta va antes que la galería.** La carta es la sección que invita
-a reservar: muestra la comida, su descripción y su precio, todo junto. La
-galería es contexto: dónde se está, cómo es el ambiente. Mostrar los precios
-después de haber hecho scrollear por una galería larga hacía que el visitante
-tuviera que volver arriba a buscarlos.
-
-Y dentro de la galería:
+Y dentro de la galería, en este orden:
 
 ```
-foto principal a todo el ancho (salón)
-rejilla de doce columnas:
-  ancha (asado)      + alta (empanada)
-  alta (port)        + ancha (mesa servida)
-  ancha (costillar)  + alta (El Negro)
-texto de cierre, centrado
+foto angosta (salón)
+lista de la parrilla  +  foto con efecto (asado)
+foto (empanada)  +  texto "La cocina"  +  foto (tortilla)
+lista de las entradas
+rejilla de dos fotos quietas (costillar + mesa)
+foto angosta (port)
+lista de postres  +  foto con efecto (El Negro)
+foto a todo el ancho (calabaza)
+foto angosta (chorizo)
+lista de bebidas
 ```
 
-Las fotos anchas ocupan 8 columnas y las altas 4, así cada fila suma 12 y los
-bordes quedan siempre parejos.
+**El orden importa.** Las dos bandas van juntas porque en las dos fotos hay un
+plato sostenido con las manos, en la misma pose y con la misma luz: pegadas se
+leen como un solo movimiento, de un plato al otro.
 
 ---
 
@@ -100,6 +93,14 @@ orden importa, porque cada capa puede depender de las anteriores.
 
 Está escrita en el encabezado de `css/main.css`.
 
+### Una excepción a la regla de `layout/`
+
+`layout/carta.css` **no lo usa `index.html`**. Está ahí, junto con
+`js/modules/carta.js`, esperando la página `carta.html`, que todavía no existe
+(ver `PENDIENTES.md`). Los dos se dejaron intactos a propósito: la carta
+completa con fotos y precios va a necesitar exactamente lo que ya está
+escrito.
+
 ---
 
 ## El JavaScript, modular
@@ -115,7 +116,8 @@ inicio. `js/main.js` las importa y las arranca.
 | `reveal.js` | Animación de entrada de los `[data-reveal]` |
 | `parallax.js` | Parallax de la portada y botón "volver arriba" |
 | `smooth-scroll.js` | Desplazamiento suave entre secciones |
-| `carta.js` | Grilla de platos y filtros de la sección de carta |
+| `carta.js` | Grilla de platos y filtros. **Hoy no renderiza nada en `index.html`** |
+| `galeria-menu.js` | Pinta las listas de platos dentro de la galería |
 | `contacto.js` | Validación del formulario de reservas |
 
 ### Un módulo roto no rompe el sitio
@@ -145,21 +147,18 @@ navegador, así que tampoco es silencioso.
 
 ---
 
-## La carta vive en los datos
+## La carta vive en los datos, en dos lugares
 
 `js/data/menu.js` es la fuente única de verdad. **Ningún plato está escrito en
 el HTML**, en ningún lugar de la página.
 
 ```
 js/data/menu.js
-   └── js/modules/carta.js → la grilla con filtros de la sección #carta
+   ├── js/modules/carta.js        → la grilla con filtros (para carta.html)
+   └── js/modules/galeria-menu.js → las listas dentro de la galería
 ```
 
-Los platos se muestran todos juntos en la sección de carta, con foto,
-descripción y precio, y se pueden filtrar por categoría. La galería ya no
-lleva listas de platos: si el mismo plato apareciera en dos lugares, cada
-uno sería un Markup distinto que habría que mantener sincronizado a mano, y es
-justamente el tipo de cosa que después se desincroniza.
+Las dos categorías del archivo:
 
 | Clave | Etiqueta | Platos | Destacados |
 |---|---|---|---|
@@ -169,34 +168,43 @@ justamente el tipo de cosa que después se desincroniza.
 | `bebidas` | Bebidas | 2 | — |
 
 **Ojo:** la clave y la etiqueta no son lo mismo. La de la parrilla es
-`parrilla` y su etiqueta es `"Parrillada"`. `carta.js` busca por la clave.
+`parrilla` y su etiqueta es `"Parrillada"`. `galeria-menu.js` busca por la
+clave.
 
-### La grilla se arma sola
+### Cómo se agrega un bloque de platos a la galería
 
-En el `index.html` solo están los dos contenedores donde el módulo escribe:
+Una sola línea de HTML:
 
 ```html
-<div class="carta__filters"></div>   ← los botones de categoría
-<div class="carta__grid"></div>      ← las tarjetas de plato
+<ul class="galeria-platos" data-platos="entradas"></ul>
 ```
 
-Los filtros y los platos salen de `menu.js`. Agregar un plato es agregar un
-objeto a ese archivo; nada más.
+Y el módulo busca esa categoría en los datos y la pinta. Agregar una categoría
+nueva es agregar esa línea, sin tocar JavaScript.
+
+### Un bloque vacío se oculta solo
+
+```css
+.galeria-bloque:has([data-platos]:empty) { display: none; }
+```
+
+Si la categoría no trae platos, el bloque entero desaparece. Sin esto
+quedaría un título "Postres" con nada debajo, que parece un error.
 
 ---
 
-## Las fotos: dos técnicas distintas
+## Las fotos: tres técnicas distintas
 
-El sitio usa dos maneras de mostrar imágenes, y no al azar. Cada una tiene su
+El sitio usa tres maneras de mostrar imágenes, y no al azar. Cada una tiene su
 lugar:
 
-### 1. Foto de fondo con imagen clavada — la banda
+### 1. Foto de fondo con imagen clavada — la más usada
 
-Se usa en la banda de transición, que es una franja a todo el ancho.
+Se usa en las dos bandas y en las fotos de la galería.
 
 ```css
 @media (min-width: 1025px) {
-  .transicion { background-attachment: fixed; }
+  .gallery__item { background-attachment: fixed; }
 }
 ```
 
@@ -213,28 +221,32 @@ scrollear. Lo hace el navegador, sin una línea de JavaScript.
   franja y el efecto no se notaría. Además, la propiedad obliga al navegador a
   recomponer en cada scroll, que en un teléfono se nota como tirones.
 - **Las imágenes de fondo no se cargan diferidas.** Se piden al abrir la página,
-  no al llegar a la sección.
+  no al llegar a la sección. Con siete fotos de fondo son unos 700 KB de golpe.
 
-Por eso son pocas y en un solo lugar. Con ocho fotos de fondo en la galería eran
-unos 700 KB pedidos de golpe al abrir, y en el celular, donde el efecto no
-funciona, el resultado era una columna larguísima de fotos sin jerarquía.
+Por eso las fotos de la galería son fondos y no `<img>`: es la única forma de
+dejarlas clavadas.
 
-### 2. `<img loading="lazy">` — todo lo demás
+### 2. Fotos de fondo con efecto clavado · fotos de galería
 
-La portada, la sección "Sobre nosotros", las tarjetas de plato de la carta, las
-fotos del formulario de reservas y **todas las de la galería** van como `<img>`.
+Mismo mecanismo, con dos diferencias:
 
-Ventajas frente al fondo con efecto clavado:
+- `.gallery__item--costura` **no tiene esquinas redondeadas** y lleva un margen
+  lateral que las centra dentro de su mitad de la pantalla.
+- El bloque de las "costuras" entero se sangra a pantalla completa.
 
-- Se cargan diferidas: el navegador pide cada una al acercarse a la pantalla.
-- Funcionan en iOS y en celular, con el mismo resultado que en escritorio.
-- Llevan `alt`, que el fondo de CSS no puede tener.
-- Se les puede aplicar la animación de entrada normal (`data-reveal`): con
-  `background-attachment: fixed` había que usar la variante `fade`, porque
-  cualquier `transform` en el elemento deshace el efecto de foto clavada.
+### 3. La rejilla · fotos quietas
 
-Por eso la galería ya no usa el efecto clavado: no rendía nada en el celular y
-era lo que hacía que la página se sintiera recargada de imágenes.
+`rejilla__foto` son dos fotos **sin ningún efecto de scroll**. El contraste no
+viene del movimiento sino del tamaño: son chicas y de proporciones distintas,
+mientras las de efecto ocupan todo el ancho.
+
+Va como `<img>` y no de fondo a propósito: una imagen de fondo solo se puede
+dejar clavada, que es justo lo que ahí no se quiere.
+
+Se probó darles también un efecto de revelado (la foto siendo tres pantallas de
+alto, que es lo que hace el sitio de Triciclo, armado con Wix) y **no sumaba**:
+con la página ya llena de fotos animadas, un efecto más es ruido en lugar de
+descanso.
 
 ---
 
