@@ -194,8 +194,16 @@ escritorio pero **no en iOS ni en celular**. Está anotado en
 
 - [ ] **Quitar la carpeta `images/` de la raíz.** Es la copia vieja de las
       fotos, ya reemplazada por `assets/img/`. Ocupa unos 2,9 MB que no
-      sirven para nada. Se puede borrar junto con `prototipo-boceto/` una
-      vez que el sitio esté publicado y no haga falta más.
+      sirven para nada.
+
+      Se dejó a propósito porque tiene dos fotos sin usar que sirven para la
+      rejilla de la galería: el costillar (`caption (1).jpg`) y el plato con
+      salsa (`caption (2).jpg`). Lo demás ya está en `assets/img/` y se puede
+      borrar ya.
+
+      El detalle de cada archivo está en `images/LEEME.md`. Esa carpeta se
+      puede borrar entera junto con `prototipo-boceto/`, una vez que la
+      rejilla esté resuelta.
 - [ ] **Comprimir las fotos.** Algunas pesan bastante y son JPG que podrían
       estar en WebP con una calidad visualmente idéntica. Afectaría
       directamente a cuánto tarda en cargar en el celular, que es donde se
