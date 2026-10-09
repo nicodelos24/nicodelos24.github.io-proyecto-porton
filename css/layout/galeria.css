@@ -114,7 +114,15 @@
    El bloque se sangra a pantalla completa con el mismo truco que las bandas de
    "La cocina" (width: 100vw + margen negativo), así la foto puede tocar el
    borde. */
+/* La franja de vidrio sobre la foto: el mismo color que el panel pero bastante
+   más transparente, para que se vea la comida detrás.
+
+   Se deriva de `--c-panel` con `color-mix` en vez de escribir el color otra
+   vez, así el tema claro y el oscuro se encargo solos: si el panel es claro,
+   la franja sale clara también. */
 .galeria-bloque--pareja {
+  --c-franja: color-mix(in srgb, var(--c-panel) 30%, transparent);
+
   position: relative;
   isolation: isolate;
   display: grid;
@@ -184,38 +192,53 @@
   padding: clamp(1.5rem, 3vw, 2.5rem) var(--contenedor-pad);
 
   background: var(--c-panel);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+
+  /* El desenfoque NO va acá sino en el pseudoelemento de más abajo. Aplicado
+     al panel entero, emborronaba también la franja que pisa la foto, que es
+     justo lo que tiene que quedar nítida para que se vea la comida. */
+
   border-block: 1px solid var(--c-borde);
   border-inline-end: 1px solid var(--c-borde);
   box-shadow: var(--sombra-lg);
 }
 
-/* La parte del panel que se superpone con la foto se desvanece.
+/* La zona con texto: el desenfoque va acá y no en el panel, así la franja que
+   pisa la foto queda limpia. El `z-index` negativo lo manda detrás del texto
+   del panel, y sin `pointer-events` no intercepta los clics. */
+.galeria-bloque--pareja .galeria-lista::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0 42%;
+  z-index: -1;
 
-   En la referencia el vidrio se va aclarando hacia la foto: la banda que
-   pisa la imagen se vuelve casi transparente y deja ver la comida detrás. Sin
-   esto, el panel es una tapa rectangular sobre la foto y se pierde lo que hay
-   abajo.
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
-   Se hace con `mask`: apaga el panel de forma progresiva hacia el lado de la
-   foto, sin tocar el color de fondo ni las fotos.
+/* La parte del panel que se superpone con la foto tiene su propia
+   transparencia: más tenue que la del texto, pero FIJA, sin degradado.
 
-   El `linear-gradient` va de blanco (se ve) a negro (invisible), y el primer
-   tope está en 45%: hasta ahí el panel es normal y de ahí en adelante se
-   desvanece hasta desaparecer en el borde. El borde del panel también se
-   desvanece con la máscara, que es lo correcto: una línea que se desvanece
-   acompaña al degradado en vez de cortarlo en seco. */
+   Son dos zonas planas con un corte seco entre ellas. La parte con texto es
+   el panel de siempre; la franja que pisa la foto deja ver la comida detrás
+   de un vidrio claro.
+
+   Se pinta con un `linear-gradient` de dos tramos: cada tramo es un color
+   opaco hasta el tope, así que no hay mezcla entre ellos y el corte queda
+   recto. Un degradado de verdad sería el que va de un color al otro con
+   topes intermedios, que es justo lo que no se quiere acá.
+
+   La franja mide el 42% del panel, que es lo que se superpone con la foto: el
+   panel mide 58% de la pantalla y la foto arranca en el 40%, o sea que la
+   parte que la pisa son 18 puntos de pantalla. */
 .galeria-bloque--pareja .galeria-lista {
-  --apagado: linear-gradient(
+  background: linear-gradient(
     to right,
-    #fff 0%,
-    #fff 45%,
-    rgb(0 0 0 / 30%) 78%,
-    #000 100%
+    var(--c-panel) 0,
+    var(--c-panel) 58%,
+    var(--c-franja) 58%,
+    var(--c-franja) 100%
   );
-  -webkit-mask-image: var(--apagado);
-  mask-image: var(--apagado);
 }
 
 /* El texto del panel NO usa todo el ancho. En la referencia el texto termina
@@ -269,14 +292,14 @@
   border-inline: 1px solid var(--c-borde);
   border-block: 1px solid var(--c-borde);
 
-  /* El degradado va al revés: acá la foto está a la izquierda, así que el
-     vidrio se desvanece hacia ese lado, no hacia la derecha. */
-  --apagado: linear-gradient(
-    to left,
-    #fff 0%,
-    #fff 45%,
-    rgb(0 0 0 / 30%) 78%,
-    #000 100%
+  /* La franja va del lado contrario: acá la foto está a la izquierda, así que
+     la parte translúcida del panel es la de la izquierda. */
+  background: linear-gradient(
+    to right,
+    var(--c-franja) 0,
+    var(--c-franja) 42%,
+    var(--c-panel) 42%,
+    var(--c-panel) 100%
   );
 }
 
