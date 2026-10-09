@@ -141,26 +141,24 @@
      sobre lo mismo. */
   --borde-foto: 40vw;
 
-  /* El ancho del panel.
+  /* El ancho del panel: 58vw en los tres bloques, sin excepción.
 
-     Acá el panel llega hasta el borde de la pantalla (100vw), no hasta el 58%.
-     El motivo: la foto de este bloque sangra a la derecha, o sea que sigue
-     hasta el final. Si el panel terminara antes, el vidrio de la franja se
-     cortaría en mitad de la imagen y ahí se vería una línea recta cruzando la
-     comida. Estirando el panel hasta el borde, la franja termina exactamente
-     donde termina la foto y el corte se confunde con el canto de la pantalla.
+     Antes este bloque lo estiraba a 100vw para que el vidrio de la franja
+     llegara hasta el borde de la foto y no se cortara en mitad de la imagen.
+     El problema es que así el texto quedaba pegado contra la foto: el panel
+     quedaba largo pero su zona con texto, que es la que se lee, no ganaba
+     nada. El bloque invertido sí con 58vw se ve bien, y este tiene que verse
+     igual que ese.
 
-     El bloque invertido no puede hacer lo mismo, porque su foto sangra a la
-     izquierda: el panel queda a la derecha y la franja sí termina antes. Por eso
-     el ancho se define acá y el invertido lo deja en 58vw.
+     El corte de la franja en mitad de la foto no se nota: es el mismo vidrio
+     transparente que ya estaba, solo que ahora en vez de cortarse termina en
+     el borde del panel, que cae sobre la foto y no sobre el fondo de la
+     página, así que no se ve el cambio de tono. */
+  --ancho-panel: 58vw;
 
-     El texto no se estira con el panel: sigue acotado por `--borde-foto`, así
-     que ocupa lo mismo que antes aunque el vidrio llegue más lejos. */
-  --ancho-panel: 100vw;
-
-  /* Lo que el panel se superpone con la foto: desde que arranca la imagen
-     hasta el borde, que es donde la franja termina. */
-  --ancho-franja: calc(100vw - var(--borde-foto));
+  /* Lo que el panel se superpone con la foto: el panel arranca en el borde
+     de la pantalla y la foto en el 40vw, así que se pisan 58 - 40 = 18vw. */
+  --ancho-franja: calc(var(--ancho-panel) - var(--borde-foto));
 
   width: 100vw;
   margin-inline: calc(50% - 50vw);
@@ -214,9 +212,12 @@
 
   background: var(--c-panel-carta);
 
-  /* El marco va solo arriba, abajo y del lado del texto. */
-  border-block: 1px solid var(--c-borde);
-  border-inline-start: 1px solid var(--c-borde);
+  /* El cuadro no lleva borde.
+
+     Los tres que tenía antes se veían como líneas blancas: el de arriba y el
+     de abajo cruzaban la foto de lado a lado, y el del lado del texto quedaba
+     pegado al borde de la pantalla. Ninguno aportaba nada: el panel ya se
+     distingue del fondo por su propio color, sin necesidad de un contorno. */
 }
 
 /* La zona con texto va sin desenfoque y sin sombra.
@@ -294,11 +295,10 @@
   grid-template-columns: 1.2fr 0.8fr;
   --borde-foto: 60vw;
 
-  /* Acá el panel se queda en 58vw y no llega al borde de la pantalla como en
-     el bloque normal: la foto de este sangra a la izquierda, así que el panel
-     tiene su propio borde visible del lado del texto y la franja se corta
-     justo donde termina la imagen, sin nada que la cruce. */
-  --ancho-panel: 58vw;
+  /* Acá el panel se apoya contra el borde derecho de la pantalla, así que
+     arranca en el 42vw. La foto llega hasta el 60vw. Se pisan 60 - 42 = 18vw:
+     la misma franja que en los otros dos bloques, que es lo que hace que los
+     tres se vean iguales. */
   --ancho-franja: calc(var(--borde-foto) - (100vw - var(--ancho-panel)));
 }
 
@@ -315,11 +315,6 @@
 .galeria-bloque--pareja-inversa .galeria-lista {
   inset-inline-start: auto;
   inset-inline-end: 0;
-
-  /* Igual que en el bloque normal, pero del otro lado: el marco va del lado
-     del texto (aquí el derecho) y el que toca la foto se queda sin borde. */
-  border-block: 1px solid var(--c-borde);
-  border-inline-end: 1px solid var(--c-borde);
 
   /* La franja va del lado contrario: acá la foto está a la izquierda, así que
      la parte translúcida del panel es la de la izquierda.
