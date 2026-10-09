@@ -267,6 +267,40 @@
     </section>
 
     <!-- ========================================================================
+         LA COCINA — dos fotos con el texto en el medio
+         Va antes de la galería, y no dentro de ella: es el bloque que
+         explica cómo se cocina, y con la galería ya entrando se leía como
+         un foto más de la tira. Acá funciona como un respiro entre las
+         bandas de transición y la galería.
+         ======================================================================== -->
+    <section class="cocina" aria-labelledby="cocina-titulo">
+      <div class="galeria-bloque galeria-bloque--costuras">
+
+        <figure class="gallery__item gallery__item--costura gallery__item--empanada"
+                role="img" aria-label="Empanadas de carne a cuchillo, recién hechas"
+                data-reveal="fade">
+          <figcaption class="gallery__caption">Empanadas</figcaption>
+        </figure>
+
+        <div class="galeria-centro" data-reveal="fade">
+          <span class="eyebrow">La cocina</span>
+          <h2 class="galeria-centro__texto" id="cocina-titulo">
+            Cada plato sale de la parrilla cuando está en su punto, no antes.
+            Las empanadas se amasan a mano y las tortillas llevan su tiempo.
+            Nada se sirve apurado.
+          </h2>
+        </div>
+
+        <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
+                role="img" aria-label="Tortilla española con alioli de ajo y huevo"
+                data-reveal="fade">
+          <figcaption class="gallery__caption">Tortilla con alioli</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
          GALERÍA
          ======================================================================== -->
     <section class="section" id="galeria">
@@ -297,12 +331,6 @@
              css/components/animations.css. -->
         <div class="gallery">
 
-          <figure class="gallery__item gallery__item--angosta gallery__item--izq gallery__item--salon"
-                  role="img" aria-label="Salón del restaurante El Otro Portón"
-                  data-reveal="fade">
-            <figcaption class="gallery__caption">El salón</figcaption>
-          </figure>
-
           <!-- BLOQUE 1 · la parrilla, al lado de la foto de la parrilla.
                Cada categoría queda junto a la foto que la representa: se lee
                mejor que una lista de platos suelta, y la foto sola no dice
@@ -320,50 +348,36 @@
               <ul class="galeria-platos" data-platos="parrilla"></ul>
             </div>
 
-            <figure class="gallery__item gallery__item--pareja gallery__item--asado"
-                    role="img" aria-label="Carnes asadas a la parrilla, recién salidas de la chapa"
+            <figure class="gallery__item gallery__item--pareja gallery__item--costillar"
+                    role="img" aria-label="Costillar de carnes asándose sobre la parrilla"
                     data-reveal="fade">
-              <figcaption class="gallery__caption">A la parrilla</figcaption>
             </figure>
           </section>
 
-          <!-- BLOQUE 2 · dos fotos con el efecto clavado, una a cada lado,
-               con el texto en el medio -->
-          <section class="galeria-bloque galeria-bloque--costuras">
-            <figure class="gallery__item gallery__item--costura gallery__item--empanada"
-                    role="img" aria-label="Empanadas de carne a cuchillo, recién hechas"
+          <!-- BLOQUE 1b · las entradas, con la foto al revés que en el
+               bloque de la parrilla.
+               Es el mismo esquema (lista de platos + foto) pero con la foto
+               a la izquierda, para que los dos bloques seguidos no se lean
+               igual. En el celular, donde todo se apila en una columna, la
+               lista sigue yendo primero: el texto antes que la foto.
+
+               Usa una foto vertical de las que estaban sin usar en la
+               galería: las horizontales no dan la altura que necesita el efecto
+               de foto clavada, y con el panel montado encima tapaban la foto. -->
+          <section class="galeria-bloque galeria-bloque--pareja galeria-bloque--pareja-inversa"
+                   aria-labelledby="galeria-entradas-titulo">
+
+            <figure class="gallery__item gallery__item--pareja gallery__item--picos"
+                    role="img" aria-label="Plato con papas y pan, recién salido de la cocina"
                     data-reveal="fade">
-              <figcaption class="gallery__caption">Empanadas</figcaption>
             </figure>
 
-            <div class="galeria-centro" data-reveal="fade">
-              <span class="eyebrow">La cocina</span>
-              <p class="galeria-centro__texto">
-                Cada plato sale de la parrilla cuando está en su punto, no antes.
-                Las empanadas se amasan a mano y las tortillas llevan su tiempo.
-                Nada se sirve apurado.
-              </p>
-            </div>
-
-            <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
-                    role="img" aria-label="Tortilla española con alioli de ajo y huevo"
-                    data-reveal="fade">
-              <figcaption class="gallery__caption">Tortilla con alioli</figcaption>
-            </figure>
-
-            <!-- Y abajo, las entradas, que son justamente lo que sale en
-                 esas dos fotos -->
-            <div class="galeria-lista galeria-lista--ancha" data-reveal="fade">
-              <h3 class="galeria-bloque__titulo">Para compartir</h3>
+            <div class="galeria-lista" data-reveal="fade">
+              <span class="eyebrow">Para empezar</span>
+              <h3 class="galeria-bloque__titulo" id="galeria-entradas-titulo">Para compartir</h3>
               <ul class="galeria-platos" data-platos="entradas"></ul>
             </div>
           </section>
-
-          <figure class="gallery__item gallery__item--angosta gallery__item--der gallery__item--casa"
-                  role="img" aria-label="Plato de la casa, servido en mesa"
-                  data-reveal="fade" data-reveal-delay="1">
-            <figcaption class="gallery__caption">Plato de la casa</figcaption>
-          </figure>
 
           <!-- LA REJILLA · contraste con las fotos de efecto
                Estas dos van al revés que las de arriba: NO tienen efecto de
@@ -407,12 +421,6 @@
                   role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
                   data-reveal="fade">
             <figcaption class="gallery__caption">Postre de la casa</figcaption>
-          </figure>
-
-          <figure class="gallery__item gallery__item--angosta gallery__item--izq gallery__item--entradas"
-                  role="img" aria-label="Chorizo y morcilla con queso"
-                  data-reveal="fade" data-reveal-delay="2">
-            <figcaption class="gallery__caption">Entradas</figcaption>
           </figure>
 
           <!-- Las bebidas quedan solas al final: no hay foto del local que las

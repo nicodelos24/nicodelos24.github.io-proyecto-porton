@@ -48,25 +48,22 @@
   background-repeat: no-repeat;
 }
 
-/* ---- La foto de cada bloque ---- */
-.gallery__item--salon {
-  background-image: url("../../assets/img/caption.jpg");
+/* ---- La foto de cada bloque ----
+   Los dos bloques grandes usan fotos verticales: son las más altas del sitio
+   (1000x1776) y por eso las que mejor aguantan el efecto de foto clavada, que
+   necesita altura de sobra para mostrar partes distintas al bajar. */
+.gallery__item--costillar {
+  background-image: url("../../assets/img/caption_11.jpg");
 }
 
-.gallery__item--asado {
-  background-image: url("../../assets/img/asad.jpg");
-}
-
-.gallery__item--casa {
-  background-image: url("../../assets/img/port.jpg");
+/* Las entradas. Antes era el chorizo con morcilla, horizontal y con poca altura:
+   quedaba en una franja que no llenaba el panel. */
+.gallery__item--picos {
+  background-image: url("../../assets/img/caption_14.jpg");
 }
 
 .gallery__item--calabaza {
   background-image: url("../../assets/img/calabaza-asada-con-queso.jpg");
-}
-
-.gallery__item--entradas {
-  background-image: url("../../assets/img/chorizo-morcilla-queso.jpg");
 }
 
 /* Las dos fotos del bloque central */
@@ -107,20 +104,72 @@
   display: none;
 }
 
-/* ---- Bloque 1 y 3 · lista a un lado, foto con efecto al otro ----
-   La lista va primero y la foto después, para que en el celular, donde se
-   apilan en una columna, el texto se lea antes que la foto. */
+/* ---- Bloque 1 y 1b · la foto manda, el texto va en un panel encima ----
+   Antes eran dos columnas iguales: lista a un lado, foto al otro, con un
+   hueco en el medio. Ahora la foto ocupa todo el ancho del bloque y la lista
+   es un panel de vidrio montado encima, más cerca de una carta de menú sobre
+   la mesa que de dos cajas alineadas.
+
+   El panel se monta sobre la foto con `position: absolute` y margen negativo
+   en vez de con `grid`, porque si el texto fuera una celda de la grilla la
+   foto quedaría limitada a la mitad y no llegaría al borde de la pantalla. */
 .galeria-bloque--pareja {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 5vw, 4rem);
-  align-items: center;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Alto de la foto. Alto de verdad, no una proporción 4/3: con el panel
+   encima, una proporción baja dejaba la lista sin lugar. */
 .gallery__item--pareja {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
 }
+
+/* El texto, en un panel de vidrio sobre la foto.
+
+   El `inset-block-end` lo baja contra el borde de abajo en vez de centrarlo:
+   centrado, el texto tapaba justo el centro de la foto, que es la parte
+   interesante. Abajo deja la foto limpia arriba. */
+.galeria-bloque--pareja .galeria-lista {
+  position: absolute;
+  z-index: 2;
+  inset-block-end: clamp(1.25rem, 4vw, 3rem);
+  inset-inline-start: clamp(1.25rem, 4vw, 3.5rem);
+
+  width: min(100% - 2.5rem, 30rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+
+  background: var(--c-panel);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--c-borde);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sombra-lg);
+}
+
+/* El bloque invertido pone la foto y el panel al revés: la foto se sangra
+   desde el borde derecho y el panel se apoya contra el izquierdo.
+
+   Se invierte con `order` y no escribiendo el marcado al revés, porque en el
+   celular todo se apila en una columna y ahí manda el orden del HTML. Con
+   `order` la lista sigue siendo lo primero que se lee (el texto antes que la
+   foto) sin tener que tocar el marcado. */
+.galeria-bloque--pareja-inversa .gallery__item {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+}
+
+.galeria-bloque--pareja-inversa .galeria-lista {
+  inset-inline-start: auto;
+  inset-inline-end: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+/* El pie de foto sobre un panel de vidrio no se lee: el degradado negro del
+   pie queda pegado al borde de abajo, que es justo donde está el panel. Por eso
+   el pie no se usa en estos dos bloques (ver index.html) y el nombre del plato
+   lo pone el texto de arriba. */
 
 .galeria-lista .galeria-bloque__titulo {
   margin-block: var(--sp-2) var(--sp-5);
@@ -246,22 +295,32 @@
   margin-block: var(--sp-3) 0;
 }
 
-/* Las entradas van abajo de las dos fotos y ocupan la fila entera: son
-   cuatro platos y haciendo dos columnas quedarían ilegibles. */
-.galeria-lista--ancha {
-  grid-column: 1 / -1;
-  margin-top: var(--sp-5);
+/* ---- "La cocina", como sección propia antes de la galería ----
+   Antes este bloque estaba dentro de la galería y heredaba de ella el
+   relleno. Al salir como sección necesita el suyo, o las fotos quedan
+   pegadas a las bandas de transición y a la galería.
 
-  /* La lista ocupa las tres columnas del bloque, que ahora miden toda la
-     pantalla. Sin tope de ancho los platos quedarían tirados de un borde al
-     otro, con el precio de un lado y el nombre del otro. */
-  max-width: 42rem;
-  margin-inline: auto;
+   El título es un <h2> (para que la sección tenga nombre real y el visitor
+   de pantalla la anuncie), pero se le saca el peso 600 que le dan los
+   encabezados: el texto se leía como un párrafo, y ahora tiene que seguir
+   viéndose igual. */
+.cocina {
+  padding-block: var(--seccion-pad-y) 0;
 }
 
-.galeria-lista--ancha .galeria-bloque__titulo {
-  margin-block: 0 var(--sp-5);
-  text-align: center;
+/* La galería ya empieza con su propio relleno (viene de .section), así que
+   entre las dos secciones hay que repartir el espacio en vez de sumarlo: con
+   los dos rellenos completos quedaba un hueco vacío de una pantalla.
+
+   Igual hace falta un mínimo: sin nada, el título de la galería queda pegado
+   al borde de abajo de las fotos de "La cocina". */
+.cocina + .section {
+  padding-block-start: clamp(3rem, 6vw, 6rem);
+}
+
+.cocina .galeria-centro__texto {
+  font-weight: 400;
+  text-wrap: pretty;
 }
 
 /* ---- El título que comparten los bloques ---- */
@@ -400,8 +459,7 @@
   /* Los bloques de dos columnas se apilan. El texto va arriba y las fotos
      abajo, porque al revés el texto queda apretado entre dos fotos angostas
      y no hay ancho para leerlo. */
-  .galeria-bloque--costuras,
-  .galeria-bloque--pareja {
+  .galeria-bloque--costuras {
     grid-template-columns: 1fr;
   }
 
@@ -411,16 +469,43 @@
     display: none;
   }
 
-  .gallery__item--costura,
+  /* Los bloques con panel: en el celular el texto deja de flotar sobre la foto
+     y pasa a ser un bloque normal abajo de la foto. Montado arriba, en una
+     pantalla de 390 px el panel tapaba la foto entera y no se veía ni una ni
+     otra cosa.
+
+     El `order` invierte el orden del HTML, que pone el texto primero para que
+     en el escritorio el panel quede arriba de la lista sin tener que escribir
+     el marcado al revés. Sin esto, al dejar de flotar el texto se leía antes
+     que la foto. */
+  .galeria-bloque--pareja .gallery__item {
+    order: -1;
+  }
+
+  .galeria-bloque--pareja .galeria-lista {
+    position: static;
+    width: 100%;
+    margin-top: var(--sp-4);
+  }
+
+  /* El bloque invertido ya no se invierte en el celular: los dos quedan con la
+     foto arriba y el texto abajo, que es lo único que entra en una columna. */
+  .galeria-bloque--pareja-inversa .galeria-lista {
+    inset-inline-end: auto;
+  }
+
   .gallery__item--pareja {
     aspect-ratio: 4 / 3;
   }
 
+  .gallery__item--costura {
+    aspect-ratio: 4 / 3;
+  }
+
   /* El bloque central sangra a pantalla completa, así que apiladas sus columnas
-     también tocarían los bordes. Solo las fotos van de borde a borde: el texto
-     y la lista de platos recuperan el margen del contenedor. */
-  .galeria-centro,
-  .galeria-lista--ancha {
+     también tocarían los bordes. Solo la foto va de borde a borde: el texto
+     recupera el margen del contenedor. */
+  .galeria-centro {
     padding-inline: var(--contenedor-pad);
   }
 }
