@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>La carta · El Otro Portón · Parrillada en Colonia del Sacramento</title>
+  <meta name="description" content="La carta completa de El Otro Portón: entradas, parrilla, postres y bebidas, con precios en pesos uruguayos.">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Open Graph: cómo se ve el enlace cuando se comparte en redes -->
+  <meta property="og:title" content="La carta · El Otro Portón">
+  <meta property="og:description" content="La carta completa de la parrilla, con precios.">
+  <meta property="og:image" content="assets/img/cabecera.jpg">
+  <meta property="og:type" content="restaurant">
+
+  <link rel="icon" href="assets/img/log.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css">
+
+  <!--
+    Se aplica el tema guardado antes de que el navegador pinte nada.
+    Si esto corriera más tarde (desde main.js), el visitante vería un
+    destello del tema equivocado al cargar.
+
+    Si no hay nada guardado, no se pone atributo: el CSS resuelve el
+    tema con prefers-color-scheme, así que funciona igual sin este script.
+  -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("tema");
+        if (t === "claro" || t === "oscuro") {
+          document.documentElement.dataset.tema = t;
+        }
+      } catch (e) {
+        /* Sin almacenamiento: se usa el tema del sistema. */
+      }
+    })();
+  </script>
+
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Ir al contenido</a>
+
+  <!-- ==========================================================================
+       NAVEGACIÓN (js/modules/nav.js)
+       ========================================================================== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+
+      <a class="nav__brand" href="index.html" aria-label="El Otro Portón, ir al inicio">
+        <img class="nav__logo" src="assets/img/log.svg" alt="El Otro Portón">
+        <span class="nav__tagline">Colonia del<br>Sacramento</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Navegación principal">
+        <a class="nav__link" href="index.html#inicio">Inicio</a>
+        <a class="nav__link" href="index.html#sobre-nosotros">Nosotros</a>
+        <a class="nav__link is-active" href="carta.html" aria-current="page">Carta</a>
+        <a class="nav__link" href="index.html#galeria">Galería</a>
+        <a class="nav__link" href="index.html#contacto">Contacto</a>
+        <a class="btn btn--primary btn--sm nav__cta" href="index.html#reservas">
+          Reservar <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+
+      <div class="nav__acciones">
+        <!--
+          Botón de tema. Va fuera del <nav> a propósito: funciona incluso
+          con el menú de móvil abierto, y así nunca queda atrapado debajo
+          del panel que se abre a pantalla completa.
+        -->
+        <button class="theme-toggle" type="button" data-tema-boton data-estado="oscuro"
+                aria-label="Cambiar a modo claro">
+          <span class="theme-toggle__icon theme-toggle__icon--sol" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4.5"/>
+              <path d="M12 1.5v2.5M12 20v2.5M22.5 12H20M4 12H1.5M19.4 4.6l-1.8 1.8M6.4 17.6l-1.8 1.8M19.4 19.4l-1.8-1.8M6.4 6.4L4.6 4.6"/>
+            </svg>
+          </span>
+          <span class="theme-toggle__icon theme-toggle__icon--luna" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+            </svg>
+          </span>
+          <span class="theme-toggle__auto" aria-hidden="true"></span>
+        </button>
+
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Abrir menú">
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ==========================================================================
+         ENCABEZADO DE LA CARTA
+         ========================================================================== -->
+    <section class="carta-head">
+      <div class="container">
+        <span class="eyebrow" data-reveal>La carta</span>
+        <h1 class="carta-head__titulo" data-reveal>
+          Todo lo que sale de <span class="hl">la parrilla</span>
+        </h1>
+        <p class="lead" data-reveal>
+          Precios en pesos uruguayos. Si algo no está en la carta, decinos y lo
+          buscamos: la parrilla se adapta al pedido.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         LA CARTA
+         Los platos los arma js/modules/carta.js desde js/data/menu.js.
+         En el HTML no hay ni una tarjeta escrita a mano: agregar un plato es
+         agregar un objeto al archivo de datos.
+         ========================================================================== -->
+    <section class="section section--alt" id="carta">
+      <div class="container">
+
+        <div class="carta__toolbar">
+          <!-- Los botones de categoría los arma carta.js también, desde los
+               grupos de window.MENU. Con la palabra equivocada en
+               js/data/menu.js, el filtro quedaría sin botón. -->
+          <div class="carta__filters" role="group" aria-label="Filtrar por categoría"></div>
+        </div>
+
+        <div class="carta__grid"></div>
+
+        <p class="carta__note">
+          Precios en pesos uruguayos, pueden cambiar sin aviso. Todos nuestros
+          platos tienen gluten; consultanos por los allergy.
+        </p>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+
+        <div class="footer__brand-col">
+          <img class="footer__logo" src="assets/img/log.svg" alt="El Otro Portón">
+          <p class="card-text">
+            Parrillada y cocina de casa en el corazón de Colonia del Sacramento.
+          </p>
+          <div class="socials">
+            <a class="social" href="#" aria-label="Instagram">IG</a>
+            <a class="social" href="#" aria-label="Facebook">FB</a>
+            <a class="social" href="#" aria-label="WhatsApp">WA</a>
+          </div>
+        </div>
+
+        <div>
+          <p class="footer__title">Navegación</p>
+          <ul class="footer__list" style="margin-top: 1rem;">
+            <li><a href="index.html#inicio">Inicio</a></li>
+            <li><a href="index.html#sobre-nosotros">Nosotros</a></li>
+            <li><a href="carta.html">Carta</a></li>
+            <li><a href="index.html#galeria">Galería</a></li>
+            <li><a href="index.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__title">Horarios</p>
+          <ul class="footer__list" style="margin-top: 1rem;">
+            <li>Jueves a sábado: 20:00 a 00:00</li>
+            <li>Domingo: 12:00 a 17:00</li>
+            <li>Lunes a miércoles: cerrado</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p>© <span id="year">2025</span> El Otro Portón. Todos los derechos reservados.</p>
+        <p class="footer__made">Hecho con cariño en Colonia del Sacramento</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" type="button" aria-label="Volver arriba">↑</button>
+
+  <!-- ==========================================================================
+       SCRIPTS
+       El orden importa: los datos se cargan antes que main.js porque
+       carta.js necesita window.MENU.
+       ========================================================================== -->
+  <script src="js/data/menu.js"></script>
+
+  <script type="module" src="js/main.js"></script>
+
+  <script>
+    // Año del copyright actualizado solo
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

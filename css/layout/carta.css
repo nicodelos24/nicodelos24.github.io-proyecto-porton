@@ -1,11 +1,29 @@
 /* =============================================================
    layout/carta.css
-   Capa 3 — Sección de carta / menú
+   Capa 3 — Página de carta / menú
    -------------------------------------------------------------
+   - Encabezado de la página
    - Barra de filtros por categoría
    - Rejilla de tarjetas renderizada desde js/data/menu.js
    - La lista se anima con stagger al cambiar de categoría
    ============================================================= */
+
+/* ---------- Encabezado de la página ----------
+   Es su propia clase y no .section--head porque esta página arranca acá:
+   no hay sección anterior de la que heredaría el relleno, y el título es
+   un h1 de página, no un título de sección. */
+.carta-head {
+  padding-block: clamp(6rem, 14vw, 12rem) clamp(3rem, 6vw, 5rem);
+}
+
+.carta-head__titulo {
+  margin-block: var(--sp-4) var(--sp-5);
+  font-size: var(--fs-3xl);
+}
+
+.carta-head .lead {
+  max-width: 46ch;
+}
 
 .carta__toolbar {
   display: flex;
