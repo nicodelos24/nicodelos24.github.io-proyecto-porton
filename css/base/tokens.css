@@ -98,6 +98,12 @@
   --sombra-sm: 0 2px 12px rgb(0 0 0 / 35%);
   --sombra-md: 0 12px 40px rgb(0 0 0 / 45%);
   --sombra-lg: 0 30px 80px rgb(0 0 0 / 60%);
+
+  /* La sombra de los paneles de la carta, sin dirección: cada lado se la
+     aplica por separado, apuntando hacia adentro, porque una sombra de cuatro
+     lados deja una banda gris colgando sobre la foto de al lado. */
+  --c-sombra-panel: rgb(0 0 0 / 55%);
+
   --glow-oro: 0 0 60px rgb(201 162 39 / 18%);
 
   /* ---------- ANIMACIÓN ---------- */
@@ -178,6 +184,7 @@
   --sombra-sm: 0 1px 3px rgb(31 26 23 / 10%);
   --sombra-md: 0 6px 20px rgb(31 26 23 / 10%);
   --sombra-lg: 0 18px 45px rgb(31 26 23 / 14%);
+  --c-sombra-panel: rgb(31 26 23 / 22%);
   --glow-oro: 0 0 60px rgb(201 162 39 / 10%);
   --c-panel: rgb(255 255 255 / 88%);
   --c-panel-input: rgb(31 26 23 / 4%);
@@ -211,6 +218,7 @@
     --sombra-sm: 0 1px 3px rgb(31 26 23 / 10%);
     --sombra-md: 0 6px 20px rgb(31 26 23 / 10%);
     --sombra-lg: 0 18px 45px rgb(31 26 23 / 14%);
+    --c-sombra-panel: rgb(31 26 23 / 22%);
     --glow-oro: 0 0 60px rgb(201 162 39 / 10%);
     --c-panel: rgb(255 255 255 / 88%);
     --c-panel-input: rgb(31 26 23 / 4%);

@@ -141,6 +141,11 @@
      sobre lo mismo. */
   --borde-foto: 40vw;
 
+  /* El ancho del panel (58vw) menos donde arranca la foto (40vw): lo que el
+     panel se superpone con la imagen. Es la franja de vidrio transparente. */
+  --ancho-panel: 58vw;
+  --ancho-franja: calc(var(--ancho-panel) - var(--borde-foto));
+
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
@@ -185,7 +190,7 @@
 
   /* Se pasa del ancho de su columna: la foto empieza en el 40% y el panel
      llega al 58%, así que se superpone con la foto en una banda ancha. */
-  width: 58%;
+  width: var(--ancho-panel);
 
   /* El texto se separa del borde de la pantalla con el mismo margen que usa el
      resto de la página, para que no quede pegado al canto. */
@@ -197,19 +202,39 @@
      al panel entero, emborronaba también la franja que pisa la foto, que es
      justo lo que tiene que quedar nítida para que se vea la comida. */
 
+  /* El marco: solo arriba, abajo y del lado del texto. El lado que pisa la foto
+   /* El marco va solo arriba, abajo y del lado del texto. El lado que pisa la
+   foto NO lleva borde: la franja de ahí termina en el aire y una línea de 1px
+   ahí se ve como un corte blanco en medio de la imagen. */
   border-block: 1px solid var(--c-borde);
-  border-inline-end: 1px solid var(--c-borde);
-  box-shadow: var(--sombra-lg);
+  border-inline-start: 1px solid var(--c-borde);
+
+  /* La sombra tampoco puede ir en los cuatro lados: del lado de la foto
+     pintaría una banda gris colgando sobre la imagen. Cada lado se la aplica por
+     separado, con el desplazamiento apuntando hacia adentro, así no queda
+     ninguna sombra sobre la foto.
+
+     La del lado del texto se achica y se vuelve casi transparente: el panel ya
+     se apoya contra el borde de la pantalla, así que una sombra fuerte ahí se ve
+     como una franja clara pegada al canto. */
+  box-shadow:
+    0 -14px 26px -20px var(--c-sombra-panel),
+    10px 0 20px -18px rgb(0 0 0 / 20%),
+    0 14px 26px -20px var(--c-sombra-panel);
 }
 
 /* La zona con texto: el desenfoque va acá y no en el panel, así la franja que
-   pisa la foto queda limpia. El `z-index` negativo lo manda detrás del texto
-   del panel, y sin `pointer-events` no intercepta los clics. */
+   pisa la foto queda limpia.
+
+   Termina exactamente donde empieza la foto (40vw). Antes terminaba en el 58%
+   del panel, que es un punto distinto: el vidrio tenue se extendía 100px más
+   allá, sobre el fondo de la página en vez de sobre la foto, y ahí se veía
+   como una mancha gris entre el panel blanco y la imagen. */
 .galeria-bloque--pareja .galeria-lista::before {
   content: "";
   position: absolute;
   inset-block: 0;
-  inset-inline: 0 42%;
+  inset-inline: 0 var(--ancho-franja);
   z-index: -1;
 
   backdrop-filter: blur(10px);
@@ -228,15 +253,15 @@
    recto. Un degradado de verdad sería el que va de un color al otro con
    topes intermedios, que es justo lo que no se quiere acá.
 
-   La franja mide el 42% del panel, que es lo que se superpone con la foto: el
-   panel mide 58% de la pantalla y la foto arranca en el 40%, o sea que la
-   parte que la pisa son 18 puntos de pantalla. */
+   El corte va en `40vw`, que es donde arranca la foto, y no en un porcentaje
+   del panel: si el corte cae antes de la foto, el vidrio queda sobre el fondo
+   de la página y se ve gris en vez de verse como vidrio sobre la imagen. */
 .galeria-bloque--pareja .galeria-lista {
   background: linear-gradient(
     to right,
     var(--c-panel) 0,
-    var(--c-panel) 58%,
-    var(--c-franja) 58%,
+    var(--c-panel) 40vw,
+    var(--c-franja) 40vw,
     var(--c-franja) 100%
   );
 }
@@ -289,18 +314,36 @@
 .galeria-bloque--pareja-inversa .galeria-lista {
   inset-inline-start: auto;
   inset-inline-end: 0;
-  border-inline: 1px solid var(--c-borde);
+
+  /* Igual que en el bloque normal, pero del otro lado: el marco va del lado
+     del texto (aquí el derecho) y el que toca la foto se queda sin borde. */
   border-block: 1px solid var(--c-borde);
+  border-inline-end: 1px solid var(--c-borde);
+
+  box-shadow:
+    0 -14px 26px -20px var(--c-sombra-panel),
+    -10px 0 20px -18px rgb(0 0 0 / 20%),
+    0 14px 26px -20px var(--c-sombra-panel);
 
   /* La franja va del lado contrario: acá la foto está a la izquierda, así que
-     la parte translúcida del panel es la de la izquierda. */
+     la parte translúcida del panel es la de la izquierda.
+
+     El corte va donde termina la foto (60vw de la pantalla), que en el panel es
+     el mismo ancho de franja que en el bloque normal: el panel mide 58vw y
+     empieza en el 42vw, así que pisa la foto hasta el 60vw, o sea 18vw. */
   background: linear-gradient(
     to right,
     var(--c-franja) 0,
-    var(--c-franja) 42%,
-    var(--c-panel) 42%,
+    var(--c-franja) var(--ancho-franja),
+    var(--c-panel) var(--ancho-franja),
     var(--c-panel) 100%
   );
+}
+
+/* El desenfoque, en el bloque invertido, cubre solo la mitad del texto: la de
+   la derecha. La franja que pisa la foto se queda limpia. */
+.galeria-bloque--pareja-inversa .galeria-lista::before {
+  inset-inline: var(--ancho-franja) 0;
 }
 
 /* El texto del bloque invertido necesita el mismo límite, pero del otro lado.
