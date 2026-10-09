@@ -19,6 +19,7 @@ import { initGaleriaMenu } from "./modules/galeria-menu.js";
 import { initContacto } from "./modules/contacto.js";
 import { initSmoothScroll } from "./modules/smooth-scroll.js";
 import { initTema } from "./modules/tema.js";
+import { initDatosNegocio } from "./modules/datos-negocio.js";
 
 /**
  * Corre una función de inicialización a prueba de errores.
@@ -42,4 +43,5 @@ document.addEventListener("DOMContentLoaded", () => {
   safe("carta", initCarta);
   safe("galeria-menu", initGaleriaMenu);
   safe("contacto", initContacto);
+  safe("datos-negocio", initDatosNegocio);
 });
