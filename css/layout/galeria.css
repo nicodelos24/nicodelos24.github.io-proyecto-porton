@@ -105,70 +105,76 @@
 }
 
 /* ---- Bloque 1 y 1b · la foto contra un borde, el texto encima ----
-   La foto ocupa media pantalla y llega hasta el borde: a la derecha en el
-   bloque de la parrilla, a la izquierda en el de las entradas. El texto va en
-   un panel de vidrio montado en la mitad opuesta, que pica hacia la foto y se
-   superpone encima de ella.
+   La foto es lo que manda: se lleva más de la mitad del ancho y llega hasta
+   el borde de la pantalla, a la derecha en el bloque de la parrilla y a la
+   izquierda en el de las entradas. El texto va en un panel de vidrio en el
+   lado contrario, apoyado contra ese borde de la pantalla (no flotando en el
+   centro) y montado desde arriba, invadiendo una parte de la foto.
 
    El bloque se sangra a pantalla completa con el mismo truco que las bandas de
    "La cocina" (width: 100vw + margen negativo), así la foto puede tocar el
-   borde. El lado del texto conserva el margen del contenedor para que el
-   texto siga alineado con el resto de la página. */
+   borde. */
 .galeria-bloque--pareja {
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr;
   align-items: center;
 
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
 
-/* La foto, en una mitad. Sin esquinas en el borde que toca la pantalla: se lee
-   como una foto que continúa fuera del marco, no como una tarjeta. */
+/* La foto, en su mitad, que es más ancha. Cuadrada: si se dejara en 4/3 con
+   este ancho quedaría en una franja y el panel, que es más alto, la taparía
+   entera. Sin esquinas en el borde que toca la pantalla: se lee como una foto
+   que continúa fuera del marco, no como una tarjeta. */
 .gallery__item--pareja {
   grid-column: 2;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   border-start-end-radius: 0;
   border-end-end-radius: 0;
 }
 
-/* El texto, en un panel de vidrio sobre el fondo de la página, montado hacia
-   el centro para picar la foto por su mitad.
+/* El texto, en un panel de vidrio apoyado contra el borde de la pantalla.
 
    Se posiciona con `absolute` y no como celda de la grilla porque tiene que
-   salirse de su columna: la grilla lo dejaría siempre dentro de su mitad y no
-   habría solapamiento.
+   invadir la columna de la foto: dentro de la grilla quedaría encerrado en su
+   mitad y no habría nada que se superponga.
 
-   El volteo hacia la foto va en `translate` y no en un margen: en un elemento
-   posicionado, el margen lateral solo separa, no mueve. El desplazamiento se
-   aplica junto al centrado vertical en la misma propiedad. */
+   El texto del panel arranca arriba (como en la referencia) y no centrado: el
+   alto del panel cambia con la cantidad de platos de cada categoría, y
+   centrarlo lo dejaba flotando en alturas distintas bloque a bloque. */
 .galeria-bloque--pareja .galeria-lista {
   position: absolute;
   z-index: 2;
-  inset-block-start: 50%;
-  inset-inline-start: var(--contenedor-pad);
+  inset-block-start: clamp(1.5rem, 5vw, 4rem);
+  inset-inline-start: 0;
 
-  /* Se ancla al borde del texto y se empuja hacia la foto la mitad de lo que
-     mide de sobra, para que el solapamiento sea siempre el mismo. */
-  translate: min(21vw, 17rem) -50%;
+  /* Más angosto que su columna a propósito: así pica la foto sin taparla, y el
+     texto queda bien menor que la imagen. */
+  width: 44%;
 
-  width: min(42vw, 34rem);
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  /* El texto se separa del borde de la pantalla con el mismo margen que usa el
+     resto de la página, para que no quede pegado al canto. */
+  padding: clamp(1.5rem, 3vw, 2.5rem) var(--contenedor-pad);
 
   background: var(--c-panel);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--c-borde);
-  border-radius: var(--r-lg);
+  border-block: 1px solid var(--c-borde);
+  border-inline-end: 1px solid var(--c-borde);
   box-shadow: var(--sombra-lg);
 }
 
 /* El bloque invertido: la foto a la izquierda tocando el borde, y el texto a
-   la derecha. Solo cambian la columna de la foto, de dónde se ancla el panel
-   y hacia qué lado se lo empuja. */
+   la derecha. Solo cambian la columna de la foto y de qué borde se apoya el
+   panel. */
+.galeria-bloque--pareja-inversa {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+
 .galeria-bloque--pareja-inversa .gallery__item {
   grid-column: 1;
   border-start-end-radius: var(--r-lg);
@@ -179,8 +185,9 @@
 
 .galeria-bloque--pareja-inversa .galeria-lista {
   inset-inline-start: auto;
-  inset-inline-end: var(--contenedor-pad);
-  translate: calc(-1 * min(21vw, 17rem)) -50%;
+  inset-inline-end: 0;
+  border-inline: 1px solid var(--c-borde);
+  border-block: 1px solid var(--c-borde);
 }
 
 /* El pie de foto sobre un panel de vidrio no se lee: el degradado negro del
@@ -513,9 +520,14 @@
   .galeria-bloque--pareja .galeria-lista,
   .galeria-bloque--pareja-inversa .galeria-lista {
     position: static;
-    translate: none;
     width: 100%;
     margin-top: var(--sp-4);
+
+    /* Vuelven el vidrio y el marco completos: apoyado contra el borde, el
+       panel no puede seguir siendo una banda sin esquinas. */
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid var(--c-borde);
+    border-radius: var(--r-lg);
   }
 
   .gallery__item--pareja {
