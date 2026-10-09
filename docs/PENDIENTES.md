@@ -5,6 +5,34 @@ revisar más adelante.
 
 ---
 
+## Bloqueante: enlaces rotos
+
+### [ ] La página `carta.html` no existe
+
+Tres enlaces del sitio apuntan a ella y **devuelven 404** hasta que se arme:
+
+| Dónde | Texto |
+|---|---|
+| Menú de navegación | Carta |
+| Botón de la portada | Ver la carta |
+| Pie de página | Carta |
+
+La idea es que la página principal quede visual, con los platos repartidos
+junto a las fotos, y que esta sea la carta sobria para consultar precios y,
+más adelante, para hacer pedidos.
+
+**Lo que ya está listo para usar:**
+
+- `js/modules/carta.js` renderiza la grilla con los 11 platos y los filtros
+  por categoría. No se rompió, simplemente no encuentra su contenedor.
+- `css/layout/carta.css` tiene todos los estilos de esa grilla.
+- `js/data/menu.js` es la fuente de los platos.
+
+Con copiar el `index.html` como base, cambiar el `<main>` y la ruta del CSS
+(`css/main.css` pasa a `../css/main.css`) debería alcanzar. **Falta probarlo.**
+
+---
+
 ## Bloqueante: antes de publicar
 
 Estos datos son **de ejemplo** y no deberían quedar visibles en un sitio
@@ -26,33 +54,18 @@ público.
 > contacto, línea con `tel:`), pero hay que cambiar **dos lugares**: ese
 > enlace y el texto que se ve al lado (`+598 00 000 000`).
 
-### Fotos del local para el pasaje
+### Fotos de las bebidas
 
-Las tres fotos que usa el pasaje de la galería son **provisionales**: se
-bajaron de un directorio de opiniones ([Opina.com.uy](https://www.opina.com.uy/))
-y por lo tanto:
+La rejilla del medio de la galería está pensada para las fotos de tragos, pero hoy
+ocupan dos platos del menú: el costillar y una mesa servida.
 
-- [ ] Tienen marca de agua de un tercero.
-- [ ] Son recortes panorámicos de las fotos originales, no las fotos
-      completas ni en buena resolución.
-- [ ] El local se ve, pero no se ve bien: no alcanzan para una galería de
-      verdad.
-
-Sacá entre 4 y 6 fotos con el celular y reemplazá las de
-`assets/img/local-*.webp`:
-
-| Archivo | Qué mostrar |
-|---|---|
-| `local-bar.webp` | La barra de frente, con la cocina abierta detrás |
-| `local-terraza.webp` | La terraza desde adentro, con los toldos |
-| — (falta) | El salón con las mesas puestas y buena luz |
-| — (falta) | La bodega o la carta de vino, un detalle de cerca |
-| — (falta) | Alguien comiendo, o el sello del local |
-| — (falta) | Un plato Servido en la mesa, no de cerca |
-
-Conviene sacarlas con luz natural, en horizontal, y sin gente de espaldas
-en el medio.
-
+- [ ] **Bajar las fotos de los tragos del Instagram**
+      (<https://www.instagram.com/elotro.porton/>) y dejarlas en la carpeta
+      `images/` para probar la composición antes de publicarlas.
+- [ ] **Usar los archivos originales**, no los que baja Instagram: al guardar
+      desde ahí llegan comprimidas a unos 1080 px y se ven borrosas.
+- [ ] **Revisar los nombres.** No pasar links de Instagram: expiran a las pocas
+      horas y dejan la foto rota.
 ### Carta
 
 - [ ] **Precios reales.** Todos los de `js/data/menu.js` son inventados.
@@ -116,37 +129,46 @@ real**, solo en el emulador. Antes de dar por bueno el trabajo:
 
 ---
 
-## Importante: galería y carta resumida
+## Importante: la galería
 
-Las dos funcionalidades se escribieron y no se probaron en un dispositivo
-real. Solo se verificaron en el emulador.
+La galería se rediseñó varias veces: pasó de mosaico parejo a una secuencia
+alternada, y los platos se repartieron entre las fotos. Nunca se probó en un
+dispositivo real.
 
-### Galería con fotos grandes
+### Probar en un celular de verdad
 
-- [ ] **Tocar una foto en el celular** y deslizar de una a otra. El visor es
-      un `dialog` modal: mientras está abierto, el fondo no se desplaza y el
-      foco no puede salirse.
-- [ ] **Probar el teclado**: `Escape` cierra, las flechas ← y → cambian de
+- [ ] **Revisar el ritmo de la página.** Con dos bandas pegadas, fotos a todo
+      el ancho y una rejilla en el medio, el paso es rápido. En pantalla
+      chica puede marear.
+- [ ] **El bloque central de la galería** se apila y muestra una sola foto. La
+      otra se oculta a propósito: revisar que no quede un hueco raro.
+- [ ] **Los pies de foto.** Salen al pasar el mouse. En el celular no hay
+      hover, así que **no se ven nunca**. Son tres líneas de CSS
+      (`@media (hover: none)`) y conviene hacerlo.
+- [ ] **La sangría.** Las fotos a todo el ancho usan `100vw`, que incluye la
+      barra de desplazamiento. Hay que confirmar que **no aparece barra
+      horizontal** en distintos navegadores.
+
+### Las fotos, cuando lleguen las definitivas
+
+- [ ] **Las fotos de los tragos**, para la rejilla. Ver más arriba.
+- [ ] **Fotos verticales para la galería.** Las fotos actuales son horizontales
+      (1000×562) y los marcos angostos las recortan bastante. Una foto
+      vertical se vería mejor en los bloques chicos.
+- [ ] **Comprimir los pesos.** Varias fotos pasan los 100 KB.
+
+### El efecto clavado, y sus límites
+
+Las fotos con efecto usan `background-attachment: fixed`, que funciona en
+escritorio pero **no en iOS ni en celular**. Está anotado en
+`ARQUITECTURA.md`.
+
+- [ ] **Decidir si vale el costo.** Si en algún momento el efecto tiene que
+      verse en el celular, hay que cambiar de técnica (JavaScript), no ajustar
+      valores. Súmanos unas 20 líneas y hay que revisar el encuadre de cada
       foto.
-- [ ] **Revisar que el foco vuelve a la foto** desde la que se abrió al
-      cerrar.
-- [ ] **Decidir si hacen falta más fotos.** Hoy hay 10. La galería se agranda
-      agregando botones en `index.html`, sin tocar `js/modules/galeria.js`.
-- [ ] **Revisar los pies de foto.** En pantallas táctiles no existe el
-      cursor sobre la foto, así que el pie se muestra siempre. Confirmar que
-      no tapa la imagen ni queda cortado.
-
-### Carta resumida
-
-- [ ] **Confirmar que los 5 destacados representan bien al restaurante.**
-      Si convendieran 6, o menos, se cambia en `js/data/menu.js` marcando
-      `destacado: true` en los platos correspondientes.
-- [ ] **Revisar que el botón de desplegar** diga bien la cantidad y que se
-      pueda volver a plegar.
-- [ ] **Ver que los filtros solo aparezcan al desplegar**, y que al plegar
-      vuelva a quedar un filtro activo coherente.
-
----
+- [ ] **Mirar la caída de imágenes.** Al ser fondos, las siete se piden al
+      abrir la página (~700 KB de golpe) en vez de al llegar a la galería.
 
 ## Importante: accesibilidad y SEO
 
@@ -188,24 +210,45 @@ real. Solo se verificaron en el emulador.
 
 ## Trampas conocidas del código
 
-### Imágenes de fondo: usar `<img>`, no `background-image` con variables
+### Rutas de imágenes de fondo: siempre con barra inicial
 
-Las fotos de fondo del hero y de la sección de contacto están como `<img>`
-y no como `background-image` con una variable CSS:
+Las fotos que van como fondo en CSS usan ruta **completa**, no relativa:
 
-```html
-<!-- Sí: la ruta se resuelve contra el HTML -->
-<img class="hero__bg" src="assets/img/cabecera.jpg" alt="" aria-hidden="true">
+```css
+/* Sí */
+background-image: url("/assets/img/mollejas-con-cremoso.jpg");
 
-<!-- No: la ruta se resuelve contra la hoja de estilos -->
-<div class="hero__bg" style="--hero-img: url('assets/img/cabecera.jpg')"></div>
+/* No: se resuelve contra la hoja de estilos, no contra el documento */
+background-image: url("assets/img/mollejas-con-cremoso.jpg");
 ```
 
-Con la segunda forma el navegador busca la imagen en `css/layout/assets/…`,
-porque la URL relativa se resuelve contra la hoja donde está la regla, no
-contra el documento. Como los estilos vienen de varias capas importadas, es
-un error fácil de cometer y difícil de detectar: la imagen simplemente no
-aparece y no hay ningún error en la consola.
+Con la segunda forma el navegador busca la imagen en `css/layout/assets/…`.
+Como los estilos vienen de varias capas importadas, es un error fácil de
+cometer y difícil de detectar: la imagen simplemente no aparece y no hay ningún
+error en la consola.
+
+### Un `transform` rompe la foto clavada
+
+Las fotos de la galería y de las bandas usan `background-attachment: fixed`.
+**Cualquier elemento con `transform` o con `will-change: transform` deja de
+anclar su imagen de fondo a la pantalla**, y el efecto desaparece sin avisar.
+
+Por eso todo bloque con foto de fondo usa `data-reveal="fade"`, que solo aparece
+sin desplazarse. Si se cambia por `left`, `right` o `scale`, el efecto deja de
+verse y no hay ningún error que lo indique.
+
+Ojo con el `will-change`: **no se va nunca**. Aunque después `.is-visible` ponga
+`transform: none`, el `will-change` sigue declarado.
+
+### Una clase mal escrita no da ningún error
+
+Si el nombre de una clase del HTML no coincide con el del CSS, el estilo no se
+aplica y **no pasa absolutamente nada**: ni error en la consola, ni aviso. Pasó
+con `transicion--tortellinis` contra `.transicion--tortelinis`, y la foto
+desaparecía sin explicación.
+
+Después de tocar markup o estilos, conviene comprobar que **cada clase del HTML
+tiene su regla en el CSS, y al revés**. Ver `ARQUITECTURA.md`.
 
 ### La galería usa `gallery__`, el resto del sitio usa español
 

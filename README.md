@@ -11,15 +11,17 @@ este repositorio con GitHub Pages.
 
 ## Qué hay que saber antes de tocar nada
 
-- **El menú no está escrito en el HTML.** Las tarjetas de la carta se
-  generan en el navegador a partir de `js/data/menu.js`. Para agregar,
-  quitar o cambiar un plato se edita ese archivo y nada más.
-- **La carta entra resumida**: solo se ven los platos marcados como
-  destacados, y hay un botón que despliega el resto. También lo decide
-  `js/data/menu.js`.
-- **La galería tampoco tiene lista de fotos.** `js/modules/galeria.js` lee
-  los botones `[data-galeria]` del propio HTML, así que agregar una foto es
-  agregar un botón en `index.html`.
+- **El menú no está escrito en el HTML.** Los platos salen de
+  `js/data/menu.js`, y cada bloque de la página pide su categoría con un
+  atributo. Para agregar, quitar o cambiar un plato se edita ese archivo y nada
+  más.
+- **Los platos no están todos juntos.** Cada categoría va junto a la foto que
+  la representa: la parrilla al lado de la parrilla, los postres al lado del
+  postre. La carta completa, con fotos y precios, va en su propia página.
+- **Las fotos con efecto están clavadas en la pantalla.** Al scrollear se van
+  viendo franjas distintas de la imagen. Lo hace el navegador con
+  `background-attachment: fixed`, sin JavaScript. **No funciona en iOS ni en
+  celular**, y está anotado en `docs/ARQUITECTURA.md`.
 - **Los colores, las fuentes y el espaciado no están escritos en los
   estilos de cada sección.** Salen todos de las variables de
   `css/base/tokens.css`. Cambiar la identidad visual del sitio es editar
@@ -34,6 +36,8 @@ este repositorio con GitHub Pages.
 - **Los datos de contacto y los precios son de ejemplo.** Hay que
   reemplazarlos por los reales antes de publicar. Está detallado en
   `docs/PENDIENTES.md`.
+- **`carta.html` todavía no existe**, y tres enlaces ya apuntan a ella. Está
+  como primer pendiente en `docs/PENDIENTES.md`.
 - **[`IA_GUIDE.md`](IA_GUIDE.md)** lleva el registro de qué se pidió y qué
   se hizo, además de lo que falta probar a mano.
 
@@ -89,6 +93,7 @@ por la IP de la computadora.
 |---|---|
 | [`IA_GUIDE.md`](IA_GUIDE.md) | Qué se pidió, qué se hizo y qué falta probar a mano |
 | [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) | Cómo está construido el sitio y por qué así |
+| [`docs/DISENO.md`](docs/DISENO.md) | El sistema visual: colores, tipografías, medidas, efectos |
 | [`docs/GUIA-DE-CONTRIBUCION.md`](docs/GUIA-DE-CONTRIBUCION.md) | Cómo cambiar la carta, los colores y agregar una sección |
 | [`docs/DECISIONES.md`](docs/DECISIONES.md) | Decisiones de diseño técnico y sus motivos |
 | [`docs/PENDIENTES.md`](docs/PENDIENTES.md) | Lo que falta antes de publicar |
