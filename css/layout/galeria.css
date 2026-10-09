@@ -143,14 +143,20 @@
    invadir la columna de la foto: dentro de la grilla quedaría encerrado en su
    mitad y no habría nada que se superponga.
 
-   El texto del panel arranca arriba (como en la referencia) y no centrado: el
-   alto del panel cambia con la cantidad de platos de cada categoría, y
-   centrarlo lo dejaba flotando en alturas distintas bloque a bloque. */
+   Va centrado a la altura de la foto. Anclado arriba se notaba el desfasaje en
+   las listas cortas (postres), donde el panel queda pegado al borde superior y
+   la mitad de abajo de la foto se ve vacía.
+
+   El centrado va en `translate` y no en `inset-block-start: 50%` a secas,
+   porque `50%` es la mitad del bloque, no la mitad del panel: sin el
+   desplazamiento, el panel quedaría con su borde superior en el medio y la
+   mitad de abajo asomando por debajo. */
 .galeria-bloque--pareja .galeria-lista {
   position: absolute;
   z-index: 2;
-  inset-block-start: clamp(1.5rem, 5vw, 4rem);
+  inset-block-start: 50%;
   inset-inline-start: 0;
+  translate: 0 -50%;
 
   /* Más angosto que su columna a propósito: así pica la foto sin taparla, y el
      texto queda bien menor que la imagen. */
@@ -520,6 +526,11 @@
   .galeria-bloque--pareja .galeria-lista,
   .galeria-bloque--pareja-inversa .galeria-lista {
     position: static;
+
+    /* Se deshace el centrado: sin posición absoluta el `translate` no tendría
+       a qué aplicarse y dejaría el panel corrido. */
+    translate: none;
+
     width: 100%;
     margin-top: var(--sp-4);
 
