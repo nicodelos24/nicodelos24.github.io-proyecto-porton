@@ -9,6 +9,13 @@ _shot.html
 .DS_Store
 Thumbs.db
 
+# Imágenes de referencia que se dejan en la raíz para mostrar un diseño y sacar
+# capturas. No son del sitio: no van a GitHub ni se publican.
+example*.png
+example*.jpg
+example*.jpeg
+example*.webp
+
 # ==========================================================================
 #  SECRETOS · NUNCA AL REPOSITORIO
 # ==========================================================================

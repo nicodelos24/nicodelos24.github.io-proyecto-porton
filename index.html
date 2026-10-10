@@ -385,20 +385,67 @@
             </div>
           </section>
 
-          <!-- LA REJILLA · contraste con las fotos de efecto
-               Estas dos van al revés que las de arriba: NO tienen efecto de
+          <!-- EL MOSAICO · contraste con las fotos de efecto
+
+               Estas van al revés que las de arriba: NO tienen efecto de
                scroll. El contraste no viene del movimiento sino del tamaño:
                son chicas, de distintas proporciones, y ahí la vista se para
                un momento antes de volver a las fotos grandes.
-               Cuando lleguen las fotos de los tragos, este mosaico es el
-               lugar donde van. -->
-          <div class="rejilla" data-reveal="fade">
-            <figure class="rejilla__foto rejilla__foto--angosta">
-              <img src="assets/img/2.jpg" alt="Costillar de carnes asado a la parrilla" loading="lazy" decoding="async">
+
+               El mosaico es de celdas desiguales, no de cuadros iguales. Con
+               todas del mismo tamaño se lee como una tabla y deja de tener
+               gracia; lo que hace que funcione es que ninguna tiene el mismo
+               ancho que la de al lado.
+
+               La grilla es de 12 columnas y cada celda dice cuántas ocupa con
+               su clase. La suma de cada fila tiene que dar JUSTO 12, si no
+               quedan huecos al final de la línea y el mosaico se descuadra.
+               Estas ocho celdas cierran así:
+
+                 Fila 1:  3 + 2 + 2 + 2 + 3   = 12
+                 Fila 2:  3 + 2 + 2 + 5       = 12   (las tres primeras
+                                                        siguen bajando)
+                 Fila 3:  5 + 4 + 3           = 12   (la de 5 sigue)
+
+               Las celdas de dos filas se anotan una sola vez: si se las contara
+               dos veces, la cuenta no cerraría. Y las dos últimas son de una
+               fila sola porque, si bajaran dos, abrirían una cuarta fila que
+               quedaría a medio llenar.
+
+               Con fotos de ejemplo: van a entrar las definitivas del
+               restaurante, y para cambiar una alcanza con reemplazar el
+               `src` y el `alt`. Las imágenes están todas en `assets/img/`. -->
+          <div class="mosaico" data-reveal="fade">
+            <figure class="mosaico__celda mosaico__celda--3x2">
+              <img src="assets/img/caption_10.jpg" alt="Platos de la casa servidos para compartir" loading="lazy" decoding="async">
             </figure>
 
-            <figure class="rejilla__foto rejilla__foto--ancha">
-              <img src="assets/img/8.jpg" alt="La mesa servida, con pan y condimentos" loading="lazy" decoding="async">
+            <figure class="mosaico__celda mosaico__celda--2x2">
+              <img src="assets/img/caption_12.jpg" alt="Postre de chocolate con dulce de leche" loading="lazy" decoding="async">
+            </figure>
+
+            <figure class="mosaico__celda mosaico__celda--2x2">
+              <img src="assets/img/caption_13.jpg" alt="Plato de temporada con Shooting Star y microgreens" loading="lazy" decoding="async">
+            </figure>
+
+            <figure class="mosaico__celda mosaico__celda--2x1">
+              <img src="assets/img/caption_3.jpg" alt="Parrillada con guarnición" loading="lazy" decoding="async">
+            </figure>
+
+            <figure class="mosaico__celda mosaico__celda--3x1">
+              <img src="assets/img/mollejas-con-cremoso.jpg" alt="Mollejas con cremoso" loading="lazy" decoding="async">
+            </figure>
+
+            <figure class="mosaico__celda mosaico__celda--5x2">
+              <img src="assets/img/port.jpg" alt="Plato de la casa, servido en mesa" loading="lazy" decoding="async">
+            </figure>
+
+            <figure class="mosaico__celda mosaico__celda--4x1">
+              <img src="assets/img/ensalada-de-estacion.jpg" alt="Ensalada de estación" loading="lazy" decoding="async">
+            </figure>
+
+            <figure class="mosaico__celda mosaico__celda--3x1">
+              <img src="assets/img/tortellinis-de-espinaca.jpg" alt="Tortellinis de espinaca" loading="lazy" decoding="async">
             </figure>
           </div>
 
