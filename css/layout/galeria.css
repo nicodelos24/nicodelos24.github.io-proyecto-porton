@@ -366,6 +366,38 @@
   width: calc(40vw - 2 * var(--contenedor-pad));
 }
 
+/* El bloque de las bebidas: el esquema de pareja de siempre (foto de un lado,
+   panel de vidrio con el texto montado encima desde el otro) pero con la foto
+   ancha del final en lugar de la cuadrada de media pantalla.
+
+   Esa foto ya era a todo el ancho y era el remate de la galería; achicarla a
+   media pantalla la perdía. Así que acá ocupa las DOS columnas de la grilla y
+   el panel se le monta encima.
+
+   El reparto del panel no cambia: mismo ancho, misma franja de vidrio de 18vw
+   sobre la foto y el resto opaco con el texto (todo eso sale de
+   `--pareja-inversa`, que esta regla no toca). Lo único que cambia es qué hay
+   detrás de la parte opaca: en vez del fondo de la página, la foto. Como el
+   panel es opaco, no se nota.
+
+   El `grid-column: 1 / -1` es lo que hace que la foto ocupe la grilla entera.
+   Sin él, el bloque invertido la dejaría en la primera columna y el texto,
+   que es absoluto, quedaría pegado al canto con medio bloque vacío. */
+.galeria-bloque--ancha {
+  grid-template-columns: 1fr;
+}
+
+.galeria-bloque--ancha .gallery__item {
+  grid-column: 1 / -1;
+
+  /* Sin esquinas: la foto toca los dos bordes de la pantalla, y un radio en
+     ese canto se ve como un recorte. La proporción se mantiene: el bloque
+     invertido no le ponía `aspect-ratio` (el de pareja viene en el
+     `--pareja`), así que la de 16/9 de `.gallery__item--ancha` sigue siendo
+     la que manda. */
+  border-radius: 0;
+}
+
 /* El pie de foto sobre un panel de vidrio no se lee: el degradado negro del
    pie queda pegado al borde de abajo, que es justo donde está el panel. Por eso
    el pie no se usa en estos dos bloques (ver index.html) y el nombre del plato
@@ -373,18 +405,6 @@
 
 .galeria-lista .galeria-bloque__titulo {
   margin-block: var(--sp-2) var(--sp-5);
-}
-
-/* ---- Las bebidas, solas ----
-   Sin foto que las represente: una lista angosta y centrada, sin media
-   columna vacía al costado como en los bloques de pareja. */
-.galeria-bloque--solo {
-  align-items: center;
-}
-
-.galeria-bloque--solo .galeria-lista {
-  width: min(100%, 30rem);
-  text-align: center;
 }
 
 .galeria-bloque__nota {

@@ -466,19 +466,29 @@
             </figure>
           </section>
 
-          <!-- Con "sangria" la foto rompe el ancho del contenedor y toca los dos
-               bordes de la pantalla. A lo ancho del contenedor se veía
-               encerrada; a pantalla completa tiene la escala de una imagen de
-               verdad. El efecto clavado sigue funcionando igual. -->
-          <figure class="gallery__item gallery__item--ancha gallery__item--calabaza sangria"
-                  role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
-                  data-reveal="fade">
-            <figcaption class="gallery__caption">Postre de la casa</figcaption>
-          </figure>
+          <!-- LAS BEBIDAS · el bloque de pareja de siempre, pero con la foto
+               grande del final
 
-          <!-- Las bebidas quedan solas al final: no hay foto del local que las
-               represente y no hacía falta inventar una. -->
-          <section class="galeria-bloque galeria-bloque--solo"
+               Es el mismo esquema que la parrilla, las entradas y los postres:
+               la foto de un lado, el panel de vidrio con el texto montado
+               encima desde el borde contrario. Pero esta vez la foto no es la
+               cuadrada de media pantalla, sino la imagen ancha que ya estaba
+               abajo, a todo el ancho. Esa foto era el remate de la galería y
+               achicarla a media pantalla la perdía, así que ocupa las dos
+               columnas de la grilla y el panel se le monta encima.
+
+               El reparto del panel no cambia: el mismo ancho, la misma franja
+               de vidrio de 18vw sobre la foto y el resto opaco con el texto. Lo
+               único que cambia es qué hay detrás de la parte opaca: en vez del
+               fondo de la página, la foto. Como el panel es opaco, no se nota.
+
+               Va en el turno de la invertida (foto a la izquierda, texto a la
+               derecha) porque es el que sigue después del bloque de postres.
+
+               La foto no lleva pie: el de "Postre de la casa" era de la foto
+               sola y acá el bloque es el de las bebidas, y sobre un panel de
+               vidrio ese pie no se lee (ver galeria.css). -->
+          <section class="galeria-bloque galeria-bloque--pareja galeria-bloque--pareja-inversa galeria-bloque--ancha"
                    aria-labelledby="galeria-bebidas-titulo">
             <div class="galeria-lista" data-reveal="fade">
               <span class="eyebrow">Para beber</span>
@@ -488,6 +498,11 @@
                 Precios en pesos uruguayos. Menú de ejemplo: se actualiza según la temporada.
               </p>
             </div>
+
+            <figure class="gallery__item gallery__item--ancha gallery__item--calabaza"
+                    role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
+                    data-reveal="fade">
+            </figure>
           </section>
 
         </div>

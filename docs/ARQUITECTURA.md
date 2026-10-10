@@ -50,9 +50,7 @@ lista de las entradas
 rejilla de dos fotos quietas (costillar + mesa)
 foto angosta (port)
 lista de postres  +  foto con efecto (El Negro)
-foto a todo el ancho (calabaza)
-foto angosta (chorizo)
-lista de bebidas
+lista de bebidas  +  foto a todo el ancho (calabaza)
 ```
 
 **El orden importa.** Las dos bandas van juntas porque en las dos fotos hay un

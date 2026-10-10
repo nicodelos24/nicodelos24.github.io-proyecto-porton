@@ -162,7 +162,7 @@ para las etiquetas en mayúsculas.
 |---|---|---|---|
 | **Foto clavada** | `background-attachment: fixed` | Bandas y fotos de galería | **No** |
 | **Foto quieta** | `<img>` normal | Rejilla | Sí, normal |
-| **Foto a sangre** | `.sangria`, quita el margen del contenedor | Calabaza, bloque central | Sí |
+| **Foto a sangre** | `width: 100vw` + margen negativo | Bloque central, bebidas | Sí |
 
 ### Por qué hay dos fotos con efecto y dos sin
 
