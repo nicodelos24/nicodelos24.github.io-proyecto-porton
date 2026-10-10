@@ -585,7 +585,7 @@
      El `minmax(0, ...)` importa: sin él, las columnas no pueden achicarse por
      debajo del contenido y el texto empuja la grilla y las fotos dejan de tocar
      el borde. Es el error clásico de las grillas. */
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.72fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.6fr) minmax(0, 1.35fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: center;
 
@@ -605,15 +605,36 @@
    hace de borde a borde. Al quitárselo, además, se ensanchan: pasan de ocupar
    un tercio de pantalla con aire alrededor a comerse la mitad del ancho.
 
-   El aire contra el texto lo pone el `gap` de la grilla. */
+   El aire contra el texto lo pone el `gap` de la grilla.
+
+   LA PROPORCIÓN ES 1/1 Y NO 3/4
+   --------------------------------------------------------------------------
+   Las dos fotos de este bloque son apaisadas (900x506 y 1000x562, casi 16:9)
+   y el plato va en el centro. Meterlas en una caja vertical de 3/4 hacía que
+   `cover` las cortara por los lados y quedara solo una franja del fondo: en la
+   empanada se veía un pedazo del borde del tupper y nada del plato.
+
+   Cuadradas entran los dos platos enteros y quedan en el medio de la foto,
+   que es como `--pareja` trata las suyas. Además las hace más altas: con
+   3/4 quedaban en 733px de alto y con 1/1 pasan de 900px. */
 .gallery__item--costura {
   width: auto;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   border-radius: 0;
   margin-inline: 0;
 }
 
 .galeria-centro {
+  text-align: center;
+}
+
+/* El pie de las dos fotos va centrado, como el texto del medio.
+
+   El que trae el sitio está alineado a la izquierda, y con el bloque sangrado
+   a pantalla completa quedaba pegado al borde de la foto, que es justo donde
+   el ojo no lo busca: se leía como un recorte de algo en vez de como el
+   nombre del plato. */
+.gallery__item--costura .gallery__caption {
   text-align: center;
 }
 
