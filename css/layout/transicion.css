@@ -7,7 +7,9 @@
    velo oscuro, porque es lo único que garantiza que el texto se lea
    pase lo que pase con la foto.
 
-   Hay dos: una antes de la carta y otra entre la carta y la galería.
+   Hay dos: "La carta", entre "Nosotros" y la galería, y "El local", al
+   cierre antes del pie. Están separadas a propósito: juntas se leían como un
+   solo bloque de fotos en vez de dos respiros.
    Comparten todo el diseño y solo cambian la foto, que va en una
    clase aparte. Agregar una tercera banda es agregar dos cosas: un
    `<section class="transicion transicion--LoQueSea">` en el HTML y su
@@ -35,34 +37,57 @@
   min-height: clamp(16rem, 34vw, 28rem);
   padding-block: var(--sp-7);
   overflow: hidden;
+}
 
+/* La foto va en un pseudoelemento, no en la banda, para poder animarla con
+   `transform` (ver el Ken Burns de abajo). El fondo sobre la banda no se puede
+   escalar: `transform` no aplica a imágenes de fondo. */
+.transicion::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 /* ---- La foto de cada banda ---- */
-.transicion--mollejas {
+.transicion--mollejas::before {
   background-image: url("../../assets/img/mollejas-con-cremoso.jpg");
   background-position: center 55%;
 }
 
-.transicion--tortelinis {
+.transicion--tortelinis::before {
   background-image: url("../../assets/img/tortellinis-de-espinaca.jpg");
   background-position: center 50%;
 }
 
-/* El efecto: la foto queda clavada en la pantalla y la franja va
-   mostrando partes distintas de ella al bajar, en vez de viajar con
-   la página.
+/* El efecto: un Ken Burns lento y contenido, en vez del "clavado" al scroll.
 
-   Solo en pantallas anchas, que es lo mismo que hace la página de
-   referencia. En el celular no se aplica por dos razones: ahí la
-   imagen casi nunca llega a estar más alta que la franja, así que el
-   efecto no se nota, y `fixed` obliga al navegador a recomponer en
-   cada scroll, que en un teléfono se nota como tirones. */
-@media (min-width: 1025px) {
-  .transicion {
-    background-attachment: fixed;
+   Con `background-attachment: fixed` la foto se clavaba en la pantalla y la
+   franja iba mostrando partes distintas al bajar. Como el efecto se repite en
+   la portada, en las bandas y en casi todas las fotos de la galería, el sitio
+   entero parecía temblar. Estas dos bandas son el respiro entre secciones: si
+   se mueven a la velocidad del scroll dejan de serlo.
+
+   Este Ken Burns hace lo mismo (la foto se mueve sola, muy despacio) pero no
+   reacciona al scroll ni da tirones: entra una vez y se queda ahí. Mismo
+   motivo que el hero, que usa la misma idea (ver hero.css). El pseudoelemento
+   siempre queda un poco más grande (empieza en 1.04) para que al escalar nunca
+   se vea el borde.
+
+   Solo en pantallas anchas y si no se pidió menos movimiento. */
+@media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+  .transicion::before {
+    animation: transicion-ken-burns 34s var(--ease-in-out) infinite alternate;
+  }
+}
+
+@keyframes transicion-ken-burns {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.12);
   }
 }
 
