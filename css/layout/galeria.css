@@ -40,56 +40,49 @@
   border-radius: var(--r-lg);
   background: var(--c-superficie);
   box-shadow: var(--sombra-md);
-}
 
-/* La foto va en un pseudoelemento (::after) para poder derivarla con el scroll.
-   No puede ir en el fondo del elemento: el fondo no se puede mover con
-   `transform`, y el efecto lo necesita (ver "parallax" en parallax.js).
-
-   La capa es más alta que el marco (8% arriba y abajo) para que, al derivar,
-   nunca se vea el borde de la imagen. El `z-index` deja la foto en el fondo,
-   el oscurecido del hover en medio y el pie de foto arriba. */
-.gallery__item::after {
-  content: "";
-  position: absolute;
-  inset: -8% 0;
-  z-index: 0;
+  /* Rutas con barra inicial: se resuelven desde la raíz del sitio y no
+     desde esta hoja (ver DECISIONES.md, D14). */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transform: translate3d(0, var(--drift, 0px), 0);
 }
 
 /* ---- La foto de cada bloque ----
    Los dos bloques grandes usan fotos verticales: son las más altas del sitio
    (1000x1776) y por eso las que mejor aguantan el efecto de foto clavada, que
    necesita altura de sobra para mostrar partes distintas al bajar. */
-.gallery__item--costillar::after {
+.gallery__item--costillar {
   background-image: url("../../assets/img/caption_11.jpg");
 }
 
 /* Las entradas. Antes era el chorizo con morcilla, horizontal y con poca altura:
    quedaba en una franja que no llenaba el panel. */
-.gallery__item--picos::after {
+.gallery__item--picos {
   background-image: url("../../assets/img/caption_14.jpg");
 }
 
-.gallery__item--calabaza::after {
+.gallery__item--calabaza {
   background-image: url("../../assets/img/calabaza-asada-con-queso.jpg");
 }
 
-/* Las dos fotos del bloque central. Van con `center` como las demás: el
-   parallax las deriva apenas con el scroll, así que el encuadre ya no queda
-   clavado a la ventana (que era lo que antes las pegaba al texto del medio). */
-.gallery__item--empanada::after {
+/* Las dos fotos del bloque central.
+
+   Con el efecto de foto clavada (`background-attachment: fixed`, ver más abajo)
+   el fondo se dibuja contra la VENTANA, no contra la caja del elemento. Como
+   estas dos fotos son apaisadas (~16:9) y quedan apenas un poco más anchas que
+   la ventana, no hay margen para desplazarlas: `center` pone los platos al
+   centro de la PÁGINA, pegados al texto del medio, y no se pueden centrar en su
+   propia caja. Por eso quedan con el `center` de siempre y el efecto intacto. */
+.gallery__item--empanada {
   background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
 }
 
-.gallery__item--tortilla::after {
+.gallery__item--tortilla {
   background-image: url("../../assets/img/tortilla-con-alioli.jpg");
 }
 
-.gallery__item--negro::after {
+.gallery__item--negro {
   background-image: url("../../assets/img/el-negro-inspirado-en.jpg");
 }
 
@@ -781,12 +774,14 @@
   aspect-ratio: 16 / 9;
 }
 
-/* El efecto ya no va acá: antes estas fotos usaban
-   `background-attachment: fixed` (la foto clavada en la pantalla). Como la
-   referencia, ahora tienen un parallax suave: la foto se deriva apenas con el
-   scroll, sin quedar clavada del todo. El movimiento lo calcula parallax.js y
-   lo aplica sobre el `--drift` de la capa de la foto (`.gallery__item::after`,
-   ver arriba). */
+/* El efecto de imagen fija, igual que en las bandas: solo en pantallas
+   anchas. En el celular no se vería y, además, obliga al navegador a
+   recomponer en cada scroll. */
+@media (min-width: 1025px) {
+  .gallery__item {
+    background-attachment: fixed;
+  }
+}
 
 /* Oscurecido al pasar el mouse. Como las fotos son de fondo, no hay
    <img> que oscurecer: se hace con una capa por encima. */
@@ -794,7 +789,6 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
   background: rgb(10 10 10 / 0%);
   transition: background var(--dur-base) var(--ease-out);
 }
@@ -807,7 +801,7 @@
 .gallery__caption {
   position: absolute;
   inset: auto 0 0 0;
-  z-index: 2;
+  z-index: 1;
   padding: var(--sp-5);
   background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
   color: var(--c-hueso);
