@@ -131,9 +131,8 @@
      quiere un tono distinto al del formulario.
 
      En oscuro es un gris cálido, apenas más claro que el fondo, y no el negro
-     del formulario. En claro tira un poco hacia el beige de la página en vez de
-     ser blanco puro: un blanco así canta mucho contra una foto de comida y
-     rompe la calma de la página, que es toda crema y vino. */
+     del formulario. En claro es blanco, y el crema es el de la página: el
+     cuadro tiene que separarse de la foto, no mezclarse con el fondo. */
   --c-panel-carta: rgb(26 24 22 / 92%);
 
   /* La franja del mismo cuadro que se superpone sobre la foto.
@@ -208,12 +207,12 @@
   --c-panel-input: rgb(31 26 23 / 4%);
   --c-panel-input-foco: rgb(31 26 23 / 7%);
 
-  /* Cuadro de carta: crema, no blanco. El fondo de la página es #faf7f2 y el
-     alternativo #f2ede4; este tono está en el medio de los dos, así que el
-     cuadro se lee como parte de la página en vez de como una tapa blanca
-     sobre la foto. */
-  --c-panel-carta: rgb(250 246 239 / 96%);
-  --c-franja-panel: 32%;
+  /* Cuadro de carta: blanco, no crema. El crema es el de la página (#faf7f2) y
+     el alternativo (#f2ede4); con el cuadro en el mismo tono, el texto se
+     fundía con el fondo y la foto parecía llevárselo. Al ser blanco, el
+     bloque se lee como una hoja puesta sobre la foto. */
+  --c-panel-carta: rgb(255 255 255 / 92%);
+  --c-franja-panel: 45%;
 
   --c-aviso-fondo: rgb(138 106 18 / 12%);
   --c-aviso-borde: rgb(138 106 18 / 45%);
@@ -248,8 +247,8 @@
     --c-panel: rgb(255 255 255 / 88%);
     --c-panel-input: rgb(31 26 23 / 4%);
     --c-panel-input-foco: rgb(31 26 23 / 7%);
-    --c-panel-carta: rgb(250 246 239 / 96%);
-    --c-franja-panel: 32%;
+    --c-panel-carta: rgb(255 255 255 / 92%);
+    --c-franja-panel: 45%;
 
     --c-aviso-fondo: rgb(138 106 18 / 12%);
     --c-aviso-borde: rgb(138 106 18 / 45%);
