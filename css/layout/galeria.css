@@ -371,39 +371,27 @@
    ancha del final en lugar de la cuadrada de media pantalla.
 
    Esa foto ya era a todo el ancho y era el remate de la galería; achicarla a
-   la mitad de pantalla la perdía. Así que acá mide 60vw en vez de media
-   pantalla: el doble que en los otros bloques de pareja, y sigue siendo la
-   foto más grande de la galería.
+   media pantalla la perdía. Así que acá ocupa las DOS columnas de la grilla y
+   el panel se le monta encima.
 
    El reparto del panel no cambia: mismo ancho, misma franja de vidrio de 18vw
    sobre la foto y el resto opaco con el texto (todo eso sale de
-   `--pareja-inversa`, que esta regla no toca).
+   `--pareja-inversa`, que esta regla no toca). Lo único que cambia es qué hay
+   detrás de la parte opaca: en vez del fondo de la página, la foto. Como el
+   panel es opaco, no se nota.
 
-   LA FOTO NO LLEGA AL BORDE DERECHO
-   --------------------------------------------------------------------------
-   Con `grid-column: 1 / -1` la foto ocupaba la grilla entera y el panel le
-   quedaba encima en la mitad derecha. Se veía mal por arriba y por abajo del
-   panel: la foto seguía apareciendo a todo lo ancho, pegada al canto, y se
-   leía como dos cosas superpuestas en vez de una sola.
-
-   Por eso la foto termina donde arranca la parte opaca del panel, en el
-   `--borde-foto` que el bloque invertido ya define (60vw). A la derecha de
-   ese punto queda el fondo de la página, igual que en los otros tres bloques.
-
-   El ancho se mide con `justify-self: start` y no con la grilla para no
-   romperla: la foto necesita seguir ocupando la fila entera por arriba, que
-   es lo que la mantiene centrada con el panel. */
+   El `grid-column: 1 / -1` es lo que hace que la foto ocupe la grilla entera.
+   Sin él, el bloque invertido la dejaría en la primera columna y el texto,
+   que es absoluto, quedaría pegado al canto con medio bloque vacío. */
 .galeria-bloque--ancha {
   grid-template-columns: 1fr;
 }
 
 .galeria-bloque--ancha .gallery__item {
   grid-column: 1 / -1;
-  justify-self: start;
-  width: var(--borde-foto);
 
-  /* Sin esquinas: la foto toca el borde izquierdo de la pantalla, y un radio
-     en ese canto se ve como un recorte. La proporción se mantiene: el bloque
+  /* Sin esquinas: la foto toca los dos bordes de la pantalla, y un radio en
+     ese canto se ve como un recorte. La proporción se mantiene: el bloque
      invertido no le ponía `aspect-ratio` (el de pareja viene en el
      `--pareja`), así que la de 16/9 de `.gallery__item--ancha` sigue siendo
      la que manda. */
@@ -878,17 +866,6 @@
 
   .gallery__item--costura {
     aspect-ratio: 4 / 3;
-  }
-
-  /* La foto de las bebidas deja de medir en unidades de pantalla: el 60vw con
-     que se ajusta en la pantalla ancha, en un teléfono de 390 px son 234 px y
-     la foto queda chica y descentrada arriba del texto.
-
-     Acá vuelve a ocupar todo el ancho del contenedor, como cualquier otra foto
-     apilada. */
-  .galeria-bloque--ancha .gallery__item {
-    width: 100%;
-    justify-self: stretch;
   }
 
   /* El bloque central sangra a pantalla completa, así que apiladas sus columnas
