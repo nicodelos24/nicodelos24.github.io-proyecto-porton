@@ -68,17 +68,12 @@
 
 /* Las dos fotos del bloque central.
 
-   Estas dos NO llevan el efecto de foto clavada (el `background-attachment:
-   fixed` que el resto de las fotos de la galería sí tienen, ver más abajo).
-   La razón es que con `fixed` el `background-position` se calcula respecto al
-   VIEWPORT, no a la caja de cada foto: `center` centró las dos respecto al
-   centro de la página, y los platos terminaban pegados al texto del medio en
-   vez de al medio de su propia caja. Sin `fixed`, `center` vuelve a significar
-   "el centro de mi caja", que es lo que queremos.
-
-   Con `center` las dos quedan bien: el tupper de la empanada y la sartén de la
-   tortilla ya están cerca del medio de sus fotos, así que no hace falta correr
-   el encuadre con un porcentaje. */
+   Con el efecto de foto clavada (`background-attachment: fixed`, ver más abajo)
+   el fondo se dibuja contra la VENTANA, no contra la caja del elemento. Como
+   estas dos fotos son apaisadas (~16:9) y quedan apenas un poco más anchas que
+   la ventana, no hay margen para desplazarlas: `center` pone los platos al
+   centro de la PÁGINA, pegados al texto del medio, y no se pueden centrar en su
+   propia caja. Por eso quedan con el `center` de siempre y el efecto intacto. */
 .gallery__item--empanada {
   background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
 }
@@ -784,15 +779,6 @@
 @media (min-width: 1025px) {
   .gallery__item {
     background-attachment: fixed;
-  }
-
-  /* Salida para las dos fotos del bloque central (ver arriba). Con `fixed` el
-     `background-position` se mide contra el viewport, así que el `center` las
-     centraba respecto a la página y no a su propia caja: los dos platos
-     quedaban pegados al texto del medio. Aquí no hay efecto de foto clavada
-     para que el encuadre se ponga en el centro de cada caja. */
-  .gallery__item--costura {
-    background-attachment: scroll;
   }
 }
 
