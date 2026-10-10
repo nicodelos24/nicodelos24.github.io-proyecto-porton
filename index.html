@@ -189,6 +189,27 @@
     </div>
 
     <!-- ========================================================================
+         BANDA "LA CARTA" — la única del sitio, antes de "Nosotros"
+         ------------------------------------------------------------------------
+         Arriba del todo, después de la portada. Ya no es un par de bandas
+         pegadas: "El local" se quitó y esta quedó sola abriendo la página. El
+         botón baja a la galería, así que anticipa lo que viene. El efecto es un
+         Ken Burns lento (ver transicion.css), nada de foto clavada. -->
+    <section class="transicion transicion--mollejas">
+      <div class="transicion__veil" aria-hidden="true"></div>
+
+      <div class="container transicion__content">
+        <span class="eyebrow transicion__eyebrow" data-reveal>La carta</span>
+        <h2 class="transicion__title" data-reveal>
+          Un plato que <em>vale el viaje</em>
+        </h2>
+        <a class="btn btn--primary" href="#galeria" data-reveal>
+          Ver los platos <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========================================================================
          SOBRE NOSOTROS
          ======================================================================== -->
     <section class="section" id="sobre-nosotros">
@@ -236,23 +257,6 @@
     </section>
 
     <!-- ========================================================================
-         BANDA DE TRANSICIÓN — respiro visual entre "Nosotros" y la galería
-         ======================================================================== -->
-    <section class="transicion transicion--mollejas">
-      <div class="transicion__veil" aria-hidden="true"></div>
-
-      <div class="container transicion__content">
-        <span class="eyebrow transicion__eyebrow" data-reveal>La carta</span>
-        <h2 class="transicion__title" data-reveal>
-          Un plato que <em>vale el viaje</em>
-        </h2>
-        <a class="btn btn--primary" href="#galeria" data-reveal>
-          Ver los platos <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ========================================================================
          GALERÍA
          ======================================================================== -->
     <section class="section" id="galeria">
@@ -283,38 +287,12 @@
              css/components/animations.css. -->
         <div class="gallery">
 
-          <!-- BLOQUE 1 · la parrilla, al lado de la foto de la parrilla.
-               Cada categoría queda junto a la foto que la representa: se lee
-               mejor que una lista de platos suelta, y la foto sola no dice
-               nada de lo que se cocina.
-
-               Ojo con el valor de data-platos: es la CLAVE de la categoría en
-               js/data/menu.js, no la etiqueta que se ve. La de la parrilla es
-               "parrilla" y su etiqueta es "Parrillada". Con la palabra
-               equivocada el bloque se oculta solo y no se ve por qué. -->
-          <section class="galeria-bloque galeria-bloque--pareja"
-                   aria-labelledby="galeria-parrillada-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">Del fuego</span>
-              <h3 class="galeria-bloque__titulo" id="galeria-parrillada-titulo">La parrilla</h3>
-              <ul class="galeria-platos" data-platos="parrilla"></ul>
-            </div>
-
-            <figure class="gallery__item gallery__item--pareja gallery__item--costillar"
-                    role="img" aria-label="Costillar de carnes asándose sobre la parrilla"
-                    data-reveal="fade">
-            </figure>
-          </section>
-
           <!-- LA COCINA · dos fotos con el texto en el medio
 
-               Va entre el bloque de la parrilla y el de las entradas, y no
-               antes de la galería como estaba antes. El motivo es el ritmo: los
-               dos bloques de platos son el mismo esquema (lista + foto) y se
-               leen como una serie. Este bloque se pone en el medio para
-               partirla en dos, y de paso el texto explica cómo se cocina justo
-               entre los dos platos de la parrilla y las entradas, que es de
-               donde salen esas dos fotos.
+               Abre la galería, antes del bloque de "Del fuego". Antes iba en el
+               medio, entre la parrilla y las entradas, para partir en dos la
+               serie de bloques de platos. Ahora abre: el texto de cómo se
+               cocina entra primero y da el tono antes de mostrar los platos.
 
                Es una sección propia y no un <div> más de la galería porque se
                sangra a pantalla completa: tiene su propio relleno y no el de
@@ -344,6 +322,29 @@
               </figure>
 
             </div>
+          </section>
+
+          <!-- BLOQUE 1 · la parrilla, al lado de la foto de la parrilla.
+               Cada categoría queda junto a la foto que la representa: se lee
+               mejor que una lista de platos suelta, y la foto sola no dice
+               nada de lo que se cocina.
+
+               Ojo con el valor de data-platos: es la CLAVE de la categoría en
+               js/data/menu.js, no la etiqueta que se ve. La de la parrilla es
+               "parrilla" y su etiqueta es "Parrillada". Con la palabra
+               equivocada el bloque se oculta solo y no se ve por qué. -->
+          <section class="galeria-bloque galeria-bloque--pareja"
+                   aria-labelledby="galeria-parrillada-titulo">
+            <div class="galeria-lista" data-reveal="fade">
+              <span class="eyebrow">Del fuego</span>
+              <h3 class="galeria-bloque__titulo" id="galeria-parrillada-titulo">La parrilla</h3>
+              <ul class="galeria-platos" data-platos="parrilla"></ul>
+            </div>
+
+            <figure class="gallery__item gallery__item--pareja gallery__item--costillar"
+                    role="img" aria-label="Costillar de carnes asándose sobre la parrilla"
+                    data-reveal="fade">
+            </figure>
           </section>
 
           <!-- BLOQUE 1b · las entradas, con la foto al revés que en el
@@ -605,19 +606,6 @@
          Misma idea que la otra, sin el efecto clavado (ver transicion.css): un
          Ken Burns lento. Y el botón apunta a la galería, que ahora está arriba,
          como enlace de bajada para quien llegó al final. -->
-    <section class="transicion transicion--tortelinis">
-      <div class="transicion__veil" aria-hidden="true"></div>
-
-      <div class="container transicion__content">
-        <span class="eyebrow transicion__eyebrow" data-reveal>El local</span>
-        <h2 class="transicion__title" data-reveal>
-          Una cocina que <em>no se apura</em>
-        </h2>
-        <a class="btn btn--primary" href="#galeria" data-reveal>
-          Ver la galería <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
 
   </main>
 
