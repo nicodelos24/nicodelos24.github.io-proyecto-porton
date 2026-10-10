@@ -490,12 +490,13 @@
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 
-  /* Y el aire de arriba y abajo casi desaparece: se le descuenta casi todo el
-     `gap` de la galería (ver más abajo, el mismo clamp), dejando solo una
-     fracción. El mosaico es el punto de respiro entre dos fotos grandes, y
-     para que se lea como eso tiene que pegarse a ellas: con el `gap` entero
-     quedaba como una sección más, suelta entre medio de la serie. */
-  margin-block: calc(clamp(2.5rem, 7vw, 5.5rem) * -0.92);
+  /* Y el aire de arriba y abajo se le descuenta a medias: el mosaico es el punto
+     de respiro entre dos fotos grandes, así que no puede quedar pegado a
+     ellas ni suelto como una sección más. Antes iba en -0.92, que le dejaba
+     apenas un 8% del `gap` y se leía como una banda trabada contra los
+     vecinos. En -0.45 le queda la mitad del `gap` como aire: respira igual,
+     pero ya no parece pegado. */
+  margin-block: calc(clamp(2.5rem, 7vw, 5.5rem) * -0.45);
 }
 
 .mosaico__celda {
