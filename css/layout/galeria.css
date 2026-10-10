@@ -607,19 +607,21 @@
 
    El aire contra el texto lo pone el `gap` de la grilla.
 
-   LA PROPORCIÓN ES 1/1 Y NO 3/4
+   LA PROPORCIÓN ES 4/5, VERTICAL PERO NO TANTA
    --------------------------------------------------------------------------
-   Las dos fotos de este bloque son apaisadas (900x506 y 1000x562, casi 16:9)
-   y el plato va en el centro. Meterlas en una caja vertical de 3/4 hacía que
-   `cover` las cortara por los lados y quedara solo una franja del fondo: en la
-   empanada se veía un pedazo del borde del tupper y nada del plato.
+   Las dos fotos de este bloque son apaisadas (900x506 y 1000x562, casi 16:9).
+   Antes iban en cajas verticales de 3/4 y `cover` las cortaba tanto por los
+   lados que de la empanada solo se veía un pedazo del borde del tupper, sin
+   plato. Cuadradas (1/1) entraban los platos enteros, pero quedaban bajas al
+   lado del texto.
 
-   Cuadradas entran los dos platos enteros y quedan en el medio de la foto,
-   que es como `--pareja` trata las suyas. Además las hace más altas: con
-   3/4 quedaban en 733px de alto y con 1/1 pasan de 900px. */
+   4/5 es el punto medio: alto para que se lean como fotos grandes, y con
+   suficiente ancho para que el plato entre sin que le corten la mitad. Como
+   el recorte es centrado y el plato va en el centro de las dos fotos, sigue
+   quedándose en el medio. */
 .gallery__item--costura {
   width: auto;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   border-radius: 0;
   margin-inline: 0;
 }
