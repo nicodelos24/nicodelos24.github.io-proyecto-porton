@@ -432,6 +432,31 @@
      ocupa cada celda y no de un aspect-ratio escrito celda por celda. */
   grid-auto-rows: clamp(90px, 11vw, 150px);
   gap: clamp(0.5rem, 1vw, 0.9rem);
+
+  /* El mosaico ocupa TODA la pantalla, de borde a borde.
+
+     A lo ancho del contenedor, con las ocho celdas de distintos tamaños, se
+     leía como un bloque más de la galería, encerrado y con aire a los lados.
+     Sangrándose a pantalla completa pasa a ser una banda de fotos: el corte
+     de las fotos llega al canto de la pantalla y es la foto siguiente la que
+     marca el ritmo, no el marco del bloque.
+
+     Es el mismo truco que usan las fotos `--ancha` y las bandas de
+     transicion.css: el margen negativo descuenta la mitad del contenedor y
+     suma la mitad de la ventana, así el mosaico queda centrado en la pantalla
+     y no en el contenedor (ver `.sangria` en utils/helpers.css).
+
+     Sin el `overflow-x: clip` del `html` (ver base/reset.css) esto sacaría
+     una barra de desplazamiento horizontal, porque 100vw incluye la barra. */
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+
+  /* Y el aire de arriba y abajo casi desaparece: se le descuenta casi todo el
+     `gap` de la galería (ver más abajo, el mismo clamp), dejando solo una
+     fracción. El mosaico es el punto de respiro entre dos fotos grandes, y
+     para que se lea como eso tiene que pegarse a ellas: con el `gap` entero
+     quedaba como una sección más, suelta entre medio de la serie. */
+  margin-block: calc(clamp(2.5rem, 7vw, 5.5rem) * -0.92);
 }
 
 .mosaico__celda {
