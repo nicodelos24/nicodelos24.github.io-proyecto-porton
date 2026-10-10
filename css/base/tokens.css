@@ -84,7 +84,16 @@
   --sp-9: 6rem;
   --sp-10: 8rem;
 
-  --seccion-pad-y: clamp(4rem, 8vw, 9rem);
+  /* El aire de arriba y de abajo de cada sección.
+
+     Estuvo en `clamp(4rem, 8vw, 9rem)`, que en una pantalla ancha son 9rem de
+     hueco: el doble de lo que separa dos bloques dentro de la galería. Con eso
+     el sitio se leía como una lista de secciones sueltas, y el contenido, que
+     es lo que se quiere ver, quedaba perdido en el medio de la pantalla.
+
+     Ahora es apenas más que el espacio entre bloques de la galería, para que
+     la página se lea como una sola secuencia y no como secciones apiladas. */
+  --seccion-pad-y: clamp(2.5rem, 5vw, 5rem);
   --contenedor-max: 1280px;
   --contenedor-pad: clamp(1.25rem, 5vw, 4rem);
 

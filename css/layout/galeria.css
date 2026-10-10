@@ -29,9 +29,15 @@
    ============================================================= */
 
 .gallery {
+  /* El aire entre los bloques de la galería. Se guarda en una variable y no
+     escrito en el `gap` porque dos bloques lo descuentan con margen negativo
+     para pegarse a su vecino (la cocina y el mosaico): si el número estuviera
+     repetido en tres lugares, cambiar uno y olvidar el otro los despegaba. */
+  --gap-galeria: clamp(1.25rem, 3.5vw, 3rem);
+
   display: flex;
   flex-direction: column;
-  gap: clamp(2.5rem, 7vw, 5.5rem);
+  gap: var(--gap-galeria);
 }
 
 .gallery__item {
@@ -160,6 +166,17 @@
      de la pantalla y la foto en el 40vw, así que se pisan 58 - 40 = 18vw. */
   --ancho-franja: calc(var(--ancho-panel) - var(--borde-foto));
 
+  /* Hasta dónde llega el texto por dentro del panel. Vive en una variable
+     porque dos cosas lo necesitan (el título y el "eyebrow" de arriba, que
+     necesita el mismo ancho para alinearse) y porque el bloque de las bebidas
+     lo cambia: si el texto se midiera con el `max-width` escrito en la regla
+     de abajo, ese bloque no podría angostar su zona de lectura al agrandar la
+     foto sin pisar el vidrio. */
+  --ancho-texto: min(
+    calc(var(--borde-foto) - 2 * var(--contenedor-pad)),
+    calc(58vw - 2 * var(--contenedor-pad))
+  );
+
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
@@ -278,10 +295,7 @@
    solo el texto, el panel conserva el ancho que lo hace verse como una banda
    y lo único angosto es lo que tiene que leerse. */
 .galeria-bloque--pareja .galeria-lista > * {
-  max-width: min(
-    calc(var(--borde-foto) - 2 * var(--contenedor-pad)),
-    calc(58vw - 2 * var(--contenedor-pad))
-  );
+  max-width: var(--ancho-texto);
 }
 
 /* El bloque invertido: la foto a la izquierda tocando el borde, y el texto a
@@ -298,8 +312,13 @@
   /* Acá el panel se apoya contra el borde derecho de la pantalla, así que
      arranca en el 42vw. La foto llega hasta el 60vw. Se pisan 60 - 42 = 18vw:
      la misma franja que en los otros dos bloques, que es lo que hace que los
-     tres se vean iguales. */
+     tres se vean iguales.
+
+     El texto se mide desde el otro lado: 40vw es el ancho del lado del texto
+     (la pantalla menos el 60% de la foto), menos el margen del panel por los
+     dos lados. */
   --ancho-franja: calc(var(--borde-foto) - (100vw - var(--ancho-panel)));
+  --ancho-texto: calc(40vw - 2 * var(--contenedor-pad));
 }
 
 .galeria-bloque--pareja-inversa .gallery__item {
@@ -341,12 +360,9 @@
    El límite se mide en `vw`, no en porcentaje: un `max-width` en porcentaje
    se resuelve contra el ancho del contenido del panel (835 - padding), no
    contra el de la pantalla, y el cálculo daba un texto de 189px. Con `vw` las
-   dos medidas cuentan sobre lo mismo.
-
-   40vw es el ancho del lado del texto (la pantalla menos el 60% de la foto),
-   menos el margen del panel por los dos lados. */
+   dos medidas cuentan sobre lo mismo. */
 .galeria-bloque--pareja-inversa .galeria-lista > * {
-  max-width: calc(40vw - 2 * var(--contenedor-pad));
+  max-width: var(--ancho-texto);
   margin-inline-start: auto;
 }
 
@@ -363,50 +379,52 @@
    funciona. */
 .galeria-bloque--pareja-inversa .galeria-lista > .eyebrow {
   float: inline-end;
-  width: calc(40vw - 2 * var(--contenedor-pad));
+  width: var(--ancho-texto);
 }
 
 /* El bloque de las bebidas: el esquema de pareja de siempre (foto de un lado,
    panel de vidrio con el texto montado encima desde el otro) pero con la foto
-   ancha del final en lugar de la cuadrada de media pantalla.
+   más grande que en los otros tres bloques.
 
-   Esa foto ya era a todo el ancho y era el remate de la galería; achicarla a
-   la mitad de pantalla la perdía. Así que acá mide 60vw en vez de media
-   pantalla: el doble que en los otros bloques de pareja, y sigue siendo la
-   foto más grande de la galería.
+   Esos tres miden 60vw (la columna ancha de la grilla del bloque invertido) y
+   son cuadrados. Acá la foto es más ancha y más alta, y es lo que hace que el
+   bloque se lea como el remate de la galería y no como uno más de la serie.
 
-   El reparto del panel no cambia: mismo ancho, misma franja de vidrio de 18vw
-   sobre la foto y el resto opaco con el texto (todo eso sale de
-   `--pareja-inversa`, que esta regla no toca).
-
-   LA FOTO NO LLEGA AL BORDE DERECHO
+   EL TAMAÑO SE MIDE DESDE LA FOTO, NO AL REVÉS
    --------------------------------------------------------------------------
-   Con `grid-column: 1 / -1` la foto ocupaba la grilla entera y el panel le
-   quedaba encima en la mitad derecha. Se veía mal por arriba y por abajo del
-   panel: la foto seguía apareciendo a todo lo ancho, pegada al canto, y se
-   leía como dos cosas superpuestas en vez de una sola.
+   `--borde-foto` dice dónde termina la foto, y de ahí salen solos el corte
+   entre la franja de vidrio y la parte opaca del panel (`--ancho-franja`) y el
+   ancho del texto. Por eso al agrandarla hay que mover ese número y no el
+   ancho a secas: si la foto creciera sin que crezca `--borde-foto`, el vidrio
+   se quedaría corto y el texto se correría sobre la parte que se desvanece.
 
-   Por eso la foto termina donde arranca la parte opaca del panel, en el
-   `--borde-foto` que el bloque invertido ya define (60vw). A la derecha de
-   ese punto queda el fondo de la página, igual que en los otros tres bloques.
+   72vw contra los 60vw de los otros tres. Y 4/3 en vez de cuadrado: la foto
+   es apaisada (1000x667), así que un cuadrado la recortaba de los lados y
+   además quedaba más baja que las de al lado.
 
-   El ancho se mide con `justify-self: start` y no con la grilla para no
-   romperla: la foto necesita seguir ocupando la fila entera por arriba, que
-   es lo que la mantiene centrada con el panel. */
+   La franja de vidrio queda en 30vw (72 - 42, donde 42 es de dónde arranca el
+   panel) y la zona con texto en 28vw, que es lo que queda de los 58vw del
+   panel. Por eso `--ancho-texto` también cambia: si se quedara en los 40vw que
+   trae el bloque invertido, las palabras se correrían sobre el vidrio. */
 .galeria-bloque--ancha {
   grid-template-columns: 1fr;
+
+  /* La foto llega más lejos que en los otros bloques, así que la zona con
+     texto se angosta: es la pantalla menos la foto, menos el margen del panel
+     por los dos lados. */
+  --ancho-texto: calc(100vw - var(--borde-foto) - 2 * var(--contenedor-pad));
+
+  --borde-foto: 72vw;
 }
 
 .galeria-bloque--ancha .gallery__item {
   grid-column: 1 / -1;
   justify-self: start;
   width: var(--borde-foto);
+  aspect-ratio: 4 / 3;
 
   /* Sin esquinas: la foto toca el borde izquierdo de la pantalla, y un radio
-     en ese canto se ve como un recorte. La proporción se mantiene: el bloque
-     invertido no le ponía `aspect-ratio` (el de pareja viene en el
-     `--pareja`), así que la de 16/9 de `.gallery__item--ancha` sigue siendo
-     la que manda. */
+     en ese canto se ve como un recorte. */
   border-radius: 0;
 }
 
@@ -484,11 +502,11 @@
   margin-inline: calc(50% - 50vw);
 
   /* Y el aire de arriba y abajo casi desaparece: se le descuenta casi todo el
-     `gap` de la galería (ver más abajo, el mismo clamp), dejando solo una
-     fracción. El mosaico es el punto de respiro entre dos fotos grandes, y
-     para que se lea como eso tiene que pegarse a ellas: con el `gap` entero
-     quedaba como una sección más, suelta entre medio de la serie. */
-  margin-block: calc(clamp(2.5rem, 7vw, 5.5rem) * -0.92);
+     `gap` de la galería (`--gap-galeria`), dejando solo una fracción. El
+     mosaico es el punto de respiro entre dos fotos grandes, y para que se lea
+     como eso tiene que pegarse a ellas: con el `gap` entero quedaba como una
+     sección más, suelta entre medio de la serie. */
+  margin-block: calc(var(--gap-galeria) * -0.92);
 }
 
 .mosaico__celda {
@@ -658,7 +676,7 @@
      quede más separado del de la parrilla que del de las entradas: este está
      en el medio de los dos, y con el `gap` entero se leía como una sección más
      suelta entre medio de la serie. */
-  margin-block: calc(clamp(2.5rem, 7vw, 5.5rem) * -0.25);
+  margin-block: calc(var(--gap-galeria) * -0.25);
 }
 
 /* Al sangrarse hasta el borde de la pantalla, el texto del medio necesita
