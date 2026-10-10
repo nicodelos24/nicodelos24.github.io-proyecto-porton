@@ -66,9 +66,19 @@
   background-image: url("../../assets/img/calabaza-asada-con-queso.jpg");
 }
 
-/* Las dos fotos del bloque central */
+/* Las dos fotos del bloque central.
+
+   La empanada lleva `background-position` en 58% en vez del `center` de todo
+   el sitio: el tupper con la empanada está un poco a la derecha del centro de
+   la foto (900x506), así que con `center` el recorte de la caja 4/5 dejaba el
+   plato descentrado y un vacío de fondo oscuro contra el borde derecho. 58%
+   corre el encuadre hasta poner el plato en el medio de su caja.
+
+   La tortilla no lo necesita: la sartén ya está centrada en su foto, y con el
+   `center` de siempre queda en el medio. */
 .gallery__item--empanada {
   background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
+  background-position: 58% 50%;
 }
 
 .gallery__item--tortilla {
