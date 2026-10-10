@@ -32,13 +32,8 @@
   /* El aire entre los bloques de la galería. Se guarda en una variable y no
      escrito en el `gap` porque dos bloques lo descuentan con margen negativo
      para pegarse a su vecino (la cocina y el mosaico): si el número estuviera
-     repetido en tres lugares, cambiar uno y olvidar el otro los despegaba.
-
-     Bajó de `clamp(2.5rem, 7vw, 5.5rem)` a menos de la mitad: el aire entre
-     bloques era casi el mismo que entre secciones, y con las dos cantidades
-     parecidas el ojo no distinguía dónde terminaba una sección y empezaba la
-     siguiente. */
-  --gap-galeria: clamp(1.75rem, 5vw, 4rem);
+     repetido en tres lugares, cambiar uno y olvidar el otro los despegaba. */
+  --gap-galeria: clamp(1.25rem, 3.5vw, 3rem);
 
   display: flex;
   flex-direction: column;
@@ -428,10 +423,9 @@
   width: var(--borde-foto);
   aspect-ratio: 4 / 3;
 
-  /* Las esquinas se las da el bloque invertido, que ya se las invierte: como
-     la foto está a la izquierda, las dos del canto de la pantalla quedan
-     rectas y las otras dos, las que se ven, redondeadas. No hay que
-     declararlas acá. */
+  /* Sin esquinas: la foto toca el borde izquierdo de la pantalla, y un radio
+     en ese canto se ve como un recorte. */
+  border-radius: 0;
 }
 
 /* El pie de foto sobre un panel de vidrio no se lee: el degradado negro del
