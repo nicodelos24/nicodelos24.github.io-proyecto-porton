@@ -68,17 +68,19 @@
 
 /* Las dos fotos del bloque central.
 
-   La empanada lleva `background-position` en 58% en vez del `center` de todo
-   el sitio: el tupper con la empanada está un poco a la derecha del centro de
-   la foto (900x506), así que con `center` el recorte de la caja 4/5 dejaba el
-   plato descentrado y un vacío de fondo oscuro contra el borde derecho. 58%
-   corre el encuadre hasta poner el plato en el medio de su caja.
+   Estas dos NO llevan el efecto de foto clavada (el `background-attachment:
+   fixed` que el resto de las fotos de la galería sí tienen, ver más abajo).
+   La razón es que con `fixed` el `background-position` se calcula respecto al
+   VIEWPORT, no a la caja de cada foto: `center` centró las dos respecto al
+   centro de la página, y los platos terminaban pegados al texto del medio en
+   vez de al medio de su propia caja. Sin `fixed`, `center` vuelve a significar
+   "el centro de mi caja", que es lo que queremos.
 
-   La tortilla no lo necesita: la sartén ya está centrada en su foto, y con el
-   `center` de siempre queda en el medio. */
+   Con `center` las dos quedan bien: el tupper de la empanada y la sartén de la
+   tortilla ya están cerca del medio de sus fotos, así que no hace falta correr
+   el encuadre con un porcentaje. */
 .gallery__item--empanada {
   background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
-  background-position: 58% 50%;
 }
 
 .gallery__item--tortilla {
@@ -782,6 +784,15 @@
 @media (min-width: 1025px) {
   .gallery__item {
     background-attachment: fixed;
+  }
+
+  /* Salida para las dos fotos del bloque central (ver arriba). Con `fixed` el
+     `background-position` se mide contra el viewport, así que el `center` las
+     centraba respecto a la página y no a su propia caja: los dos platos
+     quedaban pegados al texto del medio. Aquí no hay efecto de foto clavada
+     para que el encuadre se ponga en el centro de cada caja. */
+  .gallery__item--costura {
+    background-attachment: scroll;
   }
 }
 
