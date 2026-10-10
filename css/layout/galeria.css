@@ -541,21 +541,26 @@
 /* ---- Bloque 2 · dos fotos con el texto en el medio ----
    El bloque entero se sangra a pantalla completa, y por eso las dos fotos de
    los extremos quedan pegadas a los bordes sin código extra: son la primera y
-   la última columna de una grilla que ya ocupa toda la pantalla.
-
-   El `minmax(0, ...)` importa: sin él, las columnas no pueden achicarse por
-   debajo del contenido y el texto empuja la grilla y las fotos dejan de tocar
-   el borde. Es el error clásico de las grillas.
-
-   La columna del medio es más angosta que las laterales a propósito: así las
-   fotos se llevan más ancho y el texto queda en una columna de lectura, con
-   aire para no quedar apretado contra dos imágenes. */
+   la última columna de una grilla que ya ocupa toda la pantalla. */
 .galeria-bloque--costuras {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1fr);
+
+  /* Las dos fotos se llevan la parte ancha y el texto queda en una columna
+     angosta en el medio. Antes era 1fr / 0.9fr / 1fr, o sea el texto casi igual
+     que las fotos: las imágenes quedaban encerradas en un tercio de pantalla
+     cada una, con aire a los lados, y no se leían como fotos grandes.
+
+     El `minmax(0, ...)` importa: sin él, las columnas no pueden achicarse por
+     debajo del contenido y el texto empuja la grilla y las fotos dejan de tocar
+     el borde. Es el error clásico de las grillas. */
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.72fr) minmax(0, 1.2fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: center;
 
+  /* Sale del contenedor para tocar los dos bordes de la pantalla. Es el mismo
+     truco que `.sangria` (ver utils/helpers.css): el margen negativo descuenta
+     la mitad del contenedor y suma la mitad de la ventana, así el bloque queda
+     centrado en la pantalla y no en el contenedor. */
   width: 100vw;
   margin-inline: calc(50% - 50vw);
 }
@@ -563,13 +568,17 @@
 /* Sin esquinas redondeadas: son imágenes a tamaño casi completo, y el radio las
    hace ver como tarjetas metidas en la página en vez de fotos.
 
-   El margen lateral las centra dentro de su mitad de la pantalla. Sin él
-   quedarían pegadas contra el borde de un lado, con un hueco feo del otro. */
+   Sin margen lateral tampoco: la foto de la izquierda tiene que arrancar en el
+   borde de la pantalla y la de la derecha terminar en él, que es lo que las
+   hace de borde a borde. Al quitárselo, además, se ensanchan: pasan de ocupar
+   un tercio de pantalla con aire alrededor a comerse la mitad del ancho.
+
+   El aire contra el texto lo pone el `gap` de la grilla. */
 .gallery__item--costura {
   width: auto;
   aspect-ratio: 3 / 4;
   border-radius: 0;
-  margin-inline: clamp(1rem, 3.5vw, 3.5rem);
+  margin-inline: 0;
 }
 
 .galeria-centro {
