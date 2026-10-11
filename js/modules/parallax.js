@@ -34,10 +34,20 @@ const canDrift = () =>
 // Se mide el avance de cada marco a través de la ventana: 0 cuando recién
 // entra por abajo, 1 cuando sale por arriba. La foto se desplaza la mitad del
 // recorrido en cada sentido, o sea que muestra el fondo de la imagen al
-// entrar y el fondo de la imagen al salir. El 0.52 tiene que coincidir con el
-// margen que deja la capa de la foto en galeria.css (`inset: -26% 0`, o sea
-// 2 × 26): si alguno de los dos cambia, la foto deja de cubrir el marco y se
+// entrar y el fondo de la imagen al salir. El 0.42 tiene que coincidir con el
+// margen que deja la capa de la foto en galeria.css (`inset: -21% 0`, o sea
+// 2 × 21): si alguno de los dos cambia, la foto deja de cubrir el marco y se
 // ve el borde de la imagen en un extremo.
+//
+// SUAVIZADO (lerp). La foto NO se pega al scroll: en cada frame se queda a
+// una fracción (SMOOTH) de la distancia que le falta para llegar a la posición
+// que le tocaría. Con la rueda del mouse, que avanza a saltos, eso converts los
+// tirones en un deslizamiento continuo: la foto va siempre un poco detrás del
+// scroll y lo alcanza sola. Con 0.18 se mueve rápido para no "flotar" pero
+// igual suaviza los saltos. Sube SMOOTH a 0.30+ para más inercia, bajalo a 0.1
+// para que siga al scroll casi exacto.
+const SMOOTH = 0.18;
+
 const driftGallery = (items) => {
   if (!canDrift() || !items.length) return;
   const vh = window.innerHeight;
@@ -47,8 +57,11 @@ const driftGallery = (items) => {
     // trabajo de sobra para algo que no se ve.
     if (rect.bottom < -100 || rect.top > vh + 100) continue;
     const p = (vh - rect.top) / (vh + rect.height); // 0..1
-    const travel = (p - 0.5) * 0.52 * rect.height;
-    item.style.setProperty("--drift", `${travel.toFixed(1)}px`);
+    const target = (p - 0.5) * 0.42 * rect.height;
+    const current = parseFloat(item.style.getPropertyValue("--drift")) || 0;
+    // Persigue el objetivo en pasos, sin pegarse de golpe al scroll.
+    const next = current + (target - current) * SMOOTH;
+    item.style.setProperty("--drift", `${next.toFixed(1)}px`);
   }
 };
 
