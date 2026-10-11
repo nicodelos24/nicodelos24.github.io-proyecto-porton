@@ -40,49 +40,60 @@
   border-radius: var(--r-lg);
   background: var(--c-superficie);
   box-shadow: var(--sombra-md);
+}
 
-  /* Rutas con barra inicial: se resuelven desde la raíz del sitio y no
-     desde esta hoja (ver DECISIONES.md, D14). */
+/* La foto va en un pseudoelemento (::after), no en el fondo del elemento.
+
+   Dos razones. La primera es técnica: un fondo de CSS no acepta `transform`,
+   y el efecto (que la foto se mueva al scrollear) lo necesita; tiene que vivir
+   en una capa que se pueda mover. La segunda es de fondo: la foto es más alta
+   que su marco (un 40%), así al derivarla va mostrando partes distintas de la
+   imagen al bajar, que es el efecto de la página de referencia (ParallaxZoom).
+
+   El margen del 40% es lo que hace que el movimiento se vea: la capa es un
+   140% del alto del marco y se desplaza recorriendo todo ese excedente. Con
+   un margen chico el movimiento era imperceptible. */
+.gallery__item::after {
+  content: "";
+  position: absolute;
+  inset: -20% 0;
+  z-index: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  transform: translate3d(0, var(--drift, 0px), 0);
 }
 
 /* ---- La foto de cada bloque ----
    Los dos bloques grandes usan fotos verticales: son las más altas del sitio
    (1000x1776) y por eso las que mejor aguantan el efecto de foto clavada, que
    necesita altura de sobra para mostrar partes distintas al bajar. */
-.gallery__item--costillar {
+.gallery__item--costillar::after {
   background-image: url("../../assets/img/caption_11.jpg");
 }
 
 /* Las entradas. Antes era el chorizo con morcilla, horizontal y con poca altura:
    quedaba en una franja que no llenaba el panel. */
-.gallery__item--picos {
+.gallery__item--picos::after {
   background-image: url("../../assets/img/caption_14.jpg");
 }
 
-.gallery__item--calabaza {
+.gallery__item--calabaza::after {
   background-image: url("../../assets/img/calabaza-asada-con-queso.jpg");
 }
 
-/* Las dos fotos del bloque central.
-
-   Con el efecto de foto clavada (`background-attachment: fixed`, ver más abajo)
-   el fondo se dibuja contra la VENTANA, no contra la caja del elemento. Como
-   estas dos fotos son apaisadas (~16:9) y quedan apenas un poco más anchas que
-   la ventana, no hay margen para desplazarlas: `center` pone los platos al
-   centro de la PÁGINA, pegados al texto del medio, y no se pueden centrar en su
-   propia caja. Por eso quedan con el `center` de siempre y el efecto intacto. */
-.gallery__item--empanada {
+/* Las dos fotos del bloque central. Con el parallax ya no quedan clavadas a
+   la ventana (que era lo que antes las pegaba al texto del medio), así que el
+   `center` de siempre las deja centradas en su propia caja. */
+.gallery__item--empanada::after {
   background-image: url("../../assets/img/empanada-de-carne-a-cuchillo.jpg");
 }
 
-.gallery__item--tortilla {
+.gallery__item--tortilla::after {
   background-image: url("../../assets/img/tortilla-con-alioli.jpg");
 }
 
-.gallery__item--negro {
+.gallery__item--negro::after {
   background-image: url("../../assets/img/el-negro-inspirado-en.jpg");
 }
 
@@ -774,14 +785,12 @@
   aspect-ratio: 16 / 9;
 }
 
-/* El efecto de imagen fija, igual que en las bandas: solo en pantallas
-   anchas. En el celular no se vería y, además, obliga al navegador a
-   recomponer en cada scroll. */
-@media (min-width: 1025px) {
-  .gallery__item {
-    background-attachment: fixed;
-  }
-}
+/* El efecto ya no va acá. Antes estas fotos usaban
+   `background-attachment: fixed` (la foto clavada en la ventana), que las
+   dejaba totalmente quietas al scrollear. Como en la página de referencia,
+   ahora la foto deriva al pasar el bloque: se mueve lo justo para que se vea,
+   sin quedar clavada del todo. El movimiento lo calcula parallax.js y lo
+   aplica al `--drift` de la capa de la foto (`.gallery__item::after`, arriba). */
 
 /* Oscurecido al pasar el mouse. Como las fotos son de fondo, no hay
    <img> que oscurecer: se hace con una capa por encima. */
@@ -801,7 +810,7 @@
 .gallery__caption {
   position: absolute;
   inset: auto 0 0 0;
-  z-index: 1;
+  z-index: 2;
   padding: var(--sp-5);
   background: linear-gradient(to top, rgb(10 10 10 / 90%), transparent);
   color: var(--c-hueso);
