@@ -47,16 +47,21 @@
    Dos razones. La primera es técnica: un fondo de CSS no acepta `transform`,
    y el efecto (que la foto se mueva al scrollear) lo necesita; tiene que vivir
    en una capa que se pueda mover. La segunda es de fondo: la foto es más alta
-   que su marco (un 40%), así al derivarla va mostrando partes distintas de la
+   que su marco (un 52%), así al derivarla va mostrando partes distintas de la
    imagen al bajar, que es el efecto de la página de referencia (ParallaxZoom).
 
-   El margen del 40% es lo que hace que el movimiento se vea: la capa es un
-   140% del alto del marco y se desplaza recorriendo todo ese excedente. Con
-   un margen chico el movimiento era imperceptible. */
-.gallery__item::after {
+   El margen del 52% es lo que hace que el movimiento se vea: la capa es un
+   152% del alto del marco y se desplaza recorriendo todo ese excedente. Con
+   un margen chico el movimiento era imperceptible.
+
+   OJO: este margen y el recorrido de parallax.js (`0.52`) están atados. La
+   foto solo cubre el marco si el recorrido es EXACTAMENTE el doble de este
+   margen. Si subís uno y no el otro, se ve el borde de la imagen en un
+   extremo al scrollear. Para cambiar la intensidad del efecto, suben o bajan
+   los dos juntos. */.gallery__item::after {
   content: "";
   position: absolute;
-  inset: -20% 0;
+  inset: -26% 0;
   z-index: 0;
   background-size: cover;
   background-position: center;
