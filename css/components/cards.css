@@ -84,6 +84,11 @@
 }
 
 /* Etiqueta de categoría sobre la foto */
+/* La etiqueta "Del chef" va en el cuerpo de la tarjeta, pero en pantalla
+   ancha se posiciona sobre la foto (arriba a la izquierda). En pantalla
+   angosta deja de flotar y fluye en la lista (ver carta.css). Por eso está
+   acá aunque no pertenezca a la media: si viviera dentro de `.dish-card__media`
+   no podría salir de la miniatura chica del móvil. */
 .dish-card__tag {
   position: absolute;
   top: var(--sp-4);

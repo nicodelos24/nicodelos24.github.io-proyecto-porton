@@ -33,9 +33,9 @@ function dishCardHTML(plato, index) {
           loading="lazy"
           decoding="async"
         />
-        ${tag}
       </div>
       <div class="dish-card__body">
+        ${tag}
         <div class="dish-card__row">
           <h3 class="dish-card__name">${plato.nombre}</h3>
           <span class="dish-card__dots" aria-hidden="true"></span>

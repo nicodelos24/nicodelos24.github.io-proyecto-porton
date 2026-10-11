@@ -6,6 +6,19 @@
    - Barra de filtros por categoría
    - Rejilla de tarjetas renderizada desde js/data/menu.js
    - La lista se anima con stagger al cambiar de categoría
+
+   RESPONSIVE
+   -------------------------------------------------------------
+   En pantalla angosta la carta deja de ser una rejilla de tarjetas grandes y
+   pasa a una lista de platos, como en la carta de El Fogon (referencia) y
+   como ya se lee la carta de papel: una fila por plato, con una miniatura
+   chica a la izquierda, el nombre y la descripción al medio y el precio a la
+   derecha. En una pantalla de teléfono, una tarjeta con foto grande por
+   plato obligaba a hacer scroll para ver cuatro o cinco platos; así se
+   ven de a diez y la carta se lee de un tirón.
+
+   El filtro también deja de envolver en tres o cuatro filas y pasa a una
+   sola, deslizable, para que las categorías no coman media pantalla.
    ============================================================= */
 
 /* ---------- Encabezado de la página ----------
@@ -49,6 +62,7 @@
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--c-texto-suave);
+  white-space: nowrap;
   transition:
     color var(--dur-fast) var(--ease-out),
     background-color var(--dur-fast) var(--ease-out),
@@ -96,4 +110,130 @@
   font-size: var(--fs-xs);
   color: var(--c-texto-suave);
   text-align: center;
+}
+
+/* ==========================================================================
+   PANTALLA ANGOSTA — la carta como lista
+   ========================================================================== */
+@media (max-width: 48rem) {
+  /* El encabezado baja un poco: en un teléfono, el título gigante empujaba los
+     platos muy por abajo del todo. */
+  .carta-head {
+    padding-block: clamp(5.5rem, 22vw, 8rem) clamp(2rem, 8vw, 3rem);
+  }
+
+  .carta-head__titulo {
+    font-size: var(--fs-2xl);
+  }
+
+  .carta-head .lead {
+    font-size: var(--fs-sm);
+  }
+
+  /* Una sola columna: el ancho completo para la lista de platos. */
+  .carta__grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+  }
+
+  /* ---- El filtro, en una sola fila deslizable ----
+     Con `flex-wrap` las cinco categorías ocupaban tres filas y comían media
+     pantalla antes del primer plato. Acá no envuelve: es una fila que se
+     desliza con el dedo, y el `scroll-snap` hace que cada botón se detenga
+     al llegar. El degradado del borde derecho insinúa que se puede seguir
+     deslizando. */
+  .carta__filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    /* Elpadding lateral compensa el del contenedor para que el primer botón
+       llegue al canto al deslizar hasta el final. */
+    padding-block: var(--sp-2);
+    margin-inline: calc(var(--contenedor-pad) * -1);
+    padding-inline: var(--contenedor-pad);
+    /* La barra de scroll no aporta nada en un gesto horizontal: estorba. */
+    scrollbar-width: none;
+  }
+
+  .carta__filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    scroll-snap-align: start;
+    padding: 0.5rem 1.1rem;
+  }
+
+  /* ---- Cada plato, una fila con miniatura a la izquierda ----
+     La tarjeta deja de ser una caja con foto arriba y texto abajo, y pasa a
+     una fila: miniatura cuadrada y chica a la izquierda, nombre, descripción
+     y precio a la derecha. El texto queda centrado en su columna y el precio
+     arriba, como en una carta impresa. */
+  .dish-card {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    border-radius: var(--r-md);
+  }
+
+  /* La miniatura: cuadrada y chica, no media pantalla. */
+  .dish-card__media {
+    flex: 0 0 auto;
+    width: 6.5rem;
+    aspect-ratio: 1 / 1;
+  }
+
+  /* La etiqueta ("Del chef") deja de flotar sobre la miniatura —ahí era
+     ilegible— y pasa a la esquina de arriba del cuerpo. Como ya no está sobre
+     una foto, pierde el fondo oscuro y el vidrio: se vuelve un distintivo
+     dorado, discreto, en la misma tinta que el resto del texto. */
+  .dish-card__tag {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: var(--sp-1);
+    padding: 0.15rem 0.6rem;
+    border: 1px solid currentColor;
+    background: none;
+    backdrop-filter: none;
+    color: var(--c-acento);
+  }
+
+  .dish-card__body {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    padding: var(--sp-4);
+    gap: var(--sp-1);
+  }
+
+  .dish-card__row {
+    align-items: baseline;
+    gap: var(--sp-3);
+  }
+
+  /* El nombre un punto más chico: en una columna angosta, con el precio al
+     lado, el tamaño de escritorio lo parte en tres líneas. */
+  .dish-card__name {
+    font-size: var(--fs-base);
+  }
+
+  .dish-card__price {
+    font-size: var(--fs-base);
+  }
+
+  .dish-card__desc {
+    /* Dos líneas como máximo: los platos con descripciones largas no
+       empujan al resto de la carta. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: var(--fs-xs);
+  }
+
+  /* La nota al pie, alineada a la izquierda como el resto. */
+  .carta__note {
+    text-align: left;
+  }
 }
