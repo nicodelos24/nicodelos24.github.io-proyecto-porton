@@ -34,10 +34,9 @@ const canDrift = () =>
 // Se mide el avance de cada marco a través de la ventana: 0 cuando recién
 // entra por abajo, 1 cuando sale por arriba. La foto se desplaza la mitad del
 // recorrido en cada sentido, o sea que muestra el fondo de la imagen al
-// entrar y el fondo de la imagen al salir. El 0.52 tiene que coincidir con el
-// margen que deja la capa de la foto en galeria.css (`inset: -26% 0`, o sea
-// 2 × 26): si alguno de los dos cambia, la foto deja de cubrir el marco y se
-// ve el borde de la imagen en un extremo.
+// entrar y el fondo de la imagen al salir. El 0.40 tiene que coincidir con el
+// margen que deja la capa de la foto en galeria.css (`inset: -20% 0`): si
+// alguno de los dos cambia, la foto deja de cubrir el marco.
 const driftGallery = (items) => {
   if (!canDrift() || !items.length) return;
   const vh = window.innerHeight;
@@ -47,7 +46,7 @@ const driftGallery = (items) => {
     // trabajo de sobra para algo que no se ve.
     if (rect.bottom < -100 || rect.top > vh + 100) continue;
     const p = (vh - rect.top) / (vh + rect.height); // 0..1
-    const travel = (p - 0.5) * 0.52 * rect.height;
+    const travel = (p - 0.5) * 0.40 * rect.height;
     item.style.setProperty("--drift", `${travel.toFixed(1)}px`);
   }
 };
