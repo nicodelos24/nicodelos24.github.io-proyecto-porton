@@ -5,31 +5,29 @@ revisar más adelante.
 
 ---
 
-## Bloqueante: enlaces rotos
+## Resuelto: la página `carta.html` ya existe
 
-### [ ] La página `carta.html` no existe
+Los tres enlaces que apuntaban a ella (menú de navegación, botón de la portada
+y pie de página) antes devolvían un 404. La página está armada desde el 9 de
+octubre, con encabezado, filtros por categoría y pie.
 
-Tres enlaces del sitio apuntan a ella y **devuelven 404** hasta que se arme:
+Reutiliza lo que ya estaba hecho: `js/modules/carta.js` pinta la grilla,
+`css/layout/carta.css` le da los estilos y `js/data/menu.js` es la fuente de
+los platos, la misma que usa la portada.
 
-| Dónde | Texto |
-|---|---|
-| Menú de navegación | Carta |
-| Botón de la portada | Ver la carta |
-| Pie de página | Carta |
+> En pantalla angosta la carta deja de ser una grilla de tarjetas y pasa a ser
+> una lista: miniatura, nombre, descripción y precio. Los filtros quedan en una
+> sola fila deslizable.
 
-La idea es que la página principal quede visual, con los platos repartidos
-junto a las fotos, y que esta sea la carta sobria para consultar precios y,
-más adelante, para hacer pedidos.
+## Bloqueante: la barra de navegación de la carta no se ve
 
-**Lo que ya está listo para usar:**
+- [ ] **La barra de `carta.html` es invisible.** El logo, los enlaces, el
+      botón de reservar y el de tema están pintados en color claro sobre el
+      fondo claro de la página. Salió en la revisión del 13 de octubre.
 
-- `js/modules/carta.js` renderiza la grilla con los 11 platos y los filtros
-  por categoría. No se rompió, simplemente no encuentra su contenedor.
-- `css/layout/carta.css` tiene todos los estilos de esa grilla.
-- `js/data/menu.js` es la fuente de los platos.
-
-Con copiar el `index.html` como base, cambiar el `<main>` y la ruta del CSS
-(`css/main.css` pasa a `../css/main.css`) debería alcanzar. **Falta probarlo.**
+      La barra de arriba está pensada para ir sobre la foto oscura de la
+      portada, y es transparente hasta que pasa los 80 px de scroll. En la
+      carta no hay portada, así que nunca se pone el fondo.
 
 ---
 
@@ -40,19 +38,28 @@ público.
 
 ### Contacto
 
-- [ ] **Teléfono y WhatsApp.** Hoy aparece `+598 00 000 000`
-      (`index.html`, sección de contacto).
-- [ ] **Dirección exacta y forma de llegar.** Solo dice "Colonia del
-      Sacramento, Departamento de Colonia". Faltaría calle, número y
-      referencia.
-- [ ] **Enlaces de redes sociales.** Los tres botones del pie de página
-      (Instagram, Facebook, WhatsApp) apuntan a `#`, o sea, no llevan a
-      ningún lado.
-- [ ] **Email de contacto**, si se quiere agregar.
+Todo esto está en un solo archivo, `js/data/restaurante.js`. No hay que buscarlo
+en el HTML.
 
-> El teléfono aparece una sola vez visible en `index.html` (sección de
-> contacto, línea con `tel:`), pero hay que cambiar **dos lugares**: ese
-> enlace y el texto que se ve al lado (`+598 00 000 000`).
+- [ ] **Teléfono y WhatsApp.** Hoy aparece `+598 00 000 000`. Los datos que ya
+      se averiguaron, y que hay que poner:
+
+      | Dato | Valor |
+      |---|---|
+      | Teléfono y WhatsApp | `099 514 133` |
+      | Dirección | 18 de Julio 351, esquina Intendente Suárez |
+      | Horarios | Lunes a viernes 12:00–15:30 y 20:00–23:30. Sábado y domingo cerrado. |
+
+      En `whatsapp` va el número con el 598 adelante y **solo números**:
+      `59899514133`. En `telefonoLegible` va como se muestra.
+- [ ] **Dirección exacta y forma de llegar.** Falta mostrarla en el sitio.
+- [ ] **Enlaces de redes sociales.** Los botones del pie que no tengan una
+      URL real desaparecen solos, así que no hay enlaces rotos: pero conviene
+      poner las que existan (Instagram, por ejemplo).
+- [ ] **Email de contacto**, si se quiere agregar.
+- [ ] **Horarios en el sitio.** Hoy son de ejemplo y contradicen los reales:
+      dice "Jueves a sábado 20:00 a 00:00, domingo 12:00 a 17:00, lunes a
+      miércoles cerrado", y lo real es lo de la tabla de arriba.
 
 ### Fotos de las bebidas
 
@@ -76,23 +83,23 @@ ocupan dos platos del menú: el costillar y una mesa servida.
 
 ### Formulario de reservas
 
-Hoy **el formulario no envía nada**. Valida en el navegador y muestra un
-mensaje de confirmación, pero los datos se descartan.
+El envío **ya está resuelto**: al enviar, se abre WhatsApp con la reserva
+escrita. No hay servidor, base de datos ni servicio de pago.
 
-- [ ] **Elegir a dónde se envían las reservas.** Las alternativas más
-      simples para un sitio estático:
-      - Un formulario de un servicio externo (Formspree, Google Forms).
-      - Un enlace de WhatsApp con los datos ya cargados (lo más probable
-        para un restaurante: `https://wa.me/598XXXXXXXX?text=...`).
-      - Un backend propio, si más adelante hace falta.
-- [ ] **Implementar el envío** en `js/modules/contacto.js`, donde ya está
-      comentado el `fetch` preparado.
+Lo que falta:
+
+- [ ] **Probarlo con el número real puesto.** Mientras `whatsapp` sea
+      `59800000000`, el formulario manda las reservas a un número equivocado y
+      el visitante cree que reservó en el restaurante.
+- [ ] **Decidir si más adelante hace falta algo más** (un servicio externo o un
+      backend propio). Para un local chico, WhatsApp alcanza.
 
 ### Horarios
 
-- [ ] **Confirmar con el restaurante.** Jueves a sábado 20:00 a 00:00,
-      domingo 12:00 a 17:00, lunes a miércoles cerrado. Están repetidos en
-      dos lugares (`index.html`).
+- [ ] **Poner los horarios reales.** Hoy el sitio dice "Jueves a sábado 20:00 a
+      00:00, domingo 12:00 a 17:00, lunes a miércoles cerrado". Los reales son
+      **lunes a viernes 12:00–15:30 y 20:00–23:30, sábado y domingo cerrado**.
+      Están repetidos en dos lugares del `index.html` (contacto y pie).
 
 ### Datos del negocio
 
@@ -274,9 +281,8 @@ acordarse: si el sitio quedara en manos de otra persona, buscar
 "galeria" no devolvería los estilos de la galería.
 
 - [ ] **Decidir si se unifica.** Renombrar las clases a `galeria__` obliga a
-      tocar `index.html`, `css/layout/galeria.css`, `css/components/lightbox.css`
-      y `js/modules/galeria.js`. Conviene hacerlo antes de que la galería
-      crezca más, mientras los selectores todavía son pocos.
+      tocar `index.html` y `css/layout/galeria.css`. Conviene hacerlo antes de
+      que la galería crezca más, mientras los selectores todavía son pocos.
 
 ---
 
@@ -303,6 +309,36 @@ Nada de esto es necesario para publicar; queda anotado por si aparece tiempo.
 - Comando para reservar mesa directamente desde la web.
 - Versión en inglés o selector de idioma.
 - Mapa con la ubicación del local.
+
+---
+
+## Bugs de diseño (revisión del 13 de octubre)
+
+Salieron de recorrer la página entera con capturas de pantalla, en escritorio
+(1440 px) y en celular (390 px). **Ninguno se arregló todavía.**
+
+- [ ] **Los números de "Sobre nosotros" salen rotos.** En `+15` se ve un `+`
+      enorme con el `15` chico al lado, y en `300+` un `3` enorme con `00+`
+      chico. Está en `css/layout/about.css`: el selector
+      `.about__text p:first-of-type::first-letter` también toma los `<p>` de las
+      cifras, porque cada uno es el único `<p>` de su `<div>` y entonces es "el
+      primero" y se lleva la letra capitular. Lo más simple es apuntar solo al
+      párrafo de la introducción.
+
+- [ ] **En el celular, el "PARA EMPEZAR" se monta sobre el título "Para
+      compartir".** Está en `css/layout/galeria.css`: la regla que sube el
+      "eyebrow" a la derecha del panel tiene **más especificidad** que la regla
+      del celular que lo devuelve a su lugar, así que el `float` sobrevive y el
+      texto se le monta encima. Hay que subir la especificidad de la regla del
+      celular o bajar la de la de escritorio.
+
+- [ ] **El logo del pie de página casi no se ve.** En `css/layout/footer.css`
+      el logo se mezcla con `mix-blend-mode: screen` sobre el fondo vino, y
+      como el logo es oscuro, sale un borrón. Habría que aclarar el resultado
+      o cambiar la mezcla.
+
+- [ ] **La barra de `carta.html` es invisible.** Está detallada más arriba, en
+      "Bloqueante".
 
 ---
 

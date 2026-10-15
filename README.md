@@ -33,11 +33,14 @@ este repositorio con GitHub Pages.
 - **El sitio tiene modo claro y oscuro.** Arranca con la preferencia del
   sistema, y si se toca el botón de arriba a la derecha, esa elección queda
   guardada. Las dos paletas están en `css/base/tokens.css`.
+- **Los datos del negocio están en un solo archivo.** Teléfono, WhatsApp,
+  dirección, horarios y redes viven en `js/data/restaurante.js`. No hay que
+  buscarlos en el HTML.
+- **El formulario de reservas manda un mensaje de WhatsApp.** No hay servidor
+  ni base de datos: al enviar se abre WhatsApp con la reserva ya escrita.
 - **Los datos de contacto y los precios son de ejemplo.** Hay que
   reemplazarlos por los reales antes de publicar. Está detallado en
   `docs/PENDIENTES.md`.
-- **`carta.html` todavía no existe**, y tres enlaces ya apuntan a ella. Está
-  como primer pendiente en `docs/PENDIENTES.md`.
 - **[`IA_GUIDE.md`](IA_GUIDE.md)** lleva el registro de qué se pidió y qué
   se hizo, además de lo que falta probar a mano.
 
@@ -68,7 +71,8 @@ por la IP de la computadora.
 
 ```
 .
-├── index.html            Página única: todas las secciones
+├── index.html            Página principal: todas las secciones
+├── carta.html            La carta completa, con fotos, precios y filtros
 ├── css/
 │   ├── main.css          Importa las capas, en orden
 │   ├── base/             Variables, reset, tipografía
@@ -77,7 +81,7 @@ por la IP de la computadora.
 │   └── layout/           Estilos de cada sección concreta
 ├── js/
 │   ├── main.js           Arranca los módulos
-│   ├── data/menu.js      Los platos de la carta
+│   ├── data/             Los platos y los datos del negocio
 │   └── modules/          Un archivo por funcionalidad
 ├── assets/img/           Fotos y logos
 ├── docs/                 Documentación técnica

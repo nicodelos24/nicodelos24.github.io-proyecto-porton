@@ -187,11 +187,12 @@ alguien mirando la pantalla.
 - [ ] **Revisar el celular de verdad.** El emulador no reproduce bien el
       menú desplegable ni los campos de fecha y hora. Es el punto más
       frágil del sitio.
-- [ ] **Poner los datos reales**: teléfono, dirección, horarios, precios y
-      enlaces de redes sociales. Hoy todos son de ejemplo. La lista
-      completa está en `docs/PENDIENTES.md`.
-- [ ] **Probar el formulario de reservas.** Ahora no envía nada a ningún
-      lado: valida y muestra un mensaje, pero los datos se descartan.
+- [ ] **Poner los datos reales**: teléfono, WhatsApp, dirección, horarios,
+      precios y enlaces de redes sociales. Hoy todos son de ejemplo. La
+      lista completa está en `docs/PENDIENTES.md`.
+- [ ] **Probar el formulario de reservas.** Ahora sí manda la reserva por
+      WhatsApp, pero mientras el número sea de ejemplo se manda al número
+      equivocado. Hay que probarlo con el número real puesto.
 
 ### Del modo claro
 
@@ -457,6 +458,147 @@ decide si se aprueba o se descarta.
 
 ---
 
+## 18. La página de la carta
+
+> *«Agrega la página de la carta, que los enlaces del sitio iban a buscar»*
+> (commit `9ac66a7`, 9 de octubre)
+
+**Estado: ✅**
+
+Desde el principio la carta fue el bloque más incompleto del sitio: el archivo
+`carta.html` no existía y tres enlaces del sitio apuntaban a él, así que
+devolvían un 404. Ahora la página está armada con su propio encabezado, sus
+filtros por categoría y su pie.
+
+Los platos salen del mismo `js/data/menu.js` que usa la portada, así que los
+precios se cambian en un solo lugar.
+
+## 19. El formulario manda las reservas por WhatsApp
+
+> *«Manda las reservas por WhatsApp en vez de perderlas»*
+> (commit `a71ece8`, 9 de octubre)
+
+**Estado: ✅**
+
+Este era el defecto más grave que tenía el sitio: el formulario de reservas
+decía "recibimos tu pedido" y después **descartaba los datos**. El visitante
+creía que había reservado y el restaurante no se enteraba de nada.
+
+Ahora, al enviar, se abre WhatsApp con la reserva ya escrita: nombre, fecha en
+español, hora, personas, motivo, teléfono y notas. Si la persona no tiene la
+aplicación instalada, el enlace abre la versión web de `wa.me`.
+
+No hace falta servidor, base de datos ni ningún servicio que después haya que
+pagar.
+
+De paso, los datos de contacto se mudaron a `js/data/restaurante.js`, que está
+separado del resto. El teléfono estaba escrito en el HTML **y** además llegaba
+al formulario: con el número real había que cambiar dos lugares y con el apuro
+se olvidaba uno. Los botones de redes sociales que no tengan una URL ahora
+desaparecen en vez de quedar apuntando a la nada.
+
+> ⚠️ Mientras el número de WhatsApp siga siendo de ejemplo, el formulario
+> manda las reservas a un número equivocado. Está anotado en
+> `docs/PENDIENTES.md` como bloqueante antes de publicar.
+
+## 20. El texto de los platos, montado sobre la foto
+
+> *«Monta el texto de la carta sobre la foto, como una carta de menú»*
+> (commits `401aef5` a `b05fc70`, 9 de octubre)
+
+**Estado: ✅**
+
+Los bloques de platos ("La parrilla", "Para compartir", "Postres",
+"Bebidas") dejaron de ser una lista al lado de una foto. Ahora el texto va en un
+**panel de vidrio montado sobre la foto**, apoyado contra el borde de la
+pantalla e invadiendo una parte de la imagen.
+
+Detalles que se resolvieron sobre la marcha, y que conviene no perder de vista
+si se toca el archivo:
+
+- El panel tiene **dos zonas planas** y un corte seco entre ellas: la del texto,
+  opaca, y la franja que pisa la foto, translúcida. A propósito **no** hay
+  degradado: un degradado de verdad mezclaría las dos zonas y el corte se vería
+  como un resplandor.
+- El panel **no lleva borde, sombra ni desenfoque**. Los tres se probaron y los
+  tres pintaban una banda clara cruzando la comida.
+- El ancho del texto se acota en los hijos y no en el panel, para que el vidrio
+  siga siendo una banda ancha y lo único angosto sea lo que hay que leer.
+- Las fotos crecieron y llegaron de borde a borde: la foto manda, el texto se
+  apoya contra el borde contrario.
+
+## 21. Reordenar la página
+
+> *«Reordena la página: una sola banda arriba y "La cocina" abre la galería»*
+> (commit `5ea4d2b`, 10 de octubre)
+
+**Estado: ✅**
+
+El orden de arriba abajo quedó así:
+
+1. Portada
+2. Una sola banda con foto ("La carta"), que anticipa lo que viene
+3. Nosotros, con su foto
+4. Galería, que abre "La cocina" y de ahí sigue con los bloques de platos
+
+Antes había dos bandas pegadas una arriba de otra, lo que hacía que la página
+se sintiera más pesada de lo que es.
+
+Dentro de la galería, el **mosaico** (las fotos chicas sin efecto de scroll) se
+puso entre "Para empezar" y "Para terminar": es el contraste con las fotos
+grandes, y ahí la vista se para un momento.
+
+## 22. Movimiento en la galería: cuatro intentos y cuatro marcha atrás
+
+**Estado: ↩️ revertido**
+
+> No fue un pedido explícito, fue una búsqueda: se intentó varias veces que las
+> fotos de la galería se movieran al scrollear, en vez de quedarse quietas con
+> `background-attachment: fixed`.
+
+| Lo que se probó | Commit | Por qué se volvió atrás |
+|---|---|---|
+| Que la foto recorra su excedente al pasar el bloque | `81762fd` | Se veía tensa |
+| Más recorrido, del 40% al 52% | `8cbb46f` | Demasiado |
+| Que persiga la posición en vez de pegarse al scroll | `9998cb9` | Con la rueda del mouse avanzaba a saltos |
+| Que la franja se ancle más y se suavice | `9998cb9` | No llegó a probarse en un dispositivo real |
+
+Los cuatro quedaron registrados en el historial y los cuatro se revirtieron con
+un commit nuevo, sin reescribir nada.
+
+**Lo que quedó:** `background-attachment: fixed`, como estaba. Continúa sin
+funcionar en iOS ni en celular, y eso ya está anotado en
+`docs/ARQUITECTURA.md`.
+
+**Para la próxima:** si se vuelve a intentar, hay que probarlo en un teléfono de
+verdad antes de darlo por bueno. El emulador no sirve para juzgar el
+movimiento.
+
+## 23. La carta como lista en pantalla angosta
+
+> *«Adapta la carta a pantallas angostas como una lista»*
+> (commit `f50738e`, 10 de octubre)
+
+**Estado: 🧪**
+
+En el celular la carta era una rejilla de tarjetas grandes: los filtros
+ocupaban tres filas y cada plato era una caja con foto que llenaba media
+pantalla, así que se veían tres o cuatro platos por vez.
+
+Ahora, como la carta de El Fogon y como la de papel, en pantalla angosta cada
+plato es una fila: miniatura chica a la izquierda, nombre, descripción y precio
+a la derecha. Se ven de a diez y la carta se lee de un tirón. El filtro pasa a
+una sola fila deslizable.
+
+El distintivo "Del chef" salió de la foto (donde tapaba la miniatura) y se puso
+en el cuerpo: en pantalla ancha sigue flotando sobre la foto, y en angosta se
+convierte en un distintivo dorado discreto.
+
+Qué mirar vos: cómo queda la carta en tu celular, y si la fila deslizable de los
+filtros se entiende al primer uso.
+
+---
+
 # Tareas pendientes
 
 ## Pendientes por pedido
@@ -472,22 +614,32 @@ Nada de lo pedido quedó a medias.
       - [ ] Decidir si se deja `innerHTML` o se pasa a construir el DOM
             sin interpolar datos.
       - [ ] Headers de seguridad que se pueden agregar en GitHub Pages.
-      - [ ] Qué se hace con los datos del formulario de reservas, que
-            hoy no se envían a ningún lado y se descartan en el navegador.
 
 ## Pendientes de esta tanda (para probar a mano)
 
-- [ ] Tocar una foto de la galería en el celular y deslizar entre fotos.
+- [ ] Ver la carta en tu celular: si la fila deslizable de los filtros se
+      entiende al primer uso, y si los platos se leen de a diez.
 - [ ] Mirar la portada, la carta y el formulario en modo claro.
-- [ ] Ver si los 5 platos destacados representan bien al restaurante.
+- [ ] Abrir la carta completa (`carta.html`) y recorrerla con el teclado.
 - [ ] Recorrer la galería y la carta con el teclado.
 
 ## Pendientes de antes (siguen abiertos)
 
 - [ ] Poner los datos reales: teléfono, dirección, horarios, precios.
-- [ ] Implementar el envío del formulario de reservas.
 - [ ] Revisar el contraste real de los textos.
 - [ ] Probar el sitio en un celular de verdad.
+
+## Bugs de diseño encontrados el 13 de octubre
+
+Salieron de una revisión de la página completa con capturas de pantalla, en
+escritorio (1440 px) y en celular (390 px). Ninguno se arregló todavía.
+
+| Qué pasa | Dónde | Por qué |
+|---|---|---|
+| Los números de "Sobre nosotros" salen rotos: `+15` se ve como un `+` enorme con el `15` chico al lado, y `300+` como un `3` enorme con `00+` chico | `css/layout/about.css`, regla de la primera letra | El selector `.about__text p:first-of-type::first-letter` también toma los `<p>` de las cifras: cada uno es el único `<p>` de su `<div>`, así que es "el primero" y recibe la letra capitular |
+| En el celular, el "PARA EMPEZAR" se monta sobre el título "Para compartir" | `css/layout/galeria.css` | La regla que sube el "eyebrow" a la derecha tiene más especificidad que la del celular que lo devuelve a su lugar |
+| La barra de navegación de `carta.html` es invisible: logo, enlaces, botón de reservar y botón de tema | `carta.html` | La barra es transparente y de color claro, pensado para ir sobre la foto oscura de la portada. En la carta la página es clara: el texto claro queda sobre fondo claro |
+| El logo del pie de página casi no se ve | `css/layout/footer.css` | El logo es oscuro y se mezcla con `screen` sobre el fondo vino del pie |
 
 ---
 
