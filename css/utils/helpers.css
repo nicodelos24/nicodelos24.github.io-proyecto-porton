@@ -75,6 +75,37 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
 }
 
+/* ----------Ícono de llama inline ----------
+   Reemplaza al emoji 🔥 en la copia. Trazo oro/vino (brasa) con un relleno
+   oro muy tenue: sutil sobre hueso y legible sobre el fondo negro del tema
+   oscuro. Cada <path> lleva su color en un `style` inline; acá queda el
+   fallback (`stroke: currentcolor`) y la geometría común.
+
+   `display:inline-block` y `height:1em` son explícitos para vencer al reset
+   global (`svg { display:block; max-width:100%; height:auto }` en base/reset.css),
+   que si no estira el SVG al ancho del párrafo. Sin margin-inline: el espacio
+   entre palabra y llama lo da el propio nodo de texto, sin gaps dobles. */
+.flame-icon {
+  display: inline-block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.12em;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.flame-icon path {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* ---------- Visualmente oculto (accesibilidad) ---------- */
 .sr-only {
   position: absolute;

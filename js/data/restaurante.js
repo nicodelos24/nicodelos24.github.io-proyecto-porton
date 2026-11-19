@@ -38,6 +38,10 @@ window.RESTAURANTE = {
   nombre: "El Otro Portón",
   ciudad: "Colonia del Sacramento",
 
+  // Contratapa del menú oficial: "fuego / DESDE 14 DE ENERO DE 1984".
+  // La forma "Somos fuego desde 1984" aparece en prensa (Clarín, 2024).
+  eslogan: "Somos fuego desde 1984",
+
   /* ---------- Redes ----------
      El string vacío significa "no mostrar el botón". Si el restaurante no
      tiene Facebook, se deja "" y el botón no aparece, en vez de quedar uno
