@@ -20,18 +20,19 @@
      enlace se rompe.
    · `tel:` sí acepta el formato con espacios, que es el que se muestra.
 
-   ⚠️  MIENTRAS ESTOS DATOS SIGAN SIENDO DE EJEMPLO, EL FORMULARIO DE
-   RESERVAS ABRE UN WHATSAPP QUE NO ES DE NADIE. Antes de entregar el sitio
-   al restaurante, cambiar los tres valores de abajo.
+   ✅  Datos reales de El Otro Portón cargados el 19/11/2026 (ver
+   docs/INVESTIGACION-EL-OTRO-PORTON.md): WhatsApp y dirección confirmados
+   por múltiples fuentes, Instagram oficial. Si el local cambia de número
+   o de dirección, alcanza con editar este archivo.
    ========================================================================== */
 
 window.RESTAURANTE = {
   /* ---------- Teléfono ---------- */
   // Solo dígitos, con código de país. Este número va en el enlace de WhatsApp.
-  whatsapp: "59800000000",
+  whatsapp: "59899514133",
 
   // Como se muestra y como se copia. El `tel:` sí admite espacios.
-  telefonoLegible: "+598 00 000 000",
+  telefonoLegible: "+598 99 514 133",
 
   /* ---------- Negocio ---------- */
   nombre: "El Otro Portón",
@@ -41,6 +42,6 @@ window.RESTAURANTE = {
      El string vacío significa "no mostrar el botón". Si el restaurante no
      tiene Facebook, se deja "" y el botón no aparece, en vez de quedar uno
      apuntando a ningún lado. */
-  instagram: "",
+  instagram: "https://www.instagram.com/elotro.porton/",
   facebook: "",
 };

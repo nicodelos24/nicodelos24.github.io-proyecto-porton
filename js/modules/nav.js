@@ -19,14 +19,18 @@ export function initNav() {
 
   if (!nav) return;
 
+  // Páginas sin hero (p. ej. la carta) no tienen foto oscura debajo: la barra
+  // debe ser sólida desde el primer pixel, no solo después de 80 px de scroll.
+  const tieneHero = Boolean(document.querySelector(".hero"));
+
   /* ---------- Comportamiento según la dirección del scroll ---------- */
   let lastY = window.scrollY;
 
   const onScroll = () => {
     const y = window.scrollY;
 
-    // Fondo traslúcido
-    nav.classList.toggle("nav--solid", y > SOLID_THRESHOLD);
+    // Fondo traslúcido: siempre en páginas sin hero.
+    nav.classList.toggle("nav--solid", y > SOLID_THRESHOLD || !tieneHero);
 
     // Solo ocultamos si estamos claramente dentro o fuera del hero
     if (y > HIDE_THRESHOLD && y > lastY && !nav.classList.contains("nav--open")) {
@@ -40,16 +44,21 @@ export function initNav() {
   };
 
   /* ---------- Menú móvil ---------- */
+  const setMenuState = (isOpen) => {
+    toggle?.setAttribute("aria-expanded", String(isOpen));
+    toggle?.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
+  };
+
   const closeMenu = () => {
     nav.classList.remove("nav--open");
-    toggle?.setAttribute("aria-expanded", "false");
+    setMenuState(false);
     document.body.style.overflow = "";
   };
 
   toggle?.addEventListener("click", () => {
     const isOpen = nav.classList.toggle("nav--open");
 
-    toggle.setAttribute("aria-expanded", String(isOpen));
+    setMenuState(isOpen);
     // Bloquea el scroll de fondo con el menú abierto
     document.body.style.overflow = isOpen ? "hidden" : "";
 
@@ -60,7 +69,11 @@ export function initNav() {
   links.forEach((link) => link.addEventListener("click", closeMenu));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
+    if (event.key === "Escape") {
+      closeMenu();
+      // Si el foco estaba en un enlace del panel, al ocultarlo se perdería.
+      toggle?.focus();
+    }
   });
 
   /* ---------- Resalte de la sección activa ---------- */
@@ -78,6 +91,9 @@ export function initNav() {
     });
 
     links.forEach((link) => {
+      // La página actual lleva aria-current="page": su resalte es fijo,
+      // no lo decide el scroll (en carta.html no hay secciones con id).
+      if (link.getAttribute("aria-current") === "page") return;
       link.classList.toggle("is-active", link.hash === `#${currentId}`);
     });
   }

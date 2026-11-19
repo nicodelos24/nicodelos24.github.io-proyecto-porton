@@ -31,35 +31,31 @@ los platos, la misma que usa la portada.
 
 ---
 
-## Bloqueante: antes de publicar
+## Datos reales cargados (19/11/2026)
 
-Estos datos son **de ejemplo** y no deberían quedar visibles en un sitio
-público.
+Ya no quedan datos de ejemplo de contacto en el sitio. Fuentes en
+`docs/INVESTIGACION-EL-OTRO-PORTON.md`.
+
+- [x] **Teléfono y WhatsApp.** `+598 99 514 133` (`wa.me/59899514133`). En
+      `whatsapp` va el número con el 598 adelante y **solo números**
+      (`59899514133`); en `telefonoLegible`, como se muestra.
+- [x] **Dirección exacta.** 18 de Julio 351, esquina Intendente Suárez,
+      Colonia del Sacramento. Ya se muestra en la sección Contacto.
+- [x] **Instagram.** `https://www.instagram.com/elotro.porton/` cargado en
+      `js/data/restaurante.js`. `datos-negocio.js` ya le pone esa URL a los
+      botones "IG" del pie de ambas páginas. No hay Facebook propio: se dejó
+      `facebook: ""` para que el módulo borre el botón "FB" y no quede un
+      enlace roto.
 
 ### Contacto
 
-Todo esto está en un solo archivo, `js/data/restaurante.js`. No hay que buscarlo
-en el HTML.
-
-- [ ] **Teléfono y WhatsApp.** Hoy aparece `+598 00 000 000`. Los datos que ya
-      se averiguaron, y que hay que poner:
-
-      | Dato | Valor |
-      |---|---|
-      | Teléfono y WhatsApp | `099 514 133` |
-      | Dirección | 18 de Julio 351, esquina Intendente Suárez |
-      | Horarios | Lunes a viernes 12:00–15:30 y 20:00–23:30. Sábado y domingo cerrado. |
-
-      En `whatsapp` va el número con el 598 adelante y **solo números**:
-      `59899514133`. En `telefonoLegible` va como se muestra.
-- [ ] **Dirección exacta y forma de llegar.** Falta mostrarla en el sitio.
-- [ ] **Enlaces de redes sociales.** Los botones del pie que no tengan una
-      URL real desaparecen solos, así que no hay enlaces rotos: pero conviene
-      poner las que existan (Instagram, por ejemplo).
-- [ ] **Email de contacto**, si se quiere agregar.
-- [ ] **Horarios en el sitio.** Hoy son de ejemplo y contradicen los reales:
-      dice "Jueves a sábado 20:00 a 00:00, domingo 12:00 a 17:00, lunes a
-      miércoles cerrado", y lo real es lo de la tabla de arriba.
+- [ ] **Email de contacto**, si se quiere agregar (ninguna fuente pública lo
+      publica; habría que pedirlo al local).
+- [x] **Horarios en el sitio.** Reemplazados en los 3 bloques (contacto del
+      `index.html`, pie del `index.html` y pie de `carta.html`) por:
+      **Lunes y jueves a domingo 12:00–15:30 y 20:00–23:30 · Cerrado martes
+      y miércoles**. Ojo: no decir "lunes a viernes", eso incluiría
+      martes/miércoles, que están cerrados.
 
 ### Fotos de las bebidas
 
@@ -88,23 +84,28 @@ escrita. No hay servidor, base de datos ni servicio de pago.
 
 Lo que falta:
 
-- [ ] **Probarlo con el número real puesto.** Mientras `whatsapp` sea
-      `59800000000`, el formulario manda las reservas a un número equivocado y
-      el visitante cree que reservó en el restaurante.
+- [x] **Número real puesto.** `whatsapp` ya es `59899514133`: el formulario
+      abre WhatsApp con el número del local. Falta probarlo con el celular.
+- [ ] **Probar el envío real con el celular** y confirmar que llega al
+      WhatsApp del restaurante.
 - [ ] **Decidir si más adelante hace falta algo más** (un servicio externo o un
       backend propio). Para un local chico, WhatsApp alcanza.
 
 ### Horarios
 
-- [ ] **Poner los horarios reales.** Hoy el sitio dice "Jueves a sábado 20:00 a
-      00:00, domingo 12:00 a 17:00, lunes a miércoles cerrado". Los reales son
-      **lunes a viernes 12:00–15:30 y 20:00–23:30, sábado y domingo cerrado**.
-      Están repetidos en dos lugares del `index.html` (contacto y pie).
+- [x] **Horarios reales puestos** en los 3 bloques del sitio: contacto del
+      `index.html`, pie del `index.html` y pie de `carta.html`.
+      **Lunes y jueves a domingo 12:00–15:30 y 20:00–23:30 · Cerrado martes
+      y miércoles.** Ojo: NO decir "lunes a viernes" (incluiría los días
+      cerrados). Confirmados por Nico el 19/11/2026; las fichas públicas
+      coinciden.
 
 ### Datos del negocio
 
-- [ ] **"+15 años asando", "4 tipos de corte", "300+ mesas por semana"**
-      (`index.html`, sección "Sobre nosotros"). Son números de ejemplo.
+- [x] **Cifras de ejemplo sacadas.** "+15 años asando", "4 tipos de corte" y
+      "300+ mesas por semana" reemplazados por datos verificables sin números
+      inventados: "Live Art / Cocina en vivo" (Coloniaya), "Fuego / Parrilla a
+      la vista" (RestaurantesUruguay) y "Colonia / Nuestra ciudad".
 - [ ] **Texto de "Sobre nosotros"**, si hay una historia real para contar.
 
 ---
@@ -317,13 +318,11 @@ Nada de esto es necesario para publicar; queda anotado por si aparece tiempo.
 Salieron de recorrer la página entera con capturas de pantalla, en escritorio
 (1440 px) y en celular (390 px). **Ninguno se arregló todavía.**
 
-- [ ] **Los números de "Sobre nosotros" salen rotos.** En `+15` se ve un `+`
-      enorme con el `15` chico al lado, y en `300+` un `3` enorme con `00+`
-      chico. Está en `css/layout/about.css`: el selector
-      `.about__text p:first-of-type::first-letter` también toma los `<p>` de las
-      cifras, porque cada uno es el único `<p>` de su `<div>` y entonces es "el
-      primero" y se lleva la letra capitular. Lo más simple es apuntar solo al
-      párrafo de la introducción.
+- [x] **Los números de "Sobre nosotros" salían rotos** (arreglado). La
+      capitular en `css/layout/about.css` ahora apunta solo a
+      `.about__text > p.about__intro::first-letter`, así que ya no toma las
+      cifras. Además esas cifras (`+15`, `300+`) se sacaron del HTML por ser
+      inventadas.
 
 - [ ] **En el celular, el "PARA EMPEZAR" se monta sobre el título "Para
       compartir".** Está en `css/layout/galeria.css`: la regla que sube el

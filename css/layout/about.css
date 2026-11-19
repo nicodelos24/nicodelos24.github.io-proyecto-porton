@@ -24,7 +24,7 @@
   font-weight: 300;
 }
 
-.about__text p:first-of-type::first-letter {
+.about__text > p.about__intro::first-letter {
   float: left;
   margin: 0.1em 0.12em 0 0;
   font-family: var(--font-display);

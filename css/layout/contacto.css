@@ -138,9 +138,16 @@
 }
 
 .field__input:focus {
-  outline: none;
   border-color: var(--c-marca);
   background: var(--c-panel-input-foco);
+}
+
+/* El borde solo no basta como indicador de foco (contraste ~43%). Con el
+   teclado, el outline del tema hace visible dónde estamos sin cambiar el
+   aspecto del campo cuando se enfoca con el mouse. */
+.field__input:focus-visible {
+  outline: 2px solid var(--c-acento);
+  outline-offset: 2px;
 }
 
 /* Estilo nativo del select para que no rompa el tema */

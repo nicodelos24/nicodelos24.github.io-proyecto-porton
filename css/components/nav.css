@@ -211,11 +211,21 @@
     background: var(--c-bg);
     backdrop-filter: blur(20px);
     clip-path: circle(0% at calc(100% - 2.5rem) 2.5rem);
-    transition: clip-path var(--dur-slow) var(--ease-in-out);
+    /* Cerrado: fuera del orden de tabulación. visibility no se anima paso a
+       paso, pero con el retardo del transition el clip-path termina de
+       cerrarse antes de ocultar el panel; al abrir, visible es inmediata. */
+    visibility: hidden;
+    transition:
+      clip-path var(--dur-slow) var(--ease-in-out),
+      visibility 0s linear var(--dur-slow);
   }
 
   .nav--open .nav__links {
     clip-path: circle(150% at calc(100% - 2.5rem) 2.5rem);
+    visibility: visible;
+    transition:
+      clip-path var(--dur-slow) var(--ease-in-out),
+      visibility 0s;
   }
 
   .nav__link {

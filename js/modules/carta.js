@@ -71,9 +71,9 @@ export function initCarta() {
   }));
 
   filters.innerHTML = [
-    `<button class="filter-btn is-active" data-filter="all">Todo</button>`,
+    `<button class="filter-btn is-active" data-filter="all" aria-pressed="true">Todo</button>`,
     ...categorias.map(
-      (cat) => `<button class="filter-btn" data-filter="${cat.key}">${cat.label}</button>`
+      (cat) => `<button class="filter-btn" data-filter="${cat.key}" aria-pressed="false">${cat.label}</button>`
     ),
   ].join("");
 
@@ -83,9 +83,11 @@ export function initCarta() {
 
     const filtro = button.dataset.filter;
 
-    // Estado visual del botón
+    // Estado visual y semántico del botón
     filters.querySelectorAll(".filter-btn").forEach((btn) => {
-      btn.classList.toggle("is-active", btn === button);
+      const activo = btn === button;
+      btn.classList.toggle("is-active", activo);
+      btn.setAttribute("aria-pressed", String(activo));
     });
 
     // Muestra / oculta y reinicia la animación de cada tarjeta

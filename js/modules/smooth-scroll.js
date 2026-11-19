@@ -48,10 +48,15 @@ export function initSmoothScroll() {
     const distancia = destino - inicio;
     if (Math.abs(distancia) < 2) return;
 
-    let tiempo = 0;
+    // Se inicializa en el PRIMER frame, no con `rafId`: cancelAnimation()
+    // deja rafId en null antes del requestAnimationFrame, así que cuando
+    // corre step rafId ya tiene valor y `if (!rafId)` nunca se cumplía.
+    // Con `tiempo === null` el primer frame fija el origen y el easing
+    // arranca desde progreso 0 en vez de saltar directo al destino.
+    let tiempo = null;
 
     const step = (now) => {
-      if (!rafId) tiempo = now;
+      if (tiempo === null) tiempo = now;
 
       const progreso = Math.min((now - tiempo) / DURATION, 1);
       window.scrollTo(0, inicio + distancia * easeInOutExpo(progreso));

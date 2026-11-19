@@ -903,6 +903,13 @@
     float: none;
   }
 
+  /* Misma especificidad que la regla de escritorio del eyebrow invertido
+     (clase + clase + clase), así que acá sí gana el reset en celular. */
+  .galeria-bloque--pareja-inversa .galeria-lista > .eyebrow {
+    float: none;
+    width: auto;
+  }
+
   .gallery__item--pareja {
     aspect-ratio: 4 / 3;
   }
