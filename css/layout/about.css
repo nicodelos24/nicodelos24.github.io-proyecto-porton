@@ -8,15 +8,25 @@
 
 .about__layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(2rem, 6vw, 6rem);
   align-items: center;
 }
 
+/* En el DOM la foto va primero (así el lector de pantalla la encuentra antes
+   que los párrafos en celular); en escritorio el grid la devuelve a la derecha
+   y el texto a la izquierda. */
 .about__text {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
+}
+
+.about__figure {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .about__text p {
@@ -84,4 +94,80 @@
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--c-texto-suave);
+}
+
+/* ==========================================================================
+   PANTALLA ANGOSTA — retrato primero, historia después
+   ========================================================================== */
+/* ---- DIRECCIÓN DE ARTE ---- */
+/* Firma tipográfica con voz: se apoya sobre el borde de la sección, entre el
+   texto y las cifras. Usa frases ya presentes en el sitio ("Somos fuego desde
+   1984", "Colección familiar"). Decorativa: aria-hidden en el HTML. */
+.about__microcopia {
+  margin-top: var(--sp-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.02em;
+  color: var(--c-acento);
+  opacity: 0.9;
+}
+
+/* Recorte orgánico (forma de "hoja/llama") solo en la foto principal del
+   about. El ::after marco se desactiva acá: con un borde desplazado se
+   destruiría la silueta. Se mantiene border-radius como fallback progresivo. */
+.about__figure--recorte {
+  border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
+}
+
+.about__figure--recorte::after {
+  display: none;
+}
+
+@media (max-width: 48rem) {
+  .about__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-5);
+  }
+
+  .about__text,
+  .about__figure {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  /* El marco decorativo se recorta al borde de la foto: desplazado hacia
+     afuera generaba scroll horizontal en 390 px. El recorte orgánico ya no
+     lleva marco, así que esta regla solo aplica a la foto sin recorte. */
+  .about__figure:not(.about__figure--recorte)::after {
+    inset: var(--sp-3) 0 0 var(--sp-3);
+  }
+
+  /* Capitular más discreta: a 3.6em competía con el h2. */
+  .about__text > p.about__intro::first-letter {
+    font-size: 2.4em;
+  }
+
+  /* Jerarquía: 1984 manda, Live Art e Infiernillo bajan un escalón. Los tres
+     siguen en una sola fila para no alargar la sección. */
+  .about__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .about__stat-value {
+    font-size: var(--fs-lg);
+    line-height: 1.15;
+  }
+
+  .about__stats > div:first-child .about__stat-value {
+    font-size: var(--fs-xl);
+    color: var(--c-acento);
+  }
+
+  .about__stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    line-height: 1.35;
+  }
 }

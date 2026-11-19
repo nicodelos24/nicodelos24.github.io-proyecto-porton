@@ -7,29 +7,39 @@
    Idea: el HTML no tiene ni un <article class="dish-card"> escrito a mano.
    Todo se construye acá, así que agregar un plato es agregar un objeto
    al archivo de datos y ya está.
+
+   Esquema híbrido (móvil): una foto de cabecera por categoría + debajo la
+   lista de platos tipo carta de papel. En escritorio los grupos se muestran
+   como antes, con la rejilla de tarjetas.
    ========================================================================== */
 
 import { observeReveal } from "./reveal.js";
 
-/* Devuelve todos los platos con su categoría agregada, en una sola lista */
-function flattenMenu(menu) {
-  return Object.entries(menu).flatMap(([categoria, grupo]) =>
-    grupo.items.map((plato) => ({ ...plato, categoria }))
-  );
+/* Escapa el texto que viene de datos para no inyectar HTML. */
+function esc(texto) {
+  return String(texto ?? "").replace(/[&<>"']/g, (car) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  })[car]);
 }
 
-/* Construye el HTML de una tarjeta */
-function dishCardHTML(plato, index) {
+/* Foto de cabecera del grupo: la opcional fotoGrupo, o la del primer plato. */
+function fotoDelGrupo(grupo) {
+  return grupo.fotoGrupo || grupo.items[0]?.imagen || "";
+}
+
+/* Construye el HTML de una tarjeta. `categoria` sigue siendo la clave del
+   grupo (data-categoria), que es la que usa el filtrado por plato en galería. */
+function dishCardHTML(plato, categoria, index) {
   const tag = plato.destacado
     ? `<span class="dish-card__tag">Del chef</span>`
     : "";
 
   return `
-    <article class="dish-card" data-categoria="${plato.categoria}" data-reveal data-reveal-delay="${(index % 6) + 1}">
+    <article class="dish-card${plato.destacado ? " dish-card--destacado" : ""}" data-categoria="${esc(categoria)}" data-reveal data-reveal-delay="${(index % 6) + 1}">
       <div class="dish-card__media">
         <img
-          src="assets/img/${plato.imagen}"
-          alt="${plato.nombre}"
+          src="assets/img/${esc(plato.imagen)}"
+          alt="${esc(plato.nombre)}"
           loading="lazy"
           decoding="async"
         />
@@ -37,13 +47,38 @@ function dishCardHTML(plato, index) {
       <div class="dish-card__body">
         ${tag}
         <div class="dish-card__row">
-          <h3 class="dish-card__name">${plato.nombre}</h3>
+          <h3 class="dish-card__name">${esc(plato.nombre)}</h3>
           <span class="dish-card__dots" aria-hidden="true"></span>
-          <span class="dish-card__price">$${plato.precio}</span>
+          <span class="dish-card__price">$${esc(plato.precio)}</span>
         </div>
-        <p class="dish-card__desc">${plato.descripcion}</p>
+        <p class="dish-card__desc">${esc(plato.descripcion)}</p>
       </div>
     </article>
+  `;
+}
+
+/* Un grupo por categoría: cabecera con foto decorativa + título + platos. */
+function grupoHTML(key, grupo, grupoIndex) {
+  const foto = fotoDelGrupo(grupo);
+  const lazy = grupoIndex === 0 ? "" : ' loading="lazy"';
+  const platos = grupo.items
+    .map((plato, index) => dishCardHTML(plato, key, index))
+    .join("");
+
+  return `
+    <section class="carta__grupo" data-categoria-grupo="${esc(key)}">
+      <header class="carta__grupo-head">
+        <img
+          class="carta__grupo-foto"
+          src="assets/img/${esc(foto)}"
+          alt=""
+          aria-hidden="true"${lazy}
+          decoding="async"
+        />
+        <h2 class="carta__categoria">${esc(grupo.label)}</h2>
+      </header>
+      ${platos}
+    </section>
   `;
 }
 
@@ -53,29 +88,27 @@ export function initCarta() {
 
   if (!grid || !window.MENU) return;
 
-  const platos = flattenMenu(window.MENU);
+  const grupos = Object.entries(window.MENU);
 
   /* ---------- Render inicial ---------- */
-  grid.innerHTML = platos.map(dishCardHTML).join("");
+  grid.innerHTML = grupos.map(([key, grupo], i) => grupoHTML(key, grupo, i)).join("");
 
-  // Las tarjetas son nuevas: hay que ponerlas en observación para que
+  // Los elementos son nuevos: hay que ponerlos en observación para que
   // aparezcan al hacer scroll (ver modules/reveal.js).
   observeReveal(grid);
 
   /* ---------- Filtros ---------- */
   if (!filters) return;
 
-  const categorias = Object.entries(window.MENU).map(([key, group]) => ({
-    key,
-    label: group.label,
-  }));
-
-  filters.innerHTML = [
+  const live = document.querySelector(".carta__live");
+  const botones = [
     `<button class="filter-btn is-active" data-filter="all" aria-pressed="true">Todo</button>`,
-    ...categorias.map(
-      (cat) => `<button class="filter-btn" data-filter="${cat.key}" aria-pressed="false">${cat.label}</button>`
+    ...grupos.map(
+      ([key, group]) => `<button class="filter-btn" data-filter="${esc(key)}" aria-pressed="false">${esc(group.label)}</button>`
     ),
-  ].join("");
+  ];
+
+  filters.innerHTML = botones.join("");
 
   filters.addEventListener("click", (event) => {
     const button = event.target.closest(".filter-btn");
@@ -90,19 +123,33 @@ export function initCarta() {
       btn.setAttribute("aria-pressed", String(activo));
     });
 
-    // Muestra / oculta y reinicia la animación de cada tarjeta
-    grid.querySelectorAll(".dish-card").forEach((card, index) => {
-      const coincide = filtro === "all" || card.dataset.categoria === filtro;
+    // Con "Todo" se muestran los cuatro grupos; con una categoría elegida,
+    // ese grupo completo (foto + título + platos) es el único visible.
+    let visible = 0;
 
-      card.classList.toggle("is-hidden", !coincide);
-      card.classList.remove("is-entering");
+    grid.querySelectorAll(".carta__grupo").forEach((grupo) => {
+      const mostrar = filtro === "all" || grupo.dataset.categoriaGrupo === filtro;
 
-      if (coincide) {
-        // reflow forzado: permite reiniciar la animación CSS
-        void card.offsetWidth;
+      grupo.classList.toggle("is-hidden", !mostrar);
+      if (mostrar) visible += 1;
+
+      grupo.querySelectorAll(".dish-card").forEach((card, index) => {
+        card.classList.remove("is-entering");
+        void card.offsetWidth; // reflow forzado: reinicia la animación CSS
         card.style.animationDelay = `${index * 60}ms`;
         card.classList.add("is-entering");
-      }
+      });
     });
+
+    // Anuncia el cambio a lectores de pantalla.
+    if (live) {
+      const etiqueta = button.textContent.trim();
+      live.textContent = filtro === "all"
+        ? `Mostrando todos los platos (${visible} categorías).`
+        : `Mostrando ${etiqueta}.`;
+    }
+
+    // El chip tocado se desplaza hasta quedar visible en la fila deslizable.
+    button.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   });
 }

@@ -23,7 +23,7 @@
    en assets/img/ y 5 de Wikimedia Commons (faina.jpg, lengua-vinagreta.jpg,
    cheese-burger.jpg, limonada-casa.jpg, gin-tonic.jpg; ver créditos y URLs en
    docs/FOTOS-CARTA.md). Las stock son CC BY-SA salvo Cheeseburger.jpg, que es
-   de dominio público; no llevan atribución visible porque es un prototipo.
+   de dominio público; acreditadas en el pie de `carta.html` (`footer-credits`).
    ========================================================================== */
 
 window.MENU = {
@@ -32,6 +32,7 @@ window.MENU = {
      --------------------------------------------------------------------- */
   entradas: {
     label: "Entradas",
+    fotoGrupo: "empanada-de-carne-a-cuchillo.jpg",
     items: [
       {
         nombre: "Empanada de carne a cuchillo",
@@ -67,6 +68,7 @@ window.MENU = {
      --------------------------------------------------------------------- */
   parrilla: {
     label: "Parrillada",
+    fotoGrupo: "chorizo-morcilla-queso.jpg",
     items: [
       {
         nombre: "Ojo de bife",
@@ -107,6 +109,7 @@ window.MENU = {
      --------------------------------------------------------------------- */
   especiales: {
     label: "Especiales",
+    fotoGrupo: "cheese-burger.jpg",
     items: [
       {
         nombre: "Raviolones de ossobuco braseado",
@@ -129,6 +132,7 @@ window.MENU = {
      --------------------------------------------------------------------- */
   bebidas: {
     label: "Bebidas",
+    fotoGrupo: "gin-tonic.jpg",
     items: [
       {
         nombre: "Limonada de la casa",

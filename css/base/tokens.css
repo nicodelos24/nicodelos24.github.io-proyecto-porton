@@ -53,6 +53,11 @@
   --c-marca: var(--c-vino-500);
   --c-acento: var(--c-oro-400);
 
+  /* Dirección de arte: acento de brasa usado en los adornos (reglas,
+     diamantes, bordes de foto). Más cálido y decidido que el oro de texto,
+     pensado para destacarse sobre foto y sobre fondo sin lastimar el contraste. */
+  --c-brasa: #d9b64a;
+
   /* ---------- TIPOGRAFÍA ---------- */
   --font-display: "Playfair Display", "Georgia", serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -87,6 +92,10 @@
   --seccion-pad-y: clamp(4rem, 8vw, 9rem);
   --contenedor-max: 1280px;
   --contenedor-pad: clamp(1.25rem, 5vw, 4rem);
+
+  /* Altura de la nav fija (42 px de logo + 2 × 16 px de padding). La usan
+     los anclajes con scroll-margin y la barra de filtros sticky de la carta. */
+  --nav-h: 4.625rem;
 
   /* ---------- RADIOS ---------- */
   --r-sm: 4px;
@@ -198,6 +207,7 @@
   --c-borde: rgb(31 26 23 / 12%);
   --c-marca: #6b1830;
   --c-acento: #8a6a12;
+  --c-brasa: #8a6a12;
   --sombra-sm: 0 1px 3px rgb(31 26 23 / 10%);
   --sombra-md: 0 6px 20px rgb(31 26 23 / 10%);
   --sombra-lg: 0 18px 45px rgb(31 26 23 / 14%);

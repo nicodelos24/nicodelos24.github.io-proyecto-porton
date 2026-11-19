@@ -54,3 +54,57 @@ h4 {
 .gold {
   color: var(--c-acento);
 }
+
+/* =============================================================
+   DIRECCIÓN DE ARTE — regla corta flanqueando títulos
+   -------------------------------------------------------------
+   Recurso de Délice / El Fogón: dos trazos finos con un diamante
+   de oro en el centro que enmarcan el título de sección. Se
+   activa con la clase .titulo-con-regla para no tocar el hero,
+   los títulos de bloque ni los de la carta.
+
+   El degradado se apaga en los extremos (transparente → oro →
+   transparente): así la línea "se desvanece" y no es una raya
+   gris que atraviesa el ancho. El color usa --c-brasa, que ya
+   tiene versión oscura y clara con contraste suficiente.
+   ============================================================= */
+.titulo-con-regla {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  text-align: center;
+}
+
+/* El texto va en su propio flex item para que word-wrap opere sobre él: si
+   el texto queda suelto dentro del flex, cada palabra (y sobre todo la
+   cursiva .hl) se vuelve un item aparte que no puede romper y desborda. */
+.titulo-con-regla__texto {
+  min-width: 0;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.titulo-con-regla::before,
+.titulo-con-regla::after {
+  content: "";
+  flex: 0 1 3.5rem;
+  height: 1px;
+  background: linear-gradient(to var(--dir-regla, right), transparent, var(--c-brasa));
+  opacity: 0.9;
+}
+
+.titulo-con-regla::before {
+  --dir-regla: left;
+}
+
+/* El diamante central: un cuadrado girado 45°, del tamaño de la
+   x-height, que hace de "✦" sin depender de una fuente externa. */
+.regla-diamante {
+  flex: 0 0 auto;
+  width: 0.4em;
+  height: 0.4em;
+  margin-top: -0.1em;
+  background: var(--c-brasa);
+  transform: rotate(45deg);
+}
