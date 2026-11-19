@@ -38,6 +38,19 @@
   max-width: 46ch;
 }
 
+/* Aviso de precios de referencia: discreto, pero legible. Usa el mismo
+   color suave del resto de la página y una sola línea de borde a la izquierda
+   para distinguirlo del lead sin gritar. */
+.carta-aviso {
+  max-width: 52ch;
+  margin-top: var(--sp-4);
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--c-acento);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  color: var(--c-texto-suave);
+}
+
 .carta__toolbar {
   display: flex;
   flex-wrap: wrap;
