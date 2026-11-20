@@ -30,16 +30,15 @@ function flattenMenu(menu) {
   );
 }
 
-/* Una fila de plato: nombre, puntitos de guía, precio y la descripción debajo.
-   Es el formato de carta clásica en papel: el precio nunca se separa del
-   nombre, porque el puntito los ata. */
+/* Una fila de plato: nombre y descripción, sin precio.
+   Los precios 2025 viven solo en carta.html; repetirlos a lo largo del index
+   llenaba la lectura de números y, además, obligaba a actualizar dos sitios
+   cuando cambiaran. Acá la galería solo presenta los platos. */
 function platoHTML(plato) {
   return `
     <li class="galeria-plato" data-reveal="fade">
       <p class="galeria-plato__fila">
         <span class="galeria-plato__nombre">${plato.nombre}</span>
-        <span class="galeria-plato__puntos" aria-hidden="true"></span>
-        <span class="galeria-plato__precio">$${plato.precio}</span>
       </p>
       <p class="galeria-plato__desc">${plato.descripcion}</p>
     </li>

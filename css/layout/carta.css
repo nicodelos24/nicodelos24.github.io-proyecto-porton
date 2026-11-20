@@ -38,19 +38,6 @@
   max-width: 46ch;
 }
 
-/* Aviso de precios de referencia: discreto, pero legible. Usa el mismo
-   color suave del resto de la página y una sola línea de borde a la izquierda
-   para distinguirlo del lead sin gritar. */
-.carta-aviso {
-  max-width: 52ch;
-  margin-top: var(--sp-4);
-  padding-left: var(--sp-3);
-  border-left: 2px solid var(--c-acento);
-  font-size: var(--fs-xs);
-  line-height: 1.5;
-  color: var(--c-texto-suave);
-}
-
 .carta__toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -130,12 +117,16 @@
   display: none;
 }
 
-/* ---------- Nota al pie de la carta ---------- */
+/* ---------- Aviso único al pie de la carta ----------
+   Precios 2025 + consulta sin gluten, en un solo bloque. Sin franja lateral:
+   una línea superior limpia separa el aviso de la última categoría. */
 .carta__note {
-  margin-top: var(--sp-7);
+  max-width: 52ch;
+  margin: var(--sp-7) auto 0;
   padding-top: var(--sp-5);
   border-top: 1px solid var(--c-borde);
   font-size: var(--fs-xs);
+  line-height: 1.5;
   color: var(--c-texto-suave);
   text-align: center;
 }
@@ -174,6 +165,19 @@
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--c-borde);
     gap: var(--sp-2);
+
+    /* Velo en el canto derecho: el último chip asoma cortado y se entiende
+       que la fila sigue. Se pinta sobre el toolbar (no sobre los chips) para
+       que no se mueva con el scroll horizontal. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 0;
+      width: var(--contenedor-pad);
+      background: linear-gradient(to left, var(--c-bg), transparent);
+      pointer-events: none;
+    }
   }
 
   /* Una sola fila deslizable; el scroll-snap detiene cada chip al llegar. */
@@ -215,11 +219,14 @@
     margin-block: 0;
   }
 
-  /* ---- Cabecera de categoría: foto 16/9 con velo y título encima ---- */
+  /* ---- Cabecera de categoría: foto apaisada con velo y título encima ----
+     Medido en 390 px, 16/9 daba 191 px de alto por categoría: cuatro
+     cabeceras se comían casi una pantalla entera antes de llegar a los
+     platos. 21/9 deja ~150 px y el título sigue encima de la foto. */
   .carta__grupo-head {
     display: block;
     position: relative;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 21 / 9;
     border-radius: var(--r-lg);
     overflow: hidden;
     margin-bottom: var(--sp-5);
@@ -269,6 +276,7 @@
   /* ---- Platos como hoja continua: sin caja, separados por una línea ---- */
   .dish-card {
     display: block;
+    position: relative;
     overflow: visible;
     padding: var(--sp-3) 0;
     background: none;
@@ -297,6 +305,9 @@
     display: flex;
     align-items: baseline;
     gap: var(--sp-2);
+    /* Reserva del sitio de la miniatura en todos los platos: así el precio
+       queda en la misma columna con foto y sin foto. */
+    padding-right: 4.25rem;
   }
 
   .dish-card__name {
@@ -304,14 +315,23 @@
     font-weight: 600;
   }
 
-  /* Miniatura chica solo en los destacados, a la derecha del nombre. */
+  /* Miniatura chica solo en los destacados: es la ÚNICA señal visual del
+     plato destacado (el tag "Del chef" se quitó del render en carta.js para
+     no marcar dos veces lo mismo). Se saca del flujo con `position: absolute`
+     para que no pueda empujar el precio: la fila reserva su lugar con
+     `padding-right` en TODOS los platos y así el precio cae en la misma
+     columna, tenga o no miniatura. La miniatura va en ese hueco reservado,
+     pegada al borde derecho de la tarjeta: si se ubicara dentro del área de
+     texto (right: 4.25rem) se metía debajo de la descripción. */
   .dish-card__media {
     display: none;
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 3.25rem;
     height: 3.25rem;
     aspect-ratio: 1 / 1;
-    margin: 0 0 var(--sp-1) var(--sp-3);
+    margin: 0;
     border-radius: var(--r-sm);
   }
 
@@ -324,15 +344,18 @@
   }
 
   .dish-card__dots {
+    flex: 1 1 0;
     min-width: 1.5rem;
     margin: 0;
     margin-top: 0.6em;
   }
 
   .dish-card__price {
+    flex: 0 0 3.5rem;
     font-size: var(--fs-base);
     font-weight: normal;
     font-variant-numeric: tabular-nums;
+    text-align: right;
   }
 
   .dish-card__desc {
@@ -341,30 +364,14 @@
     font-size: var(--fs-sm);
   }
 
-  /* "Del chef" deja de ser badge flotante: marca discreta junto al nombre. */
-  .dish-card__tag {
-    position: static;
-    display: block;
-    margin: 0 0 var(--sp-1);
-    padding: 0;
-    border: 0;
-    background: none;
-    backdrop-filter: none;
-    font-size: var(--fs-xs);
-    letter-spacing: normal;
-    color: var(--c-acento);
-  }
-
-  /* El aviso se lee cuando se miran los precios: va al final de la hoja. */
-  .carta-aviso {
-    margin-top: var(--sp-4);
-    font-size: var(--fs-xs);
-    text-align: center;
-  }
-
-  .carta__note {
-    font-size: var(--fs-xs);
-    text-align: center;
+  /* La miniatura mide 52 px y arranca en el top de la tarjeta, mientras la
+     descripción empieza entre 22 y 41 px después según cuántas líneas tenga
+     el nombre. En los destacados se baja la descripción lo suficiente para
+     que arranque debajo de la miniatura: cero solape incluso en "Ojo de
+     bife", el caso más ajustado. El padding-right aparte el texto del lateral. */
+  .dish-card--destacado .dish-card__desc {
+    margin-top: 2.25rem;
+    padding-right: 4.25rem;
   }
 }
 

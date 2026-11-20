@@ -30,10 +30,6 @@ function fotoDelGrupo(grupo) {
 /* Construye el HTML de una tarjeta. `categoria` sigue siendo la clave del
    grupo (data-categoria), que es la que usa el filtrado por plato en galería. */
 function dishCardHTML(plato, categoria, index) {
-  const tag = plato.destacado
-    ? `<span class="dish-card__tag">Del chef</span>`
-    : "";
-
   return `
     <article class="dish-card${plato.destacado ? " dish-card--destacado" : ""}" data-categoria="${esc(categoria)}" data-reveal data-reveal-delay="${(index % 6) + 1}">
       <div class="dish-card__media">
@@ -45,7 +41,6 @@ function dishCardHTML(plato, categoria, index) {
         />
       </div>
       <div class="dish-card__body">
-        ${tag}
         <div class="dish-card__row">
           <h3 class="dish-card__name">${esc(plato.nombre)}</h3>
           <span class="dish-card__dots" aria-hidden="true"></span>
@@ -149,7 +144,9 @@ export function initCarta() {
         : `Mostrando ${etiqueta}.`;
     }
 
-    // El chip tocado se desplaza hasta quedar visible en la fila deslizable.
+    // El chip tocado se desplaza hasta quedar centrado en la fila deslizable.
+    // El centro importa: con `start` el último chip se quedaba pegado al velo
+    // del canto derecho y parecía cortado.
     button.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
   });
 }

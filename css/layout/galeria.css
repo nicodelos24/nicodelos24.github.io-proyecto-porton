@@ -760,20 +760,6 @@
   color: var(--c-texto);
 }
 
-.galeria-plato__puntos {
-  flex: 1;
-  height: 1px;
-  margin-bottom: 0.35em;
-  border-bottom: 1px dotted var(--c-borde);
-}
-
-.galeria-plato__precio {
-  font-size: var(--fs-base);
-  font-variant-numeric: tabular-nums;
-  color: var(--c-acento);
-  white-space: nowrap;
-}
-
 .galeria-plato__desc {
   margin-top: var(--sp-2);
   font-size: var(--fs-sm);
@@ -888,6 +874,13 @@
     margin-inline: 0;
   }
 
+  /* La foto manda en móvil, como en el bloque de entradas. `order` y no un
+     cambio en el DOM: en escritorio el panel de texto es una celda de la
+     grilla y moverlo rompería la superposición sobre la foto. */
+  .galeria-bloque--pareja > .gallery__item {
+    order: -1;
+  }
+
   .galeria-bloque--pareja .gallery__item,
   .galeria-bloque--pareja-inversa .gallery__item {
     grid-column: auto;
@@ -967,7 +960,7 @@
     line-height: 1.45;
   }
 
-  /* ---- Listado de platos: nombre · puntitos · precio ---- */
+  /* ---- Listado de platos: nombre y descripción ---- */
   .galeria-platos {
     gap: var(--sp-5);
   }
@@ -979,16 +972,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     font-size: var(--fs-base);
-  }
-
-  .galeria-plato__puntos {
-    flex: 1 1 1.5rem;
-    min-width: 1.5rem;
-    margin-inline: var(--sp-2);
-  }
-
-  .galeria-plato__precio {
-    flex-shrink: 0;
   }
 
   .galeria-plato__desc {
@@ -1013,8 +996,6 @@
     margin-inline: auto;
     border-radius: 50%;
     box-shadow: none;
-    outline: 1px solid var(--c-acento);
-    outline-offset: var(--sp-2);
   }
 
   /* La cita de cocina gana un remate con voz: misma frase del párrafo, dicha

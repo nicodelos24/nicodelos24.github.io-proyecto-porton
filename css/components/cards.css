@@ -83,28 +83,6 @@
   background: linear-gradient(to top, rgb(10 10 10 / 65%) 0%, transparent 55%);
 }
 
-/* Etiqueta de categoría sobre la foto */
-/* La etiqueta "Del chef" va en el cuerpo de la tarjeta, pero en pantalla
-   ancha se posiciona sobre la foto (arriba a la izquierda). En pantalla
-   angosta deja de flotar y fluye en la lista (ver carta.css). Por eso está
-   acá aunque no pertenezca a la media: si viviera dentro de `.dish-card__media`
-   no podría salir de la miniatura chica del móvil. */
-.dish-card__tag {
-  position: absolute;
-  top: var(--sp-4);
-  left: var(--sp-4);
-  z-index: 1;
-  padding: 0.35rem 0.85rem;
-  border: 1px solid rgb(255 255 255 / 20%);
-  border-radius: var(--r-full);
-  background: rgb(10 10 10 / 55%);
-  backdrop-filter: blur(6px);
-  font-size: 0.65rem;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--c-oro-100);
-}
-
 .dish-card__body {
   display: flex;
   flex-direction: column;
