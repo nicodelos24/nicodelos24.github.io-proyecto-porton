@@ -11,16 +11,6 @@ Las fotos de Pexels y Wikimedia son **ilustrativas**: no muestran el salón, al 
 | `galeria-brasas.webp` | [Asado argentino en parrilla a carbón](https://commons.wikimedia.org/wiki/File:Asado_argentino_en_parrilla_a_carb%C3%B3n.jpg) · felixion | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | 720 × 480 | No apreciada |
 | `galeria-colonia.webp` | [Calle de los Suspiros](https://commons.wikimedia.org/wiki/File:Calle_de_los_Suspiros.jpg) · Banfield | [CC BY-SA 2.5 Argentina](https://creativecommons.org/licenses/by-sa/2.5/ar/) | 1280 × 960 | No apreciada |
 
-## Fotos de Wanderlog · solo para el prototipo
-
-Estas fotos no tienen marca de agua apreciable en la inspección visual. No se verificó autoría ni licencia de republicación: confirmalas antes de publicar.
-
-| Archivo en `assets/img/` | Uso | Fuente |
-|---|---|---|
-| `wanderlog-steak.jpg` | Círculo de parrilla, sin identificar como un corte específico de la carta | [Wanderlog](https://itin-dev.wanderlogstatic.com/freeImage/OfMAQ7zNiGQG58p8wSJom7hjNGmfljr2) |
-| `wanderlog-empanada.jpg` | Bloque «Para compartir» | [Wanderlog](https://itin-dev.wanderlogstatic.com/freeImage/AZWbYVKLH7mIDDv8Eo8L9WTOiV7Ex7e3) |
-| `wanderlog-short-ribs.jpg` | Mosaico, «Parrillada» | [Wanderlog](https://itin-dev.wanderlogstatic.com/freeImage/G3Sn32UncpmmFwFeuNFj8lZ4ZIaJeEII) |
-
 ## Fotos existentes y alternativas
 
 - Se conservan las cinco fotos acreditadas de fainá, lengua, hamburguesa, limonada y gin tonic: [Créditos de la carta](FOTOS-CARTA.md).
