@@ -37,6 +37,9 @@ window.RESTAURANTE = {
   /* ---------- Negocio ---------- */
   nombre: "El Otro Portón",
   ciudad: "Colonia del Sacramento",
+  direccion: "Intendente Suárez esquina 18 de Julio · 18 de Julio 351, Colonia del Sacramento",
+  horario: "Jueves a lunes · 12:00–15:30 y 20:00–23:30",
+  cierre: "Cerrado: martes y miércoles",
 
   // Contratapa del menú oficial: "fuego / DESDE 14 DE ENERO DE 1984".
   // La forma "Somos fuego desde 1984" aparece en prensa (Clarín, 2024).

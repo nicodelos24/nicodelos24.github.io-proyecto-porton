@@ -16,6 +16,12 @@ export function initPreloader() {
 
   if (!preloader) return;
 
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    preloader.remove();
+    document.documentElement.classList.add("nav-ready");
+    return;
+  }
+
   const inicio = performance.now();
   let hidden = false;
 

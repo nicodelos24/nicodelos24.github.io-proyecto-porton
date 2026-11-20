@@ -17,14 +17,20 @@ export function initParallax() {
   const heroBg = document.querySelector(".hero__bg");
   const toTop = document.querySelector(".to-top");
 
+  const escritorio = window.matchMedia("(min-width: 1025px) and (prefers-reduced-motion: no-preference)");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let ticking = false;
 
   const update = () => {
     const y = window.scrollY;
 
     // Parallax del hero: solo dentro del rango de la propia sección
-    if (heroBg && y < window.innerHeight * 1.5) {
-      heroBg.style.setProperty("--parallax", `${y * HERO_SPEED}px`);
+    if (heroBg) {
+      if (escritorio.matches && y < window.innerHeight * 1.5) {
+        heroBg.style.setProperty("--parallax", `${y * HERO_SPEED}px`);
+      } else {
+        heroBg.style.removeProperty("--parallax");
+      }
     }
 
     // Botón volver arriba
@@ -43,10 +49,11 @@ export function initParallax() {
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll, { passive: true });
+  escritorio.addEventListener("change", onScroll);
   update();
 
   // Acción del botón
   toTop?.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "instant" : "smooth" });
   });
 }

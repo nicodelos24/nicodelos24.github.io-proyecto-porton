@@ -1,383 +1,104 @@
-/* =============================================================
-   layout/carta.css
-   Capa 3 — Página de carta / menú
-   -------------------------------------------------------------
-   - Encabezado de la página
-   - Barra de filtros por categoría
-   - Rejilla de tarjetas renderizada desde js/data/menu.js
-   - La lista se anima con stagger al cambiar de categoría
-
-   RESPONSIVE
-   -------------------------------------------------------------
-   En pantalla angosta la carta deja de ser una rejilla de tarjetas grandes y
-   pasa a una lista de platos, como en la carta de El Fogon (referencia) y
-   como ya se lee la carta de papel: una fila por plato, con una miniatura
-   chica a la izquierda, el nombre y la descripción al medio y el precio a la
-   derecha. En una pantalla de teléfono, una tarjeta con foto grande por
-   plato obligaba a hacer scroll para ver cuatro o cinco platos; así se
-   ven de a diez y la carta se lee de un tirón.
-
-   El filtro también deja de envolver en tres o cuatro filas y pasa a una
-   sola, deslizable, para que las categorías no coman media pantalla.
-   ============================================================= */
-
-/* ---------- Encabezado de la página ----------
-   Es su propia clase y no .section--head porque esta página arranca acá:
-   no hay sección anterior de la que heredaría el relleno, y el título es
-   un h1 de página, no un título de sección. */
+/* Una sola hoja: mismos márgenes y misma columna de precio en los 4 grupos. */
 .carta-head {
-  padding-block: clamp(6rem, 14vw, 12rem) clamp(3rem, 6vw, 5rem);
-}
-
-.carta-head__titulo {
-  margin-block: var(--sp-4) var(--sp-5);
-  font-size: var(--fs-3xl);
-}
-
-.carta-head .lead {
-  max-width: 46ch;
-}
-
-.carta__toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-5);
-  margin-bottom: clamp(2rem, 4vw, 3.5rem);
-}
-
-/* ---------- Filtros ---------- */
-.carta__filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-}
-
-.filter-btn {
-  padding: 0.6rem 1.35rem;
-  border: 1px solid var(--c-borde);
-  border-radius: var(--r-full);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--c-texto-suave);
-  white-space: nowrap;
-  transition:
-    color var(--dur-fast) var(--ease-out),
-    background-color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out);
-}
-
-.filter-btn:hover {
-  color: var(--c-texto);
-  border-color: var(--c-texto-suave);
-}
-
-.filter-btn.is-active {
-  background: var(--c-marca);
-  border-color: var(--c-marca);
-  color: var(--c-hueso);
-}
-
-/* ---------- Rejilla de platos ---------- */
-.carta__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2rem);
-}
-
-/* Escritorio: el grupo no es una caja, así sus platos siguen siendo hijos
-   directos de la rejilla. La cabecera con foto/título solo existe en móvil. */
-.carta__grupo {
-  display: contents;
-}
-
-.carta__grupo-head {
-  display: none;
-}
-
-/* Estado de re-entrada que aplica JS al filtrar */
-.dish-card.is-entering {
-  animation: dish-in var(--dur-slow) var(--ease-out) both;
-}
-
-@keyframes dish-in {
-  from { opacity: 0; transform: translateY(2rem) scale(0.96); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* Oculta los que no coinciden (aplicado por JS) */
-.dish-card.is-hidden {
-  display: none;
-}
-
-/* El filtro oculta el grupo completo (foto + título + platos), no la tarjeta suelta. */
-.carta__grupo.is-hidden {
-  display: none;
-}
-
-/* ---------- Aviso único al pie de la carta ----------
-   Precios 2025 + consulta sin gluten, en un solo bloque. Sin franja lateral:
-   una línea superior limpia separa el aviso de la última categoría. */
-.carta__note {
-  max-width: 52ch;
-  margin: var(--sp-7) auto 0;
-  padding-top: var(--sp-5);
-  border-top: 1px solid var(--c-borde);
-  font-size: var(--fs-xs);
-  line-height: 1.5;
-  color: var(--c-texto-suave);
+  padding-top: calc(var(--nav-h) + clamp(2.25rem, 6vw, 5rem));
+  padding-bottom: clamp(1.5rem, 5vw, 3.5rem);
+  background: var(--c-bg-alt);
+  border-bottom: 1px solid var(--c-borde);
   text-align: center;
 }
 
-/* ==========================================================================
-   PANTALLA ANGOSTA — la carta como lista
-   ========================================================================== */
-@media (max-width: 48rem) {
-  /* Acá no hay hero que compense la nav: altura fija y controlada. */
-  .carta-head {
-    padding-block: 5.5rem clamp(2rem, 8vw, 3rem);
-  }
+.carta-head__inner { max-width: 52rem; }
+.carta-head__titulo { margin-block: .4rem .85rem; font-size: clamp(2.5rem, 1.65rem + 3.5vw, 5rem); }
+.carta-head .lead { margin-inline: auto; font-size: var(--fs-base); font-weight: 400; }
+.carta-head .flame-icon { width: 1.15em; height: 1.15em; }
 
-  .carta-head__titulo {
-    font-size: var(--fs-2xl);
-  }
-
-  /* La cita larga con la llama se comía media pantalla: dos líneas y el SVG
-     se ocultan por debajo de 30rem para dejar ver los platos cuanto antes. */
-  .carta-head .lead {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: var(--fs-sm);
-  }
-
-  .carta__toolbar {
-    position: sticky;
-    top: var(--nav-h);
-    z-index: calc(var(--z-nav) - 1);
-    margin-inline: calc(var(--contenedor-pad) * -1);
-    padding: var(--sp-2) var(--contenedor-pad);
-    background: var(--c-bg);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--c-borde);
-    gap: var(--sp-2);
-
-    /* Velo en el canto derecho: el último chip asoma cortado y se entiende
-       que la fila sigue. Se pinta sobre el toolbar (no sobre los chips) para
-       que no se mueva con el scroll horizontal. */
-    &::after {
-      content: "";
-      position: absolute;
-      inset-block: 0;
-      inset-inline-end: 0;
-      width: var(--contenedor-pad);
-      background: linear-gradient(to left, var(--c-bg), transparent);
-      pointer-events: none;
-    }
-  }
-
-  /* Una sola fila deslizable; el scroll-snap detiene cada chip al llegar. */
-  .carta__filters {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    padding-block: var(--sp-1);
-    margin-inline: 0;
-    padding-inline: 0;
-    scrollbar-width: none;
-  }
-
-  .carta__filters::-webkit-scrollbar {
-    display: none;
-  }
-
-  .filter-btn {
-    scroll-snap-align: start;
-    padding: 0.55rem 1rem;
-    font-size: var(--fs-xs);
-    letter-spacing: normal;
-  }
-
-  /* Ancla bajo la nav y el toolbar sticky. */
-  #carta {
-    scroll-margin-top: calc(var(--nav-h) + 3.5rem);
-  }
-
-  /* ---- Esquema híbrido: grupos apilados ---- */
-  .carta__grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-7);
-  }
-
-  .carta__grupo {
-    display: block;
-    margin-block: 0;
-  }
-
-  /* ---- Cabecera de categoría: foto apaisada con velo y título encima ----
-     Medido en 390 px, 16/9 daba 191 px de alto por categoría: cuatro
-     cabeceras se comían casi una pantalla entera antes de llegar a los
-     platos. 21/9 deja ~150 px y el título sigue encima de la foto. */
-  .carta__grupo-head {
-    display: block;
-    position: relative;
-    aspect-ratio: 21 / 9;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    margin-bottom: var(--sp-5);
-  }
-
-  .carta__grupo-foto {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .carta__grupo-head::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgb(26 10 16 / 55%) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .carta__categoria {
-    position: absolute;
-    left: var(--sp-4);
-    bottom: var(--sp-4);
-    z-index: 1;
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: var(--fs-xl);
-    color: var(--c-hueso);
-  }
-
-  /* Dirección de arte: un trazo de brasa bajo el título de la categoría,
-     anclado en la esquina inferior izquierda sobre el velo de la foto. Da el
-     mismo "notch" que une foto y etiqueta en El Fogón, pero en oro. */
-  .carta__categoria::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -0.55rem;
-    width: 2.5rem;
-    height: 3px;
-    background: var(--c-brasa);
-    border-radius: var(--r-full);
-  }
-
-  /* ---- Platos como hoja continua: sin caja, separados por una línea ---- */
-  .dish-card {
-    display: block;
-    position: relative;
-    overflow: visible;
-    padding: var(--sp-3) 0;
-    background: none;
-    border: 0;
-    border-bottom: 1px solid var(--c-borde);
-    border-radius: 0;
-    transition: none;
-  }
-
-  .dish-card:first-of-type {
-    padding-top: 0;
-  }
-
-  .dish-card:hover {
-    transform: none;
-    border-color: var(--c-borde);
-    box-shadow: none;
-  }
-
-  .dish-card__body {
-    display: block;
-    padding: 0;
-  }
-
-  .dish-card__row {
-    display: flex;
-    align-items: baseline;
-    gap: var(--sp-2);
-    /* Reserva del sitio de la miniatura en todos los platos: así el precio
-       queda en la misma columna con foto y sin foto. */
-    padding-right: 4.25rem;
-  }
-
-  .dish-card__name {
-    font-size: var(--fs-base);
-    font-weight: 600;
-  }
-
-  /* Miniatura chica solo en los destacados: es la ÚNICA señal visual del
-     plato destacado (el tag "Del chef" se quitó del render en carta.js para
-     no marcar dos veces lo mismo). Se saca del flujo con `position: absolute`
-     para que no pueda empujar el precio: la fila reserva su lugar con
-     `padding-right` en TODOS los platos y así el precio cae en la misma
-     columna, tenga o no miniatura. La miniatura va en ese hueco reservado,
-     pegada al borde derecho de la tarjeta: si se ubicara dentro del área de
-     texto (right: 4.25rem) se metía debajo de la descripción. */
-  .dish-card__media {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 3.25rem;
-    height: 3.25rem;
-    aspect-ratio: 1 / 1;
-    margin: 0;
-    border-radius: var(--r-sm);
-  }
-
-  .dish-card--destacado .dish-card__media {
-    display: block;
-  }
-
-  .dish-card__media::after {
-    display: none;
-  }
-
-  .dish-card__dots {
-    flex: 1 1 0;
-    min-width: 1.5rem;
-    margin: 0;
-    margin-top: 0.6em;
-  }
-
-  .dish-card__price {
-    flex: 0 0 3.5rem;
-    font-size: var(--fs-base);
-    font-weight: normal;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-  }
-
-  .dish-card__desc {
-    clear: both;
-    margin-top: var(--sp-1);
-    font-size: var(--fs-sm);
-  }
-
-  /* La miniatura mide 52 px y arranca en el top de la tarjeta, mientras la
-     descripción empieza entre 22 y 41 px después según cuántas líneas tenga
-     el nombre. En los destacados se baja la descripción lo suficiente para
-     que arranque debajo de la miniatura: cero solape incluso en "Ojo de
-     bife", el caso más ajustado. El padding-right aparte el texto del lateral. */
-  .dish-card--destacado .dish-card__desc {
-    margin-top: 2.25rem;
-    padding-right: 4.25rem;
-  }
+.carta { padding-bottom: var(--seccion-pad-y); }
+.carta__layout { max-width: 60rem; }
+.carta__toolbar {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 5;
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-borde);
+  padding-block: .65rem;
 }
 
-/* La llama se oculta solo en teléfonos muy angostos; en 390 px se mantiene. */
-@media (max-width: 30rem) {
-  .carta-head .lead .flame-icon {
-    display: none;
-  }
+.carta__filters {
+  display: flex;
+  gap: .5rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  padding: .2rem 0 .35rem;
+}
+
+.filter-btn {
+  flex: none;
+  scroll-snap-align: start;
+  border: 1px solid var(--c-texto-suave);
+  border-radius: var(--r-full);
+  padding: .5rem .85rem;
+  min-height: 2.75rem;
+  font-size: .83rem;
+  font-weight: 600;
+  transition: border-color var(--dur-fast), background-color var(--dur-fast), color var(--dur-fast);
+}
+.filter-btn:hover { border-color: var(--c-brasa-texto); color: var(--c-brasa-texto); }
+.filter-btn[aria-pressed="true"] {
+  color: var(--c-brasa-texto);
+  background: var(--c-superficie);
+  border-color: currentcolor;
+}
+.filter-btn:focus-visible { outline-offset: -3px; }
+.carta__grid { padding-top: 1.5rem; }
+.carta__grupo:not([hidden]) ~ .carta__grupo:not([hidden]) { margin-top: clamp(2.75rem, 5vw, 4.5rem); }
+.carta__grupo-head {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: clamp(9.375rem, 20vw, 14rem);
+  padding: clamp(.85rem, 2.5vw, 1.5rem);
+  background: #1c1a19;
+  color: #faf7f2;
+}
+.carta__grupo-head::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(0deg, rgb(10 10 10 / 94%), rgb(10 10 10 / 65%) 56%, rgb(10 10 10 / 12%));
+}
+.carta__grupo-head img { position: absolute; z-index: -2; inset: 0; }
+.carta__categoria { font-size: clamp(2.15rem, 1.65rem + 2vw, 3.25rem); }
+.carta__micro { margin-top: .25rem; font-size: .85rem; }
+
+.dish-card { border-bottom: 1px solid var(--c-borde); padding-block: .95rem; }
+.dish-card__row {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(.65rem, 1fr) max(4.5rem, 5.5ch);
+  align-items: baseline;
+  gap: clamp(.35rem, 1.6vw, .8rem);
+}
+.dish-card__name {
+  min-width: 0;
+  font: 600 var(--fs-base)/1.45 var(--font-body);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+.dish-card__dots { border-bottom: 1px dotted var(--c-texto-suave); opacity: .65; }
+.dish-card__price {
+  color: var(--c-brasa-texto);
+  font: 600 1.125rem/1.3 var(--font-display);
+  font-variant-numeric: lining-nums tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.dish-card__desc { margin-top: .3rem; max-width: 66ch; color: var(--c-texto-suave); }
+.carta__note { margin-top: 2.25rem; max-width: 64ch; color: var(--c-texto-suave); }
+
+@media (min-width: 50rem) {
+  .carta__filters { justify-content: center; }
 }

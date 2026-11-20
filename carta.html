@@ -15,6 +15,8 @@
   <meta property="og:type" content="restaurant">
 
   <link rel="icon" href="assets/img/log.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/main.css">
 
   <!--
@@ -22,8 +24,7 @@
     Si esto corriera más tarde (desde main.js), el visitante vería un
     destello del tema equivocado al cargar.
 
-    Si no hay nada guardado, no se pone atributo: el CSS resuelve el
-    tema con prefers-color-scheme, así que funciona igual sin este script.
+    Sin preferencia guardada, el tema por defecto es oscuro.
   -->
   <script>
     (function () {
@@ -33,7 +34,7 @@
           document.documentElement.dataset.tema = t;
         }
       } catch (e) {
-        /* Sin almacenamiento: se usa el tema del sistema. */
+        /* Sin almacenamiento: se usa el tema por defecto. */
       }
     })();
   </script>
@@ -100,51 +101,27 @@
   </header>
 
   <main id="main">
-
-    <!-- ==========================================================================
-         ENCABEZADO DE LA CARTA
-         ========================================================================== -->
-    <section class="carta-head">
-      <div class="container">
-        <span class="eyebrow" data-reveal>Cocina de fuegos</span>
-        <h1 class="carta-head__titulo" data-reveal>
-          Todo lo que sale de <span class="hl">nuestra parrilla</span>
-        </h1>
-        <p class="lead" data-reveal>
-          «Una parrilla con infiernillo, una cocina a la vista. Disfrutamos de crear tu
-          experiencia <svg class="flame-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <defs><linearGradient id="flame-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--c-oro-400)"/><stop offset="1" style="stop-color: var(--c-vino-400)"/></linearGradient></defs><path d="M12 2c.6 3.4-1.7 4.8-3.3 6.6C7 10.5 6 12.3 6 15a6 6 0 0 0 12 0c0-2.6-1.2-4.4-2.6-6-.3 1.5-1.2 2.3-2.1 2.6.4-3.4-1-6.1-1.3-9.6z" style="fill: var(--c-oro-500); fill-opacity: .12; stroke: url(#flame-grad)"/><path d="M12 21a3 3 0 0 0 3-3c0-1.6-1.1-2.6-1.8-3.4-.3.9-.9 1.3-1.5 1.5-.1-1.5-.8-2.5-1.3-3.1-.2.8-.4 1.6-.4 2.5a3 3 0 0 0 2 3z" style="fill: none; stroke: var(--c-oro-300)"/></svg>».
-        </p>
+    <header class="carta-head">
+      <div class="container carta-head__inner" data-reveal>
+        <p class="eyebrow">Cocina de fuegos · Colonia del Sacramento</p>
+        <h1 class="carta-head__titulo">La carta</h1>
+        <p class="lead">Una parrilla con infiernillo, una cocina a la vista. Disfrutamos de crear tu experiencia <svg class="flame-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <defs><linearGradient id="flame-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--c-oro-400)"/><stop offset="1" style="stop-color: var(--c-vino-400)"/></linearGradient></defs><path d="M12 2c.6 3.4-1.7 4.8-3.3 6.6C7 10.5 6 12.3 6 15a6 6 0 0 0 12 0c0-2.6-1.2-4.4-2.6-6-.3 1.5-1.2 2.3-2.1 2.6.4-3.4-1-6.1-1.3-9.6z" style="fill: var(--c-oro-500); fill-opacity: .12; stroke: url(#flame-grad)"/><path d="M12 21a3 3 0 0 0 3-3c0-1.6-1.1-2.6-1.8-3.4-.3.9-.9 1.3-1.5 1.5-.1-1.5-.8-2.5-1.3-3.1-.2.8-.4 1.6-.4 2.5a3 3 0 0 0 2 3z" style="fill: none; stroke: var(--c-oro-300)"/></svg>.</p>
       </div>
-    </section>
+    </header>
 
-    <!-- ==========================================================================
-         LA CARTA
-         Los platos los arma js/modules/carta.js desde js/data/menu.js.
-         En el HTML no hay ni una tarjeta escrita a mano: agregar un plato es
-         agregar un objeto al archivo de datos.
-         ========================================================================== -->
-    <section class="section section--alt" id="carta">
-      <div class="container">
-
-        <div class="carta__toolbar">
-          <!-- Los botones de categoría los arma carta.js también, desde los
-               grupos de window.MENU. Con la palabra equivocada en
-               js/data/menu.js, el filtro quedaría sin botón. -->
+    <section class="carta" id="carta" aria-label="Platos y bebidas">
+      <div class="container carta__layout">
+        <div class="carta__toolbar" hidden>
           <div class="carta__filters" role="group" aria-label="Filtrar por categoría"></div>
-        <p class="carta__live sr-only" aria-live="polite"></p>
+          <p class="carta__live sr-only" aria-live="polite"></p>
         </div>
-
-        <div class="carta__grid"></div>
-
-        <!-- Un solo aviso al final de la carta: precios 2025 + consulta sin
-             gluten. Antes había dos párrafos con el mismo tono (carta__note y
-             carta-aviso) y se leían como un aviso repetido. -->
-        <p class="carta__note" data-reveal>
+        <div class="carta__grid" id="carta-platos"></div>
+        <noscript><p class="carta__note">Para ver los platos y filtrar por categoría, activá JavaScript.</p></noscript>
+        <p class="carta__note">
           Precios de referencia 2025 en pesos uruguayos. Pueden cambiar según la
           estación; consultanos por las opciones sin gluten y los valores actualizados.
         </p>
-
       </div>
     </section>
 
