@@ -15,6 +15,8 @@
   <meta property="og:type" content="restaurant">
 
   <link rel="icon" href="assets/img/log.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="css/main.css">
 
   <!--
@@ -27,8 +29,7 @@
     Si esto corriera más tarde (desde main.js), el visitante vería un
     destello del tema equivocado al cargar.
 
-    Si no hay nada guardado, no se pone atributo: el CSS resuelve el
-    tema con prefers-color-scheme, así que funciona igual sin este script.
+    Sin preferencia guardada, el tema por defecto es oscuro.
   -->
   <script>
     (function () {
@@ -38,7 +39,7 @@
           document.documentElement.dataset.tema = t;
         }
       } catch (e) {
-        /* Sin almacenamiento: se usa el tema del sistema. */
+        /* Sin almacenamiento: se usa el tema por defecto. */
       }
     })();
   </script>
@@ -134,7 +135,8 @@
           </h1>
 
           <p class="hero__subtitle hero__item">
-            Somos fuego desde 1984. Una parrilla con infiernillo,
+            Somos fuego desde 1984 <svg class="flame-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <defs><linearGradient id="flame-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--c-oro-400)"/><stop offset="1" style="stop-color: var(--c-vino-400)"/></linearGradient></defs><path d="M12 2c.6 3.4-1.7 4.8-3.3 6.6C7 10.5 6 12.3 6 15a6 6 0 0 0 12 0c0-2.6-1.2-4.4-2.6-6-.3 1.5-1.2 2.3-2.1 2.6.4-3.4-1-6.1-1.3-9.6z" style="fill: var(--c-oro-500); fill-opacity: .12; stroke: url(#flame-grad)"/><path d="M12 21a3 3 0 0 0 3-3c0-1.6-1.1-2.6-1.8-3.4-.3.9-.9 1.3-1.5 1.5-.1-1.5-.8-2.5-1.3-3.1-.2.8-.4 1.6-.4 2.5a3 3 0 0 0 2 3z" style="fill: none; stroke: var(--c-oro-300)"/></svg>. Una parrilla con infiernillo,
             una cocina a la vista. Te esperamos.
           </p>
 
@@ -156,7 +158,7 @@
             </div>
             <div class="hero__fact">
               <span class="hero__fact-label">Reservas</span>
-              <span class="hero__fact-value">099 514 133</span>
+              <span class="hero__fact-value">Por WhatsApp</span>
             </div>
           </div>
 
@@ -189,367 +191,120 @@
     </div>
 
 
-    <!-- ========================================================================
-         SOBRE NOSOTROS
-         ======================================================================== -->
-    <section class="section" id="sobre-nosotros">
-      <div class="container">
-        <div class="about__layout">
-
-          <figure class="about__figure about__figure--recorte" data-reveal="right">
-            <img src="assets/img/caption.jpg" alt="Salón del restaurante El Otro Portón" loading="lazy">
-          </figure>
-
-          <div class="about__text">
-            <span class="eyebrow" data-reveal>Nuestra historia</span>
-            <h2 class="section-title titulo-con-regla" data-reveal>
-              <span class="titulo-con-regla__texto">Mantenemos la llama de la historia y la familia, <span class="hl">con una mirada innovadora</span></span>
-            </h2>
-            <p class="about__intro" data-reveal>
-              Somos la otra casa de la familia de El Portón. Acá seguimos con las mismas
-              ganas de siempre <svg class="flame-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <defs><linearGradient id="flame-grad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color: var(--c-oro-400)"/><stop offset="1" style="stop-color: var(--c-vino-400)"/></linearGradient></defs><path d="M12 2c.6 3.4-1.7 4.8-3.3 6.6C7 10.5 6 12.3 6 15a6 6 0 0 0 12 0c0-2.6-1.2-4.4-2.6-6-.3 1.5-1.2 2.3-2.1 2.6.4-3.4-1-6.1-1.3-9.6z" style="fill: var(--c-oro-500); fill-opacity: .12; stroke: url(#flame-grad)"/><path d="M12 21a3 3 0 0 0 3-3c0-1.6-1.1-2.6-1.8-3.4-.3.9-.9 1.3-1.5 1.5-.1-1.5-.8-2.5-1.3-3.1-.2.8-.4 1.6-.4 2.5a3 3 0 0 0 2 3z" style="fill: none; stroke: var(--c-oro-300)"/></svg>.
-            </p>
-            <p data-reveal>
-              Buscamos que cada plato sea protagonista, con productos locales y de
-              estación. La parrilla es a la vista y el infiernillo está siempre prendido.
-            </p>
-
-            <p class="about__microcopia" aria-hidden="true">Somos fuego desde 1984 · Colección familiar</p>
-
-            <div class="about__stats" data-reveal>
-              <div>
-                <p class="about__stat-value">1984</p>
-                <p class="about__stat-label">Fuego desde entonces</p>
-              </div>
-              <div>
-                <p class="about__stat-value">Live Art</p>
-                <p class="about__stat-label">Artistas en vivo</p>
-              </div>
-              <div>
-                <p class="about__stat-value">Infiernillo</p>
-                <p class="about__stat-label">Parrilla a la vista</p>
-              </div>
-            </div>
+    <section class="section historia" id="sobre-nosotros" aria-labelledby="historia-titulo">
+      <div class="container historia__layout">
+        <figure class="editorial-photo historia__foto" data-photo-reveal>
+          <img src="assets/img/caption.jpg" alt="Salón de El Otro Portón, con la cocina a la vista" loading="lazy" decoding="async">
+        </figure>
+        <div class="historia__texto" data-reveal>
+          <p class="eyebrow">Nuestra historia</p>
+          <h2 class="editorial-title" id="historia-titulo"><span>La llama de la historia</span></h2>
+          <p class="historia__intro">Mantenemos la llama de la historia y la familia, pero con una mirada innovadora.</p>
+          <p>Somos tradicionales con un toque de innovación. Combinamos productos locales en nuestra cocina de fuegos.</p>
+          <p>Una parrilla con infiernillo y una cocina a la vista. En el local también hubo lugar para artistas en vivo con Live Art.</p>
+          <div class="historia__fecha">
+            <strong>1984</strong>
+            <span class="eyebrow">Fuego desde entonces</span>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- ========================================================================
-         BANDA "LA CARTA" — la única del sitio, antes de "Nosotros"
-         ------------------------------------------------------------------------
-         Arriba del todo, después de la portada. Ya no es un par de bandas
-         pegadas: "El local" se quitó y esta quedó sola abriendo la página. El
-         botón baja a la galería, así que anticipa lo que viene. El efecto es un
-         Ken Burns lento (ver transicion.css), nada de foto clavada. -->
-    <section class="transicion transicion--mollejas">
+    <section class="transicion transicion--mollejas" aria-label="La carta">
       <div class="transicion__veil" aria-hidden="true"></div>
-
-      <div class="container transicion__content">
-        <span class="eyebrow transicion__eyebrow" data-reveal>La carta</span>
-        <h2 class="transicion__title" data-reveal>
-          Una Cocina de Fuegos con <em>sabores locales</em>
-        </h2>
-        <a class="btn btn--primary" href="#galeria" data-reveal>
-          Ver la carta <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
+      <div class="container transicion__content" data-reveal>
+        <p class="eyebrow transicion__eyebrow">La carta</p>
+        <h2 class="transicion__title">Una Cocina de Fuegos con <em>sabores locales</em></h2>
+        <a class="btn btn--outline" href="carta.html">Ver la carta <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
-    <!-- ========================================================================
-         GALERÍA
-         ======================================================================== -->
-    <section class="section" id="galeria">
+    <section class="section galeria" id="galeria" aria-labelledby="galeria-titulo">
       <div class="container">
-
-        <div class="section-head">
-          <span class="eyebrow" data-reveal>Galería</span>
-          <h2 class="section-title titulo-con-regla" data-reveal><span class="titulo-con-regla__texto">El local y <span class="hl">lo que sale del fuego</span></span></h2>
+        <div class="editorial-head" data-reveal>
+          <p class="eyebrow">El local y lo que sale del fuego</p>
+          <h2 class="editorial-title" id="galeria-titulo"><span>Donde el ambiente también se disfruta</span></h2>
         </div>
 
-        <!-- Secuencia alternada: angosto, ancho, angosto, ancho, angosto.
-             Los angostos cambian de lado para que el ojo no caiga siempre
-             en el mismo punto.
-
-             Entre foto y foto hay bloques con texto y con platos de la
-             carta, que es lo que evita que la galería sea solo una tira de
-             fotos. Los dos bloques de platos se llenan solos desde
-             js/data/menu.js (ver modules/galeria-menu.js): los destacados
-             y los postres. Si ese archivo no llegara a cargar, esos dos
-             bloques se ocultan solos y no queda un hueco vacío.
-
-             Todas las fotos van de fondo (ver galeria.css) porque es lo
-             único que el navegador puede dejar clavada en la pantalla. Por
-             eso la descripción va en el marco, con role="img".
-
-             Y van con data-reveal="fade" y no "scale": cualquier transform
-             o will-change rompe el efecto de foto clavada. Ver la nota en
-             css/components/animations.css. -->
-        <div class="gallery">
-
-          <!-- LA COCINA · dos fotos con el texto en el medio
-
-               Abre la galería, antes del bloque de "Del fuego". Antes iba en el
-               medio, entre la parrilla y las entradas, para partir en dos la
-               serie de bloques de platos. Ahora abre: el texto de cómo se
-               cocina entra primero y da el tono antes de mostrar los platos.
-
-               Es una sección propia y no un <div> más de la galería porque se
-               sangra a pantalla completa: tiene su propio relleno y no el de
-               los bloques de adentro. -->
-          <section class="cocina" aria-labelledby="cocina-titulo">
-            <div class="galeria-bloque galeria-bloque--costuras">
-
-              <figure class="gallery__item gallery__item--costura gallery__item--empanada"
-                      role="img" aria-label="Empanadas de carne a cuchillo con salsa criolla"
-                      data-reveal="fade">
-                <figcaption class="gallery__caption">Empanadas</figcaption>
-              </figure>
-
-              <div class="galeria-centro" data-reveal="fade">
-                <span class="eyebrow">Cocina de fuegos</span>
-                <h2 class="galeria-centro__texto" id="cocina-titulo">
-                  Cada plato sale de la parrilla cuando está en su punto. Las empanadas
-                  se amasan a mano. Nada se sirve apurado.
-                </h2>
-                <p class="galeria-centro__micro" aria-hidden="true">El fuego está listo · Nada se sirve apurado</p>
-              </div>
-
-              <figure class="gallery__item gallery__item--costura gallery__item--tortilla"
-                      role="img" aria-label="Tortilla española con alioli de ajo y huevo"
-                      data-reveal="fade">
-                <figcaption class="gallery__caption">Tortilla de papa con alioli</figcaption>
-              </figure>
-
-            </div>
-          </section>
-
-          <!-- BLOQUE 1 · la parrilla, al lado de la foto de la parrilla.
-               Cada categoría queda junto a la foto que la representa: se lee
-               mejor que una lista de platos suelta, y la foto sola no dice
-               nada de lo que se cocina.
-
-               Ojo con el valor de data-platos: es la CLAVE de la categoría en
-               js/data/menu.js, no la etiqueta que se ve. La de la parrilla es
-               "parrilla" y su etiqueta es "Parrillada". Con la palabra
-               equivocada el bloque se oculta solo y no se ve por qué. -->
-          <section class="galeria-bloque galeria-bloque--pareja"
-                   aria-labelledby="galeria-parrillada-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">EL FUEGO NOS INSPIRA</span>
-              <h3 class="galeria-bloque__titulo titulo-con-regla" id="galeria-parrillada-titulo">Nuestra parrilla</h3>
-              <ul class="galeria-platos" data-platos="parrilla"></ul>
-            </div>
-
-            <figure class="gallery__item gallery__item--pareja gallery__item--costillar"
-                    role="img" aria-label="Carnes asándose en la parrilla con infiernillo"
-                    data-reveal="fade">
-            </figure>
-          </section>
-
-
-          <!-- BLOQUE 1b · las entradas, con la foto al revés que en el
-               bloque de la parrilla.
-               Es el mismo esquema (lista de platos + foto) pero con la foto
-               a la izquierda, para que los dos bloques seguidos no se lean
-               igual. En el celular, donde todo se apila en una columna, la
-               foto va primero en ambos bloques (ver `order` en galeria.css).
-
-               Usa una foto vertical de las que estaban sin usar en la
-               galería: las horizontales no dan la altura que necesita el efecto
-               de foto clavada, y con el panel montado encima tapaban la foto. -->
-          <section class="galeria-bloque galeria-bloque--pareja galeria-bloque--pareja-inversa"
-                   aria-labelledby="galeria-entradas-titulo">
-
-            <figure class="gallery__item gallery__item--pareja gallery__item--picos gallery__item--circulo"
-                    role="img" aria-label="Plato con papas y pan, recién salido de la cocina"
-                    data-reveal="fade">
-            </figure>
-
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">Para empezar</span>
-              <h3 class="galeria-bloque__titulo titulo-con-regla" id="galeria-entradas-titulo">Para compartir</h3>
-              <ul class="galeria-platos" data-platos="entradas"></ul>
-            </div>
-          </section>
-
-          <!-- EL MOSAICO · contraste con las fotos de efecto
-
-               Estas van al revés que las de arriba: NO tienen efecto de
-               scroll. El contraste no viene del movimiento sino del tamaño:
-               son chicas, de distintas proporciones, y ahí la vista se para
-               un momento antes de volver a las fotos grandes.
-
-               El mosaico es de celdas desiguales, no de cuadros iguales. Con
-               todas del mismo tamaño se lee como una tabla y deja de tener
-               gracia; lo que hace que funcione es que ninguna tiene el mismo
-               ancho que la de al lado.
-
-               La grilla es de 12 columnas y cada celda dice cuántas ocupa con
-               su clase. La suma de cada fila tiene que dar JUSTO 12, si no
-               quedan huecos al final de la línea y el mosaico se descuadra.
-               Estas ocho celdas cierran así:
-
-                 Fila 1:  3 + 2 + 2 + 2 + 3   = 12
-                 Fila 2:  3 + 2 + 2 + 5       = 12   (las tres primeras
-                                                        siguen bajando)
-                 Fila 3:  5 + 4 + 3           = 12   (la de 5 sigue)
-
-               Las celdas de dos filas se anotan una sola vez: si se las contara
-               dos veces, la cuenta no cerraría. Y las dos últimas son de una
-               fila sola porque, si bajaran dos, abrirían una cuarta fila que
-               quedaría a medio llenar.
-
-               Con fotos de ejemplo: van a entrar las definitivas del
-               restaurante, y para cambiar una alcanza con reemplazar el
-               `src` y el `alt`. Las imágenes están todas en `assets/img/`. -->
-
-          <div class="mosaico" data-reveal="fade">
-            <figure class="mosaico__celda mosaico__celda--3x2">
-              <img src="assets/img/caption_10.jpg" alt="Platos de la casa servidos para compartir" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--2x2">
-              <img src="assets/img/caption_12.jpg" alt="Postre de chocolate con dulce de leche" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--2x2">
-              <img src="assets/img/caption_13.jpg" alt="Plato de temporada con Shooting Star y microgreens" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--2x1">
-              <img src="assets/img/caption_3.jpg" alt="Parrillada con guarnición" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--3x1">
-              <img src="assets/img/mollejas-con-cremoso.jpg" alt="Mollejas con cremoso" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--5x2">
-              <img src="assets/img/port.jpg" alt="Plato de la casa, servido en mesa" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--4x1">
-              <img src="assets/img/ensalada-de-estacion.jpg" alt="Ensalada de estación" loading="lazy" decoding="async">
-            </figure>
-
-            <figure class="mosaico__celda mosaico__celda--3x1">
-              <img src="assets/img/tortellinis-de-espinaca.jpg" alt="Tortellinis de espinaca" loading="lazy" decoding="async">
-            </figure>
+        <section class="galeria__bloque galeria__bloque--parrilla" aria-labelledby="galeria-parrilla">
+          <figure class="editorial-photo galeria__circulo" data-photo-reveal>
+            <img src="assets/img/caption_11.jpg" alt="Corte a la parrilla servido sobre una tabla, con salsas de la casa" loading="lazy" decoding="async">
+          </figure>
+          <div class="galeria__texto" data-reveal>
+            <p class="eyebrow">El fuego nos inspira</p>
+            <h3 id="galeria-parrilla">Nuestra parrilla</h3>
+            <p>Nuestra parrilla destaca por las carnes, acompañadas de criolla y chimichurri especiales de la casa.</p>
+            <ul class="galeria__platos" data-platos="parrilla"></ul>
           </div>
+        </section>
 
-          <!-- BLOQUE 3 · los postres a la izquierda y una foto con el efecto
-               clavado a la derecha -->
-          <section class="galeria-bloque galeria-bloque--pareja"
-                   aria-labelledby="galeria-postres-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">El toque final</span>
-              <h3 class="galeria-bloque__titulo titulo-con-regla" id="galeria-postres-titulo">Postres</h3>
-              <ul class="galeria-platos" data-platos="especiales"></ul>
+        <section class="galeria__bloque galeria__bloque--entradas" aria-labelledby="galeria-entradas">
+          <figure class="editorial-photo galeria__rectangulo" data-photo-reveal>
+            <img src="assets/img/empanada-de-carne-a-cuchillo.jpg" alt="Empanada de carne a cuchillo con salsa" loading="lazy" decoding="async">
+          </figure>
+          <div class="galeria__texto" data-reveal>
+            <p class="eyebrow">Para empezar</p>
+            <h3 id="galeria-entradas">Para compartir</h3>
+            <ul class="galeria__platos" data-platos="entradas"></ul>
+          </div>
+        </section>
+
+        <div class="mosaico" aria-labelledby="mosaico-titulo">
+          <div class="mosaico__cabecera" data-reveal>
+            <p class="eyebrow" id="mosaico-titulo">Del fuego, directo al plato</p>
+            <div class="mosaico__controles" hidden>
+              <button type="button" aria-controls="mesa-fotos" aria-label="Foto anterior" data-avance="-1">←</button>
+              <button type="button" aria-controls="mesa-fotos" aria-label="Foto siguiente" data-avance="1">→</button>
             </div>
-
-            <figure class="gallery__item gallery__item--pareja gallery__item--negro"
-                    role="img" aria-label="El Negro, postre en homenaje a Rubén «El Negro» Martínez"
-                    data-reveal="fade">
-              <figcaption class="gallery__caption">El Negro</figcaption>
-            </figure>
-          </section>
-
-          <!-- LAS BEBIDAS · el bloque de pareja de siempre, pero con la foto
-               grande del final
-
-               Es el mismo esquema que la parrilla, las entradas y los postres:
-               la foto de un lado, el panel de vidrio con el texto montado
-               encima desde el borde contrario. Pero esta vez la foto no es la
-               cuadrada de media pantalla, sino la imagen ancha que ya estaba
-               abajo, a todo el ancho. Esa foto era el remate de la galería y
-               achicarla a media pantalla la perdía, así que ocupa las dos
-               columnas de la grilla y el panel se le monta encima.
-
-               El reparto del panel no cambia: el mismo ancho, la misma franja
-               de vidrio de 18vw sobre la foto y el resto opaco con el texto. Lo
-               único que cambia es qué hay detrás de la parte opaca: en vez del
-               fondo de la página, la foto. Como el panel es opaco, no se nota.
-
-               Va en el turno de la invertida (foto a la izquierda, texto a la
-               derecha) porque es el que sigue después del bloque de postres.
-
-               La foto no lleva pie: el de "Postre de la casa" era de la foto
-               sola y acá el bloque es el de las bebidas, y sobre un panel de
-               vidrio ese pie no se lee (ver galeria.css). -->
-          <section class="galeria-bloque galeria-bloque--pareja galeria-bloque--pareja-inversa galeria-bloque--ancha"
-                   aria-labelledby="galeria-bebidas-titulo">
-            <div class="galeria-lista" data-reveal="fade">
-              <span class="eyebrow">El ritual</span>
-              <h3 class="galeria-bloque__titulo titulo-con-regla" id="galeria-bebidas-titulo">Para beber</h3>
-              <ul class="galeria-platos" data-platos="bebidas"></ul>
-              <p class="galeria-bloque__nota">
-                La carta cambia con la estación. Consultanos por los platos del día.
-              </p>
-              <p class="galeria-bloque__micro" aria-hidden="true">El ritual empieza antes del primer brindis</p>
-            </div>
-
-            <figure class="gallery__item gallery__item--ancha gallery__item--calabaza"
-                    role="img" aria-label="Calabaza asada con queso y semillas, en un plato negro"
-                    data-reveal="fade">
-            </figure>
-          </section>
-
+          </div>
+          <ul class="mosaico__fotos" id="mesa-fotos" tabindex="0" aria-label="Fotos de la mesa; deslizá para ver más">
+            <li><img src="assets/img/mollejas-con-cremoso.jpg" alt="Mollejas con cremoso de papa y roquefort" loading="lazy" decoding="async"><span>Mollejas <b aria-hidden="true">✦</b></span></li>
+            <li><img src="assets/img/redisenio/galeria-colonia.webp" alt="Calle de los Suspiros, Colonia del Sacramento" loading="lazy" decoding="async"><span>Colonia <b aria-hidden="true">✦</b></span></li>
+            <li><img src="assets/img/redisenio/hero-asado.webp" alt="Imagen ilustrativa de un parrillero avivando el fuego" loading="lazy" decoding="async"><span>Al fuego <b aria-hidden="true">✦</b></span></li>
+            <li><img src="assets/img/redisenio/galeria-brasas.webp" alt="Imagen ilustrativa de una parrilla a carbón" loading="lazy" decoding="async"><span>Brasas <b aria-hidden="true">✦</b></span></li>
+            <li><img src="assets/img/redisenio/galeria-ambiente.webp" alt="Imagen ilustrativa de un salón con luz cálida" loading="lazy" decoding="async"><span>Ambiente <b aria-hidden="true">✦</b></span></li>
+            <li><img src="assets/img/redisenio/galeria-mesa.webp" alt="Imagen ilustrativa de carne asada servida en una fuente" loading="lazy" decoding="async"><span>A la mesa <b aria-hidden="true">✦</b></span></li>
+            <li class="mosaico__collage"><img src="assets/img/redisenio/rg-comida-c73e.webp" alt="Collage de RestaurantGuru con platos, bebidas y una mesa del local" loading="lazy" decoding="async"><span>Platos de la casa <b aria-hidden="true">✦</b></span></li>
+            <li class="mosaico__collage"><img src="assets/img/redisenio/rg-espuma-chocolate-ce13.webp" alt="Collage de RestaurantGuru con platos y bebidas" loading="lazy" decoding="async"><span>Sobremesa <b aria-hidden="true">✦</b></span></li>
+            <li class="mosaico__collage"><img src="assets/img/redisenio/rg-filete-c127.webp" alt="Collage de RestaurantGuru con cortes de carne y guarniciones" loading="lazy" decoding="async"><span>Cortes <b aria-hidden="true">✦</b></span></li>
+            <li class="mosaico__collage"><img src="assets/img/redisenio/rg-food-c394.webp" alt="Collage de RestaurantGuru con carne, tortilla y postre" loading="lazy" decoding="async"><span>De la cocina <b aria-hidden="true">✦</b></span></li>
+            <li class="mosaico__collage"><img src="assets/img/redisenio/rg-platos-c8bc.webp" alt="Collage de RestaurantGuru con platos y guarniciones" loading="lazy" decoding="async"><span>Para compartir <b aria-hidden="true">✦</b></span></li>
+            <li class="mosaico__collage"><img src="assets/img/redisenio/rg-platos-c9c1.webp" alt="Collage de RestaurantGuru con platos y mesas servidas" loading="lazy" decoding="async"><span>En la mesa <b aria-hidden="true">✦</b></span></li>
+          </ul>
+          <p class="sr-only" aria-live="polite" data-mosaico-estado></p>
         </div>
 
+        <section class="galeria__bloque galeria__bloque--postre" aria-labelledby="galeria-postre">
+          <figure class="editorial-photo galeria__circulo galeria__circulo--postre" data-photo-reveal>
+            <img src="assets/img/el-negro-inspirado-en.jpg" alt="El Negro, postre de la casa" loading="lazy" decoding="async">
+          </figure>
+          <div class="galeria__texto" data-reveal>
+            <p class="eyebrow">El toque final lo cambia todo</p>
+            <h3 id="galeria-postre">Probaste El Negro?</h3>
+            <p>Un postre con nuestra historia, en honor a nuestro «Negro» Martínez, fundador de El Portón, padre, abuelo, amigo, vecino.</p>
+          </div>
+        </section>
+
+        <div class="galeria__cierre" data-reveal>
+          <p>El ritual empieza antes del primer brindis.</p>
+          <a class="btn btn--outline" href="carta.html">Explorá la carta <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
     </section>
 
-    <!-- ========================================================================
-         CONTACTO Y RESERVAS (js/modules/contacto.js)
-         ======================================================================== -->
-    <section class="contacto" id="contacto">
-      <img class="contacto__bg" src="assets/img/caption.jpg" alt="" aria-hidden="true" loading="lazy">
-      <div class="contacto__veil" aria-hidden="true"></div>
-
-      <div class="container contacto__layout">
-
-        <div class="contacto__info">
-          <div class="section-head" data-reveal>
-            <span class="eyebrow">Reservas</span>
-            <h2 class="section-title">Reservá <span class="hl">tu mesa</span></h2>
-            <p class="lead">
-              Vení a cenar con nosotros. Siempre tenemos algo para sorprenderte. Para
-              grupos grandes, coordiná con antelación.
-            </p>
-          </div>
-
-          <div class="info-item" data-reveal>
-            <span class="info-item__icon" aria-hidden="true">📍</span>
-            <div>
-              <p class="info-item__label">Dónde estamos</p>
-              <p class="info-item__value">Intendente Suárez esquina 18 de Julio · 18 de Julio 351, Colonia del Sacramento</p>
-            </div>
-          </div>
-
-          <div class="info-item" data-reveal data-reveal-delay="1">
-            <span class="info-item__icon" aria-hidden="true">📞</span>
-            <div>
-              <p class="info-item__label">Teléfono / WhatsApp</p>
-              <p class="info-item__value"><a href="tel:+59899514133">+598 99 514 133</a></p>
-            </div>
-          </div>
-
-          <div class="info-item" data-reveal data-reveal-delay="2">
-            <span class="info-item__icon" aria-hidden="true">🕐</span>
-            <div>
-              <p class="info-item__label">Horarios</p>
-              <p class="info-item__value">
-                Jueves a lunes · 12:00–15:30 y 20:00–23:30<br>
-                Cerrado: martes y miércoles
-              </p>
-            </div>
-          </div>
+    <section class="section reservas" id="contacto" aria-labelledby="reservas-titulo">
+      <div class="container reservas__layout">
+        <div data-reveal>
+          <p class="eyebrow">Reservas · Colonia del Sacramento</p>
+          <h2 class="editorial-title" id="reservas-titulo"><span>Reservá tu mesa</span></h2>
+          <p class="reservas__intro">Vení a cenar con nosotros. Siempre tenemos algo para sorprenderte.</p>
+          <dl class="reservas__datos">
+            <div><dt>Dónde estamos</dt><dd data-restaurante="direccion">Intendente Suárez esquina 18 de Julio · 18 de Julio 351, Colonia del Sacramento</dd></div>
+            <div><dt>Horarios</dt><dd><span data-restaurante="horario">Jueves a lunes · 12:00–15:30 y 20:00–23:30</span><br><span data-restaurante="cierre">Cerrado: martes y miércoles</span></dd></div>
+            <div><dt>Teléfono / WhatsApp</dt><dd><a href="tel:+59899514133">+598 99 514 133</a></dd></div>
+          </dl>
         </div>
-
-        <form class="form" id="reservas" novalidate data-reveal="right">
+        <form class="form" id="reservas" novalidate aria-label="Solicitar reserva por WhatsApp" data-reveal>
           <div class="field">
             <label class="field__label" for="nombre">Nombre</label>
             <input class="field__input" type="text" id="nombre" name="nombre" placeholder="Tu nombre" autocomplete="name">
@@ -592,25 +347,12 @@
 
           <p class="form__status" role="status" aria-live="polite"></p>
 
-          <button class="btn btn--primary btn--lg form__submit" type="submit">
-            Enviar reserva <span class="btn-arrow" aria-hidden="true">→</span>
+          <button class="btn btn--outline form__submit" type="submit">
+            Continuar por WhatsApp <span class="btn-arrow" aria-hidden="true">→</span>
           </button>
         </form>
-
       </div>
     </section>
-
-  <!-- ========================================================================
-         BANDA "EL LOCAL" — cierra la página, antes del pie
-         ------------------------------------------------------------------------
-         Estaba pegada a la de "La carta", arriba, y las dos seguidas se leían
-         como un solo bloque de fotos en vez de dos respiros. Ahora "El local"
-         baja al final: la última imagen antes del pie, que es lo que hace una
-         banda al cierre, y arriba queda una sola, entre "Nosotros" y la galería.
-
-         Misma idea que la otra, sin el efecto clavado (ver transicion.css): un
-         Ken Burns lento. Y el botón apunta a la galería, que ahora está arriba,
-         como enlace de bajada para quien llegó al final. -->
 
   </main>
 
@@ -654,6 +396,11 @@
 
       </div>
 
+      <aside class="footer-credits" aria-label="Créditos de la galería">
+        <p>El carrusel incluye fotos de platos del local en collages con marca <a href="https://es.restaurantguru.com/EL-OTRO-PORTON-Colonia-Del-Sacramento">RestaurantGuru</a>. Se usan en el prototipo; la licencia de republicación no está verificada.</p>
+        <p>Parrilla a carbón: <a href="https://commons.wikimedia.org/wiki/File:Asado_argentino_en_parrilla_a_carb%C3%B3n.jpg">felixion</a> (<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>). Calle de los Suspiros: <a href="https://commons.wikimedia.org/wiki/File:Calle_de_los_Suspiros.jpg">Banfield</a> (<a href="https://creativecommons.org/licenses/by-sa/2.5/ar/">CC BY-SA 2.5 Argentina</a>). Fotos adaptadas a WebP y al encuadre del carrusel.</p>
+        <p><a href="docs/CREDITOS-FOTOS-NUEVAS.md">Fuentes y créditos de las fotos</a></p>
+      </aside>
       <div class="footer__bottom">
         <p>© <span id="year">2026</span> El Otro Portón</p>
         <p class="footer__made">#somosfuego · #elotroporton</p>

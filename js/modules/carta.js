@@ -1,152 +1,103 @@
-/* ==========================================================================
-   modules/carta.js
-   --------------------------------------------------------------------------
-   Genera la grilla de platos a partir de window.MENU (js/data/menu.js)
-   y maneja el filtrado por categoría.
-
-   Idea: el HTML no tiene ni un <article class="dish-card"> escrito a mano.
-   Todo se construye acá, así que agregar un plato es agregar un objeto
-   al archivo de datos y ya está.
-
-   Esquema híbrido (móvil): una foto de cabecera por categoría + debajo la
-   lista de platos tipo carta de papel. En escritorio los grupos se muestran
-   como antes, con la rejilla de tarjetas.
-   ========================================================================== */
-
 import { observeReveal } from "./reveal.js";
 
-/* Escapa el texto que viene de datos para no inyectar HTML. */
-function esc(texto) {
-  return String(texto ?? "").replace(/[&<>"']/g, (car) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  })[car]);
+const microcopias = {
+  parrilla: "Del fuego, directo al plato",
+  bebidas: "El ritual empieza antes del primer brindis",
+};
+
+function nodo(tag, clase, texto) {
+  const el = document.createElement(tag);
+  el.className = clase;
+  if (texto) el.textContent = texto;
+  return el;
 }
 
-/* Foto de cabecera del grupo: la opcional fotoGrupo, o la del primer plato. */
-function fotoDelGrupo(grupo) {
-  return grupo.fotoGrupo || grupo.items[0]?.imagen || "";
+function platoHTML(plato, index) {
+  const item = nodo("li", "dish-card");
+  item.dataset.reveal = "";
+  item.style.setProperty("--reveal-delay", `${index * 60}ms`);
+  const fila = nodo("div", "dish-card__row");
+  const guia = nodo("span", "dish-card__dots");
+  guia.setAttribute("aria-hidden", "true");
+  fila.append(
+    nodo("h3", "dish-card__name", plato.nombre),
+    guia,
+    nodo("span", "dish-card__price", `$${plato.precio}`),
+  );
+  item.append(fila);
+  if (plato.descripcion) item.append(nodo("p", "dish-card__desc", plato.descripcion));
+  return item;
 }
 
-/* Construye el HTML de una tarjeta. `categoria` sigue siendo la clave del
-   grupo (data-categoria), que es la que usa el filtrado por plato en galería. */
-function dishCardHTML(plato, categoria, index) {
-  return `
-    <article class="dish-card${plato.destacado ? " dish-card--destacado" : ""}" data-categoria="${esc(categoria)}" data-reveal data-reveal-delay="${(index % 6) + 1}">
-      <div class="dish-card__media">
-        <img
-          src="assets/img/${esc(plato.imagen)}"
-          alt="${esc(plato.nombre)}"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-      <div class="dish-card__body">
-        <div class="dish-card__row">
-          <h3 class="dish-card__name">${esc(plato.nombre)}</h3>
-          <span class="dish-card__dots" aria-hidden="true"></span>
-          <span class="dish-card__price">$${esc(plato.precio)}</span>
-        </div>
-        <p class="dish-card__desc">${esc(plato.descripcion)}</p>
-      </div>
-    </article>
-  `;
-}
-
-/* Un grupo por categoría: cabecera con foto decorativa + título + platos. */
-function grupoHTML(key, grupo, grupoIndex) {
-  const foto = fotoDelGrupo(grupo);
-  const lazy = grupoIndex === 0 ? "" : ' loading="lazy"';
-  const platos = grupo.items
-    .map((plato, index) => dishCardHTML(plato, key, index))
-    .join("");
-
-  return `
-    <section class="carta__grupo" data-categoria-grupo="${esc(key)}">
-      <header class="carta__grupo-head">
-        <img
-          class="carta__grupo-foto"
-          src="assets/img/${esc(foto)}"
-          alt=""
-          aria-hidden="true"${lazy}
-          decoding="async"
-        />
-        <h2 class="carta__categoria">${esc(grupo.label)}</h2>
-      </header>
-      ${platos}
-    </section>
-  `;
+function grupoHTML(key, grupo, index) {
+  const seccion = nodo("section", "carta__grupo");
+  seccion.dataset.categoriaGrupo = key;
+  seccion.setAttribute("aria-labelledby", `categoria-${key}`);
+  const cabecera = nodo("header", "carta__grupo-head editorial-photo");
+  cabecera.dataset.photoReveal = "";
+  const foto = nodo("img", "carta__grupo-foto");
+  foto.src = `assets/img/${grupo.fotoGrupo}`;
+  foto.alt = "";
+  foto.decoding = "async";
+  if (index > 0) foto.loading = "lazy";
+  const titulo = nodo("h2", "carta__categoria", grupo.label);
+  titulo.id = `categoria-${key}`;
+  cabecera.append(foto, titulo);
+  if (microcopias[key]) cabecera.append(nodo("p", "carta__micro", microcopias[key]));
+  const platos = nodo("ul", "carta__platos");
+  platos.append(...grupo.items.map(platoHTML));
+  seccion.append(cabecera, platos);
+  return seccion;
 }
 
 export function initCarta() {
   const grid = document.querySelector(".carta__grid");
-  const filters = document.querySelector(".carta__filters");
-
-  if (!grid || !window.MENU) return;
+  const toolbar = document.querySelector(".carta__toolbar");
+  if (!grid || !toolbar || !window.MENU) return;
 
   const grupos = Object.entries(window.MENU);
-
-  /* ---------- Render inicial ---------- */
-  grid.innerHTML = grupos.map(([key, grupo], i) => grupoHTML(key, grupo, i)).join("");
-
-  // Los elementos son nuevos: hay que ponerlos en observación para que
-  // aparezcan al hacer scroll (ver modules/reveal.js).
+  const secciones = grupos.map(([key, grupo], index) => grupoHTML(key, grupo, index));
+  grid.append(...secciones);
   observeReveal(grid);
 
-  /* ---------- Filtros ---------- */
-  if (!filters) return;
-
-  const live = document.querySelector(".carta__live");
-  const botones = [
-    `<button class="filter-btn is-active" data-filter="all" aria-pressed="true">Todo</button>`,
-    ...grupos.map(
-      ([key, group]) => `<button class="filter-btn" data-filter="${esc(key)}" aria-pressed="false">${esc(group.label)}</button>`
-    ),
-  ];
-
-  filters.innerHTML = botones.join("");
-
-  filters.addEventListener("click", (event) => {
-    const button = event.target.closest(".filter-btn");
-    if (!button) return;
-
-    const filtro = button.dataset.filter;
-
-    // Estado visual y semántico del botón
-    filters.querySelectorAll(".filter-btn").forEach((btn) => {
-      const activo = btn === button;
-      btn.classList.toggle("is-active", activo);
-      btn.setAttribute("aria-pressed", String(activo));
+  const filtros = toolbar.querySelector(".carta__filters");
+  const live = toolbar.querySelector(".carta__live");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const botones = [["all", "Todo"], ...grupos.map(([key, { label }]) => [key, label])]
+    .map(([key, label]) => {
+      const boton = nodo("button", "filter-btn", label);
+      boton.type = "button";
+      boton.dataset.filter = key;
+      boton.setAttribute("aria-pressed", String(key === "all"));
+      boton.setAttribute("aria-controls", grid.id);
+      return boton;
     });
+  filtros.append(...botones);
+  toolbar.hidden = false;
 
-    // Con "Todo" se muestran los cuatro grupos; con una categoría elegida,
-    // ese grupo completo (foto + título + platos) es el único visible.
-    let visible = 0;
+  filtros.addEventListener("click", (event) => {
+    const boton = event.target.closest(".filter-btn");
+    if (!boton || boton.getAttribute("aria-pressed") === "true") return;
+    const filtro = boton.dataset.filter;
+    const stickyTop = Number.parseFloat(getComputedStyle(toolbar).top);
+    const inicio = window.scrollY + grid.getBoundingClientRect().top - toolbar.offsetHeight - stickyTop;
+    const pasadoInicio = window.scrollY > inicio + 2;
 
-    grid.querySelectorAll(".carta__grupo").forEach((grupo) => {
-      const mostrar = filtro === "all" || grupo.dataset.categoriaGrupo === filtro;
-
-      grupo.classList.toggle("is-hidden", !mostrar);
-      if (mostrar) visible += 1;
-
-      grupo.querySelectorAll(".dish-card").forEach((card, index) => {
-        card.classList.remove("is-entering");
-        void card.offsetWidth; // reflow forzado: reinicia la animación CSS
-        card.style.animationDelay = `${index * 60}ms`;
-        card.classList.add("is-entering");
-      });
+    botones.forEach((chip) => chip.setAttribute("aria-pressed", String(chip === boton)));
+    secciones.forEach((seccion) => {
+      seccion.hidden = filtro !== "all" && seccion.dataset.categoriaGrupo !== filtro;
     });
+    live.textContent = filtro === "all"
+      ? `Mostrando todos los platos (${grupos.length} categorías).`
+      : `Mostrando ${boton.textContent}.`;
 
-    // Anuncia el cambio a lectores de pantalla.
-    if (live) {
-      const etiqueta = button.textContent.trim();
-      live.textContent = filtro === "all"
-        ? `Mostrando todos los platos (${visible} categorías).`
-        : `Mostrando ${etiqueta}.`;
-    }
-
-    // El chip tocado se desplaza hasta quedar centrado en la fila deslizable.
-    // El centro importa: con `start` el último chip se quedaba pegado al velo
-    // del canto derecho y parecía cortado.
-    button.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+    // Solo se mueve el carril horizontal; no arrastra la página con scrollIntoView.
+    const carril = filtros.getBoundingClientRect();
+    const chip = boton.getBoundingClientRect();
+    filtros.scrollBy({
+      left: chip.left + chip.width / 2 - carril.left - carril.width / 2,
+      behavior: reduceMotion.matches ? "instant" : "smooth",
+    });
+    if (pasadoInicio) window.scrollTo({ top: Math.max(0, inicio), behavior: "instant" });
   });
 }

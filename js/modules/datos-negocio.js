@@ -25,6 +25,10 @@ export function initDatosNegocio() {
 
   pintarTelefono(datos);
   pintarRedes(datos);
+  document.querySelectorAll("[data-restaurante]").forEach((el) => {
+    const valor = datos[el.dataset.restaurante];
+    if (valor) el.textContent = valor;
+  });
 }
 
 /* El teléfono de la sección de contacto. Busca el enlace `tel:`: si está, se

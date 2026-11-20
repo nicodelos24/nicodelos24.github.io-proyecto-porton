@@ -17,8 +17,13 @@ const DURATION = 1100; // ms que dura el recorrido
 
 export function initSmoothScroll() {
   const nav = document.querySelector(".nav");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   document.addEventListener("click", (event) => {
+    if (reducedMotion.matches) {
+      cancelAnimation();
+      return; // El ancla nativa respeta el scroll-padding y CSS desactiva la animación.
+    }
     const link = event.target.closest('a[href^="#"]');
     if (!link) return;
 
@@ -59,7 +64,7 @@ export function initSmoothScroll() {
       if (tiempo === null) tiempo = now;
 
       const progreso = Math.min((now - tiempo) / DURATION, 1);
-      window.scrollTo(0, inicio + distancia * easeInOutExpo(progreso));
+      window.scrollTo({ top: inicio + distancia * easeInOutExpo(progreso), behavior: "instant" });
 
       if (progreso < 1) {
         rafId = window.requestAnimationFrame(step);

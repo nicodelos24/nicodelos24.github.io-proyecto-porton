@@ -1,77 +1,43 @@
-/* ==========================================================================
-   modules/galeria-menu.js
-   --------------------------------------------------------------------------
-   Llena los bloques de platos que hay a lo largo de la página.
-
-   Los datos salen de window.MENU (js/data/menu.js), igual que la carta: acá no
-   hay ni un plato escrito a mano. Cambiar el menú se hace en el archivo de
-   datos y los bloques se actualizan solos.
-
-   QUÉ SE PINTA EN CADA BLOQUE
-     <ul data-platos="entradas">   → los platos de esa categoría
-     <ul data-destacados>          → los platos con `destacado: true`
-
-   Por eso agregar un bloque nuevo es agregar una sola línea en el HTML con la
-   categoría que se quiera, sin tocar este archivo.
-
-   La idea de la página es que cada categoría esté junto a la foto que la
-   representa: la parrilla al lado de la parrilla, los postres al lado del
-   postre. Un bloque queda vacío si la categoría no existe, y el CSS lo oculta
-   entero para que no quede un título sin nada debajo.
-   ========================================================================== */
-
-import { observeReveal } from "./reveal.js";
-
-/* Devuelve todos los platos del menú en una sola lista, con su categoría
-   agregada. Es la misma idea que usaba carta.js. */
-function flattenMenu(menu) {
-  return Object.entries(menu).flatMap(([categoria, grupo]) =>
-    grupo.items.map((plato) => ({ ...plato, categoria }))
-  );
-}
-
-/* Una fila de plato: nombre y descripción, sin precio.
-   Los precios 2025 viven solo en carta.html; repetirlos a lo largo del index
-   llenaba la lectura de números y, además, obligaba a actualizar dos sitios
-   cuando cambiaran. Acá la galería solo presenta los platos. */
-function platoHTML(plato) {
-  return `
-    <li class="galeria-plato" data-reveal="fade">
-      <p class="galeria-plato__fila">
-        <span class="galeria-plato__nombre">${plato.nombre}</span>
-      </p>
-      <p class="galeria-plato__desc">${plato.descripcion}</p>
-    </li>
-  `;
-}
-
-/* Vuelca una lista de platos en un <ul> y vuelve a poner los elementos en
-   observación para la animación de entrada. Sin esto los platos quedan
-   invisibles: no existían cuando arrancó el observador (ver reveal.js).
-
-   Llevan data-reveal="fade" y no "left"/"right"/"scale" para que entren sin
-   desplazarse. Acá no importa para el efecto de foto clavada (esas fotos están
-   en otros elementos, no en un ancestro de estos), pero conviene no mezclar y
-   que la animación sea siempre la misma en toda la galería. */
-function render(contenedor, platos) {
-  if (!contenedor || platos.length === 0) return;
-
-  contenedor.innerHTML = platos.map(platoHTML).join("");
-  observeReveal(contenedor);
-}
-
 export function initGaleriaMenu() {
-  if (!window.MENU) return;
-
-  const todos = flattenMenu(window.MENU);
-
-  // Un bloque por categoría
   document.querySelectorAll("[data-platos]").forEach((lista) => {
-    render(lista, todos.filter((plato) => plato.categoria === lista.dataset.platos));
+    const platos = window.MENU?.[lista.dataset.platos]?.items ?? [];
+    lista.append(...platos.map(({ nombre }) => {
+      const plato = document.createElement("li");
+      plato.textContent = nombre;
+      return plato;
+    }));
   });
 
-  // Los destacados, si algún bloque los pide
-  document.querySelectorAll("[data-destacados]").forEach((lista) => {
-    render(lista, todos.filter((plato) => plato.destacado));
+  const mosaico = document.querySelector(".mosaico");
+  if (!mosaico) return;
+  const carril = mosaico.querySelector(".mosaico__fotos");
+  const controles = mosaico.querySelector(".mosaico__controles");
+  const estado = mosaico.querySelector("[data-mosaico-estado]");
+  const movimiento = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const fotos = Array.from(carril.children);
+  const max = () => carril.scrollWidth - carril.clientWidth;
+
+  function ajustarControles() {
+    controles.hidden = max() < 2;
+  }
+
+  ajustarControles();
+  window.addEventListener("resize", ajustarControles, { passive: true });
+  controles.addEventListener("click", (evento) => {
+    const boton = evento.target.closest("[data-avance]");
+    if (!boton) return;
+    const adelante = Number(boton.dataset.avance) > 0;
+    const actual = carril.scrollLeft;
+    const limite = max();
+    const puntos = fotos.map((foto) => foto.offsetLeft - fotos[0].offsetLeft);
+    const destino = adelante
+      ? (actual >= limite - 2 ? 0 : Math.min(limite, puntos.find((x) => x > actual + 2) ?? limite))
+      : (actual <= 2 ? limite : [...puntos].reverse().find((x) => x < actual - 2) ?? 0);
+
+    const foto = destino >= limite - 2
+      ? fotos.at(-1)
+      : fotos[puntos.findIndex((x) => Math.abs(x - destino) < 2)] ?? fotos[0];
+    estado.textContent = foto.querySelector("span").firstChild.textContent.trim();
+    carril.scrollTo({ left: destino, behavior: movimiento.matches ? "instant" : "smooth" });
   });
 }

@@ -58,9 +58,7 @@ export function temaActual() {
 
   if (atributo === "claro" || atributo === "oscuro") return atributo;
 
-  return window.matchMedia("(prefers-color-scheme: light)").matches
-    ? "claro"
-    : "oscuro";
+  return "oscuro";
 }
 
 /**
@@ -108,14 +106,6 @@ export function initTema() {
     });
   });
 
-  // Si el visitante está en "sistema" y lo cambia (de día a noche),
-  // el sitio se entera solo.
-  window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
-    if (!leerPreferencia()) {
-      aplicarTema("sistema");
-      pintarBotones();
-    }
-  });
 
   pintarBotones();
 }
@@ -128,6 +118,6 @@ function actualizarColorBarraMovil() {
   const claro = temaActual() === "claro";
 
   document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
-    meta.content = claro ? "#faf7f2" : "#0a0a0a";
+    meta.content = claro ? "#f4efe6" : "#0a0a0a";
   });
 }

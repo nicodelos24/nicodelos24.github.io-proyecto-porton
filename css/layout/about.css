@@ -1,173 +1,73 @@
-/* =============================================================
-   layout/about.css
-   Capa 3 — Sección "Sobre nosotros"
-   -------------------------------------------------------------
-   Composición editorial: texto a la izquierda, foto con marco
-   desplazado a la derecha.
-   ============================================================= */
+/* Sistema editorial compartido: foto, título con reglas y espacio de lectura. */
+.editorial-head {
+  max-width: 42rem;
+  margin: 0 auto clamp(2.5rem, 6vw, 5rem);
+  text-align: center;
+}
 
-.about__layout {
+.editorial-title {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(2rem, 6vw, 6rem);
+  grid-template-columns: auto minmax(0, max-content) auto;
+  align-items: center;
+  justify-content: start;
+  gap: clamp(0.45rem, 2vw, 1rem);
+  margin-block: .65rem 1rem;
+  font-size: clamp(2.25rem, 1.7rem + 2vw, 3.75rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.editorial-head .editorial-title { justify-content: center; }
+
+.editorial-title::before,
+.editorial-title::after {
+  content: "";
+  width: clamp(1rem, 5vw, 2.5rem);
+  height: 1px;
+  background: var(--c-acento);
+}
+
+.editorial-photo {
+  overflow: clip;
+  border-radius: var(--r-md);
+  background: var(--c-superficie);
+}
+
+.editorial-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.historia__layout {
+  display: grid;
+  gap: 1.5rem;
   align-items: center;
 }
 
-/* En el DOM la foto va primero (así el lector de pantalla la encuentra antes
-   que los párrafos en celular); en escritorio el grid la devuelve a la derecha
-   y el texto a la izquierda. */
-.about__text {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-4);
-}
-
-.about__figure {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.about__text p {
-  color: var(--c-texto-suave);
-  font-weight: 300;
-}
-
-.about__text > p.about__intro::first-letter {
+.historia__foto { aspect-ratio: 4 / 3; }
+.historia__texto > p:not(.eyebrow) { max-width: 60ch; color: var(--c-texto-suave); }
+.historia__texto > p + p:not(.eyebrow) { margin-top: .85rem; }
+.historia__intro::first-letter {
   float: left;
-  margin: 0.1em 0.12em 0 0;
-  font-family: var(--font-display);
-  font-size: 3.6em;
-  line-height: 0.8;
-  color: var(--c-acento);
+  padding: .12em .12em 0 0;
+  font: 2.4em/.75 var(--font-display);
+  color: var(--c-brasa-texto);
 }
 
-/* ---- Composición de fotos ---- */
-.about__figure {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  box-shadow: var(--sombra-lg);
-}
-
-.about__figure img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-.about__figure:hover img {
-  transform: scale(1.06);
-}
-
-/* Marco decorativo desplazado detrás de la foto */
-.about__figure::after {
-  content: "";
-  position: absolute;
-  inset: var(--sp-5) calc(-1 * var(--sp-4)) calc(-1 * var(--sp-4)) var(--sp-5);
-  z-index: -1;
-  border: 1px solid var(--c-marca);
-  border-radius: var(--r-lg);
-}
-
-/* ---- Firma / valores ---- */
-.about__stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: var(--sp-5);
-  margin-top: var(--sp-5);
-  padding-top: var(--sp-5);
+.historia__fecha {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
   border-top: 1px solid var(--c-borde);
+  margin-top: 2rem;
+  padding-top: 1rem;
 }
 
-.about__stat-value {
-  font-family: var(--font-display);
-  font-size: var(--fs-xl);
-  color: var(--c-texto);
+.historia__fecha strong {
+  font: 500 clamp(2.4rem, 6vw, 4rem)/1 var(--font-display);
+  color: var(--c-brasa-texto);
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
-.about__stat-label {
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--c-texto-suave);
-}
-
-/* ==========================================================================
-   PANTALLA ANGOSTA — retrato primero, historia después
-   ========================================================================== */
-/* ---- DIRECCIÓN DE ARTE ---- */
-/* Firma tipográfica con voz: se apoya sobre el borde de la sección, entre el
-   texto y las cifras. Usa frases ya presentes en el sitio ("Somos fuego desde
-   1984", "Colección familiar"). Decorativa: aria-hidden en el HTML. */
-.about__microcopia {
-  margin-top: var(--sp-2);
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.02em;
-  color: var(--c-acento);
-  opacity: 0.9;
-}
-
-/* Recorte orgánico (forma de "hoja/llama") solo en la foto principal del
-   about. El ::after marco se desactiva acá: con un borde desplazado se
-   destruiría la silueta. Se mantiene border-radius como fallback progresivo. */
-.about__figure--recorte {
-  border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
-}
-
-.about__figure--recorte::after {
-  display: none;
-}
-
-@media (max-width: 48rem) {
-  .about__layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--sp-5);
-  }
-
-  .about__text,
-  .about__figure {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  /* El marco decorativo se recorta al borde de la foto: desplazado hacia
-     afuera generaba scroll horizontal en 390 px. El recorte orgánico ya no
-     lleva marco, así que esta regla solo aplica a la foto sin recorte. */
-  .about__figure:not(.about__figure--recorte)::after {
-    inset: var(--sp-3) 0 0 var(--sp-3);
-  }
-
-  /* Capitular más discreta: a 3.6em competía con el h2. */
-  .about__text > p.about__intro::first-letter {
-    font-size: 2.4em;
-  }
-
-  /* Jerarquía: 1984 manda, Live Art e Infiernillo bajan un escalón. Los tres
-     siguen en una sola fila para no alargar la sección. */
-  .about__stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--sp-3);
-  }
-
-  .about__stat-value {
-    font-size: var(--fs-lg);
-    line-height: 1.15;
-  }
-
-  .about__stats > div:first-child .about__stat-value {
-    font-size: var(--fs-xl);
-    color: var(--c-acento);
-  }
-
-  .about__stat-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.04em;
-    line-height: 1.35;
-  }
+@media (min-width: 50rem) {
+  .historia__layout { grid-template-columns: 1.04fr 1fr; gap: clamp(2rem, 6vw, 6rem); }
+  .historia__foto { aspect-ratio: 5 / 6; }
 }

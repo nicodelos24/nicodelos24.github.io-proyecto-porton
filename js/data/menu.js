@@ -68,7 +68,7 @@ window.MENU = {
      --------------------------------------------------------------------- */
   parrilla: {
     label: "Parrillada",
-    fotoGrupo: "chorizo-morcilla-queso.jpg",
+    fotoGrupo: "redisenio/cabecera-parrillada.webp",
     items: [
       {
         nombre: "Ojo de bife",
@@ -109,7 +109,7 @@ window.MENU = {
      --------------------------------------------------------------------- */
   especiales: {
     label: "Especiales",
-    fotoGrupo: "cheese-burger.jpg",
+    fotoGrupo: "caption_4.jpg",
     items: [
       {
         nombre: "Raviolones de ossobuco braseado",
